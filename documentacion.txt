@@ -1,0 +1,2 @@
+Crear un modelo, controlador y migracion
+    php artisan make:model Todo -a
