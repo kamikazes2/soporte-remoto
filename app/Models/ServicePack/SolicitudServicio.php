@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class SolicitudServicio extends Model
 {
-    //
+    protected $table = 'solicitudservicio';
 }
