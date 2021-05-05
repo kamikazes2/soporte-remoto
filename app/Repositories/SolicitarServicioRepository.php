@@ -6,29 +6,18 @@ use App\Models\ServicePack\SolicitudServicio;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class SolicitarServicioRepository{
+class SolicitarServicioRepository extends BaseRepository{
 
-    private $model;
 
-    public function __construct(){
-        $this->model = new SolicitudServicio();
+    const RELATIONS = [
+        'servicioRealizar.idSolicitud'
+    ];
+
+    public function __construct(SolicitudServicio $Sservicio){
+        parent::__construct($Sservicio);
     }
 
     public function all(){
-        return $this->model::all();
+        return $this->model->with(self::RELATIONS)->get();
     }
-
-    public function store($solicitud){
-        $date = Carbon::now();
-        // unset($solicitud['idServicio']);
-        // $solicitud['fechaSolicitud'] = $date->toDateTimeString();;
-        // $id = SolicitudServicio::insert($solicitud); 
-        $data = new SolicitudServicio;
-        $data->fechaSolicitud = $date->toDateTimeString();
-        $data->idCliente = $solicitud['idCliente'];
-        $data->save();
-        $id = $data->id;
-        return $id;
-    }
-
 }

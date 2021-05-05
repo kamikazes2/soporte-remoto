@@ -5,20 +5,19 @@ namespace App\Repositories;
 use App\Models\ServicePack\Servicio;
 use Illuminate\Support\Facades\DB;
 
-class ServicioRepository{
+class ServicioRepository extends BaseRepository{
 
-    private $model;
-
-    public function __construct(){
-        $this->model = new Servicio();
-    }
-
-    public function all(){
-        return $this->model::all();
+    public function __construct(Servicio $servicio){
+        parent::__construct($servicio);
     }
 
     public function getService($id){
         return DB::table('servicio')->where('id', $id)->get();
+    }
+
+    public function getServiceName($id){
+        $name = DB::table('servicio')->where('id', $id)->get();
+        return $name[0]->nombre;
     }
 
     public function getPrice($idServicio){
