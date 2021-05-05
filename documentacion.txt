@@ -1,2 +1,5 @@
-Crear un modelo, controlador y migracion
-    php artisan make:model Todo -a
+Crear un modelo con su migracion | ServicePack es el nombre de la carpeta y servicio el nombre del archivo
+    php artisan make:model "Models/ServicePack/Servicio" -m 
+
+Crear un controlador | ServicePack es el nombre de la carpeta y seguimiento el nombre del archivo
+    php artisan make:controller "ServicePack/Seguimiento"  
