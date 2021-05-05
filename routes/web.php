@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use ServicePack\ServicioController;
+use ServicePack\SolicitudServicioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +21,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/hello' , 'HolaMundo@mostrarContenido' );
 
 Route::view('/', 'home')->name('home');
+
+Route::resource('admin/servicios',ServicioController::class); //para el crud de los servicios
+
+Route::resource('cliente/solicitud',SolicitudServicioController::class); //para el lado del cliente

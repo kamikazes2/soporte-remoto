@@ -5,7 +5,7 @@ namespace App\Http\Controllers\ServicePack;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class Servicio extends Controller
+class AsignacionServicioController extends Controller
 {
     //
 }
