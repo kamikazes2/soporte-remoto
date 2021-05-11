@@ -6,3 +6,25 @@ Crear un controlador | ServicePack es el nombre de la carpeta y seguimiento el n
 
 Crear una migracion
 php artisan make:migration create_servicio --create=servicio
+
+
+Lista de comandos Laravel
+Para ver la lista de comandos
+	php artisan list
+Crear un nuevo Proyecto
+	composer create-project laravel/laravel nombre-proyecto –prefer-dist
+Poner en marcha el proyecto Laravel con el servidor integrado en PHP 7
+	php artisan serve
+Crear una migración
+	Para crearlo
+	php artisan make:migration create_nombreDeLaTabla
+	Para migrarlo (Actualizar la BD)
+	php artisan migrate
+Para borrar todas las tablas de la base de datos y luego volverlas a  crear:
+	php artisan migrate:refresh
+	Para eliminar todas las tablas 
+	php artisan migrate:reset
+	Permite deshacer el último grupo de migraciones ejecutadas 
+	php artisan migrate:rollback
+	Para ver el estatus de cada migración 
+	php artisan migrate:status
