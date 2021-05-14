@@ -18,16 +18,15 @@ use App\Http\Controllers\ServicioController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+ Route::get('/', function () {
+     return view('index');
+});
 
 //Route::get('/hello' , 'HolaMundo@mostrarContenido' );
 
 
 //////////////////////////////////////////////
 // Route::view('/', 'home')->name('home');
-
 
 // Route::view('admin', 'ServicePackViews.homeAdmin')->name('admin');
 // Route::view('cliente', 'ServicePackViews.homeCliente')->name('cliente');
