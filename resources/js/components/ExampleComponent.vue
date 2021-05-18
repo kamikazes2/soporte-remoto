@@ -16,8 +16,15 @@
 
 <script>
     export default {
+        
+        name: 'HelloWorld',
+        methods: {
+        getService: function () {
+        return Vue.serviceProvider.myService;
+        },
         mounted() {
             console.log('Component mounted.')
+        },
         }
     }
 </script>

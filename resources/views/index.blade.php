@@ -27,7 +27,8 @@
                 <b>Gestion de Sistemas - Soporte Remoto</b>
             </template>
             <template v-if="menu==1">
-                <frmservicio></frmservicio>
+                <!-- <frmservicio></frmservicio> -->
+                <example-component></example-component>
             </template>
             <!--Fin menu principal-->
         </div>

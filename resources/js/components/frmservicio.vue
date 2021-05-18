@@ -23,8 +23,7 @@
                     </td>
                 </tr>
             </table>
-            <input type="text" v-model="buscar" placeholder="Nombre Servicio">
-            <button type="button" @click="listar()">Buscar por Nombre</button>
+            <button type="button" @click="listar()">Mostrar</button>
         </form>
         <table border="1">
             <thead>
@@ -53,7 +52,8 @@
             return{
                 nombre :'',
                 descripcion : '',
-                precio : 0.00
+                precio : 0,
+                arrayServicio : []
             }
         },
         methods:{

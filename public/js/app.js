@@ -1972,8 +1972,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  name: 'HelloWorld',
+  methods: {
+    getService: function getService() {
+      return Vue.serviceProvider.myService;
+    },
+    mounted: function mounted() {
+      console.log('Component mounted.');
+    }
   }
 });
 
@@ -2036,13 +2042,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       nombre: '',
       descripcion: '',
-      precio: 0.00
+      precio: 0,
+      arrayServicio: []
     };
   },
   methods: {
@@ -2057,7 +2063,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     guardar: function guardar() {
       var me = this;
-      axios.post('/request/nuevo-servicio', {
+      axios.post('request/nuevo-servicio', {
         'nombre': this.nombre,
         'descripcion': this.descripcion,
         'precio': this.precio
@@ -2069,6 +2075,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     nuevo: function nuevo() {
       this.nombre = '';
+      this.descripcion = '';
+      this.precio = '';
     }
   },
   mounted: function mounted() {
@@ -37903,27 +37911,6 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.buscar,
-            expression: "buscar"
-          }
-        ],
-        attrs: { type: "text", placeholder: "Nombre Servicio" },
-        domProps: { value: _vm.buscar },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.buscar = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
       _c(
         "button",
         {
@@ -37934,7 +37921,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v("Buscar por Nombre")]
+        [_vm._v("Mostrar")]
       )
     ]),
     _vm._v(" "),
