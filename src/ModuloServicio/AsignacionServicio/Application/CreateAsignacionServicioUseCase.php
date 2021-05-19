@@ -41,15 +41,28 @@ class CreateAsignacionServicioUseCase
         $serviciosPendientes = $serv->__invoke();
 
         $espSer = new GetEspecialidadServicioByServicioIdUseCase(new EloquentEspecialidadServicioRepository);
+        $tec = new GetPersonalByIdEspecialidadUseCase(new EloquentEspecialidadPersonalRepository);
         foreach($serviciosPendientes as $sp){
-            $especialidad[strval($sp->id)] = $espSer->__invoke($sp->idServicio);
+            //$especialidad[strval($sp->id)] = $espSer->__invoke($sp->idServicio);
+            $especialidad = $espSer->__invoke($sp->idServicio); //busco la especialidad
+            $tecnicos = $tec->__invoke($especialidad[0]->idEspecialidad); //busco los tecnicos
+            return response()->json($tecnicos);
         }
+
+
+        //Agregar un atributo disponible en tecnico para facilitar la busqueda 
+
+
         //buscar tecnicos con esa especialidad
-        $tecnicos = new GetPersonalByIdEspecialidadUseCase(new EloquentEspecialidadPersonalRepository);
         
-        foreach($especialidad as $es){
-            return response()->json($tecnicos->__invoke($es[0]->idEspecialidad));
-        }
+        
+        // foreach($especialidad as $es){
+        //     $tecnicos = $tec->__invoke($es[0]->idEspecialidad);
+        // }
+
+
+
+        ////////////////////////////
         return response()->json($especialidad);
 
         $idServicioRealizar;
