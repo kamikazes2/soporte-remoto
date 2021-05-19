@@ -2125,30 +2125,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2168,23 +2144,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    guardar: function guardar() {
-      var me = this;
-      axios.post('request/nuevo-servicio', {
-        'nombre': this.nombre,
-        'descripcion': this.descripcion,
-        'precio': this.precio
-      }).then(function (error) {
-        me.listar();
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    nuevo: function nuevo() {
-      this.nombre = '';
-      this.descripcion = '';
-      this.precio = '';
-    },
     Solicitar: function Solicitar(servicioid, precio) {
       var me = this;
       axios.post('request/nuevo-solicitud-servicio', {
@@ -2192,15 +2151,13 @@ __webpack_require__.r(__webpack_exports__);
         'idServicio': servicioid,
         'precioFijado': precio
       }).then(function (error) {
-        me.listar();
+        location.reload();
       })["catch"](function (error) {
         console.log(error);
       });
     }
   },
-  mounted: function mounted() {
-    this.listar();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
