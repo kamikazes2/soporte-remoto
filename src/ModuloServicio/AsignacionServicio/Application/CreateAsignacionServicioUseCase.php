@@ -13,6 +13,9 @@ use Src\ModuloServicio\EspecialidadServicio\Application\GetEspecialidadServicioB
 
 use Src\ModuloPersonal\EspecialidadPersonal\Infrastructure\Repositories\EloquentEspecialidadPersonalRepository;
 use Src\ModuloPersonal\EspecialidadPersonal\Application\GetPersonalByIdEspecialidadUseCase;
+use Carbon\Carbon;
+use App\Models\PersonalPack\Personal;
+use App\Models\ServicePack\ServicioRealizar;
 
 class CreateAsignacionServicioUseCase
 {
@@ -42,35 +45,28 @@ class CreateAsignacionServicioUseCase
 
         $espSer = new GetEspecialidadServicioByServicioIdUseCase(new EloquentEspecialidadServicioRepository);
         $tec = new GetPersonalByIdEspecialidadUseCase(new EloquentEspecialidadPersonalRepository);
+        
+        $date = Carbon::now();
+        $fecha = $date->toDateTimeString();
         foreach($serviciosPendientes as $sp){
-            //$especialidad[strval($sp->id)] = $espSer->__invoke($sp->idServicio);
             $especialidad = $espSer->__invoke($sp->idServicio); //busco la especialidad
             $tecnicos = $tec->__invoke($especialidad[0]->idEspecialidad); //busco los tecnicos
-            return response()->json($tecnicos);
+
+            if(count($tecnicos)> 0){
+                $idServicioRealizar = $sp->id;
+                $idTecnico = $tecnicos[0]->idPersonal;
+                $asignacionServicio = AsignacionServicio::create($idServicioRealizar, $idTecnico, $fecha);
+                $asignacionId = $this->repository->save($asignacionServicio);
+
+
+                $p = new Personal();
+                $p->deshabilitarPersonal($idTecnico);
+                $sr = new ServicioRealizar();
+                $sr->updateToAsignado($idServicioRealizar);
+            }
         }
+        return response()->json("creado correctamente");
 
-
-        //Agregar un atributo disponible en tecnico para facilitar la busqueda 
-
-
-        //buscar tecnicos con esa especialidad
-        
-        
-        // foreach($especialidad as $es){
-        //     $tecnicos = $tec->__invoke($es[0]->idEspecialidad);
-        // }
-
-
-
-        ////////////////////////////
-        return response()->json($especialidad);
-
-        $idServicioRealizar;
-        $idTecnico;
-        $fecha;
-
-        $asignacionServicio = AsignacionServicio::create($idServicioRealizar, $idTecnico, $fecha);
-        return $this->repository->save($asignacionServicio);
     }
 
 }

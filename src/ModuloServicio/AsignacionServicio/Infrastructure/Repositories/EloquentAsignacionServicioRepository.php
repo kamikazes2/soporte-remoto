@@ -21,19 +21,13 @@ class EloquentAsignacionServicioRepository implements AsignacionServicioReposito
     public function save(AsignacionServicio $asignacionServicio)
     {
 
-        $newAsignacionServicio = $this->eloquentAsignacionServicioModel;
-
-        // $newServicio->nombre = $servicio->getNombre();
-        // $newServicio->descripcion = $servicio->getDescripcion();
-
+        $newAsignacionServicio = new EloquentAsignacionServicioModel;
+        $newAsignacionServicio->idServicioRealizar = $asignacionServicio->getIdServicioRealizar();
+        $newAsignacionServicio->idTecnico = $asignacionServicio->getIdTecnico();
+        $newAsignacionServicio->fecha = $asignacionServicio->getFecha();
         $newAsignacionServicio->save();
         return $newAsignacionServicio->id;
     }
     
-    // public function getAll()
-    // {
-    //     return $this->eloquentServicioModel->getAllWithPrice();
-    // }
-
 
 }

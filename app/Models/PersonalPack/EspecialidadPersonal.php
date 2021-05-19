@@ -12,11 +12,17 @@ class EspecialidadPersonal extends Model
 
     public function getPersonalByIdEspecialidad($idEspecialidad){
          //$personales = DB::table('especialidadpersonal')->where('idEspecialidad', $idEspecialidad)->get();
-         return $tecnicos = DB::table('especialidadPersonal')
+         return $tecnicos = DB::table('especialidadPersonal')->where('especialidadPersonal.idEspecialidad', $idEspecialidad)
            ->whereExists(function ($query) {
                $query->select(DB::raw(1))
                      ->from('tecnico')
-                     ->whereColumn('tecnico.idPersonal', 'especialidadpersonal.idPersonal');
+                     ->whereColumn('tecnico.idPersonal', 'especialidadpersonal.idPersonal')
+                     ->whereExists(function ($query) {
+                        $query->select(DB::raw(1))
+                              ->from('personal')
+                              ->whereColumn('tecnico.idPersonal', 'personal.id')
+                              ->where('personal.disponible',1);
+                        });
            })
            ->get();
     }

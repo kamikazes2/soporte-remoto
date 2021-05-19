@@ -14,4 +14,10 @@ class ServicioRealizar extends Model
         return $serviciosPendientes = DB::table('serviciorealizar')->where('estado', 'PENDIENTE')->orderBy('created_at','asc')->get();
     }
 
+    public function updateToAsignado($id){
+        return  $affected = DB::table('serviciorealizar')
+         ->where('id', $id)
+         ->update(['estado' => 'ASIGNADO']);
+     }
+
 }
