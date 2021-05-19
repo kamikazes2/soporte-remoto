@@ -30,9 +30,9 @@ class EloquentServicioRealizarRepository implements ServicioRealizarRepositoryCo
         return $newServicioRealizar->id;
     }
     
-    public function getAll()
+    public function getServicioPendiente()
     {
-        //
+        return $this->eloquentServicioRealizarModel->getServicioPendiente();
     }
 
 

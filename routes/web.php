@@ -51,6 +51,6 @@ Route::post('/request/nuevo-solicitud-servicio', [ServicioController::class, 'Cr
 
 
 
-//modulo personales
-
+//pruebas
+Route::get('/request/asignar-servicio', [ServicioController::class, 'asignarServicio']);
 

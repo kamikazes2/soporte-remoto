@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/request/nuevo-servicio*',
         '/request/nuevo-solicitud-servicio*',
-        '/request/nuevo-personal*'
+        '/request/asignar-servicio*',
+        
     ];
 }

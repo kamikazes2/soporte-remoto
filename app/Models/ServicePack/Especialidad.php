@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\PersonalPack;
+namespace App\Models\ServicePack;
 
 use Illuminate\Database\Eloquent\Model;
 

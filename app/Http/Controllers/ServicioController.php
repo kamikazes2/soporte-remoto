@@ -11,7 +11,14 @@ use Src\ModuloServicio\PrecioServicio\Infrastructure\CreatePrecioServicioControl
 use Src\ModuloServicio\SolicitudServicio\Infrastructure\CreateSolicitudServicioController;
 use Src\ModuloServicio\ServicioRealizar\Infrastructure\CreateServicioRealizarController;
 
-use App\Models\ServicePack\Servicio as sr;
+
+//pruebas//
+use Src\ModuloServicio\AsignacionServicio\Infrastructure\CreateAsignacionServicioController;
+
+
+//fin pruebas//
+
+// use App\Models\ServicePack\Servicio as sr;
 
 class ServicioController extends Controller
 {
@@ -20,18 +27,29 @@ class ServicioController extends Controller
     private $createPrecioServicioController;
     private $createSolicitudServicioController;
     private $createServicioRealizarController;
+    
+
+    //pruebas
+    private $createAsignacionServicioController;
+    //fin pruebas
     public function __construct(
         GetServicioController $getServicioController,
         CreateServicioController $createServicioController,
         CreatePrecioServicioController $createPrecioServicioController,
         CreateSolicitudServicioController $createSolicitudServicioController,
-        CreateServicioRealizarController $createServicioRealizarController
+        CreateServicioRealizarController $createServicioRealizarController,
+        //pruebas
+        CreateAsignacionServicioController $createAsignacionServicioController
+        //fin pruebas
     ){
         $this->getServicioController = $getServicioController;
         $this->createServicioController = $createServicioController;
         $this->createPrecioServicioController = $createPrecioServicioController;
         $this->createSolicitudServicioController = $createSolicitudServicioController;
         $this->createServicioRealizarController = $createServicioRealizarController;
+        //pruebas
+        $this->createAsignacionServicioController = $createAsignacionServicioController;
+        //fin pruebas
     }
 
     public function getServicios()
@@ -57,6 +75,11 @@ class ServicioController extends Controller
         $this->createServicioRealizarController->__invoke($request);
 
         return response()->json("creado correctamente");
+    }
+
+    public function asignarServicio(){
+        $algo = $this->createAsignacionServicioController->__invoke();
+        return response()->json($algo);
     }
 
 
