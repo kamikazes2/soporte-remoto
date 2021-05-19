@@ -18,6 +18,9 @@
                     <li @click="menu=1">
                         <a class="nav-link" href="#">Servicio</a>
                     </li>
+                    <li @click="menu=2">
+                        <a class="nav-link" href="#">Solicitud</a>
+                    </li>
                     
                   </ul>
                 </div>
@@ -27,12 +30,15 @@
                 <b>Gestion de Sistemas - Soporte Remoto</b>
             </template>
             <template v-if="menu==1">
-                <!-- <frmservicio></frmservicio> -->
-                <example-component></example-component>
+                <frmservicio></frmservicio> 
+            </template>
+            <template v-if="menu==2">
+                <frmsolicitudservicio></frmsolicitudservicio> 
             </template>
             <!--Fin menu principal-->
         </div>
     </div>
+
     <script src="js/app.js"></script>
 </body>
 </html>
