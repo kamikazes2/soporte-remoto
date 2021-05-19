@@ -20,7 +20,7 @@ class CreateEspecialidadPersonal extends Migration
             $table->foreignId("idEspecialidad");
 
             $table->foreign('idPersonal')->references('id')->on('personal');
-            $table->foreign('idEspecialidad')->references('id')->on('solicitudServicio');
+            $table->foreign('idEspecialidad')->references('id')->on('especialidad');
 
             $table->timestamps();
         });
