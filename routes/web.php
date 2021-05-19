@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\PersonalController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,3 +45,11 @@ use App\Http\Controllers\ServicioController;
 
 Route::get('/listaServicios', [ServicioController::class, 'getServicios']);
 Route::post('/request/nuevo-servicio', [ServicioController::class, 'CreateServicio']);
+
+Route::post('/request/nuevo-solicitud-servicio', [ServicioController::class, 'CreateSolicitudServicio']);
+
+
+
+//pruebas
+Route::get('/request/asignar-servicio', [ServicioController::class, 'asignarServicio']);
+
