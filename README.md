@@ -13,3 +13,8 @@ Para crear una nueva solicitud de servicio enviar un POST a
         idServicio
         precioFijado
 
+Para crear un nuevo seguimiento enviar un POST A
+/request/nuevo-seguimiento con los siguientes datos
+        idAsignacionServicio
+        idJefeTecnico
+        descripcion

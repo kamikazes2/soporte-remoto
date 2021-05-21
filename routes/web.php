@@ -48,6 +48,8 @@ Route::post('/request/nuevo-servicio', [ServicioController::class, 'CreateServic
 
 Route::post('/request/nuevo-solicitud-servicio', [ServicioController::class, 'CreateSolicitudServicio']);
 
+Route::post('/request/nuevo-seguimiento', [ServicioController::class, 'CreateSeguimiento']);
+
 
 
 //pruebas

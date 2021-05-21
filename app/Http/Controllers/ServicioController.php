@@ -11,14 +11,14 @@ use Src\ModuloServicio\PrecioServicio\Infrastructure\CreatePrecioServicioControl
 use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\CreateSolicitudServicioController;
 use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\CreateServicioRealizarController;
 
+use Src\ModuloSeguimiento\Seguimiento\Infrastructure\CreateSeguimientoController;
+
 
 //pruebas//
 use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\CreateAsignacionServicioController;
-
-
 //fin pruebas//
 
-// use App\Models\ServicePack\Servicio as sr;
+
 
 class ServicioController extends Controller
 {
@@ -28,6 +28,7 @@ class ServicioController extends Controller
     private $createSolicitudServicioController;
     private $createServicioRealizarController;
     
+    private $createSeguimientoController;
 
     //pruebas
     private $createAsignacionServicioController;
@@ -38,6 +39,9 @@ class ServicioController extends Controller
         CreatePrecioServicioController $createPrecioServicioController,
         CreateSolicitudServicioController $createSolicitudServicioController,
         CreateServicioRealizarController $createServicioRealizarController,
+        CreateSeguimientoController $createSeguimientoController,
+
+
         //pruebas
         CreateAsignacionServicioController $createAsignacionServicioController
         //fin pruebas
@@ -47,6 +51,7 @@ class ServicioController extends Controller
         $this->createPrecioServicioController = $createPrecioServicioController;
         $this->createSolicitudServicioController = $createSolicitudServicioController;
         $this->createServicioRealizarController = $createServicioRealizarController;
+        $this->createSeguimientoController = $createSeguimientoController;
         //pruebas
         $this->createAsignacionServicioController = $createAsignacionServicioController;
         //fin pruebas
@@ -80,6 +85,11 @@ class ServicioController extends Controller
     public function asignarServicio(){
         $algo = $this->createAsignacionServicioController->__invoke();
         return response()->json($algo);
+    }
+
+    public function createSeguimiento(Request $request){
+        $this->createSeguimientoController->__invoke($request);
+        return response()->json("creado correctamente");
     }
 
 

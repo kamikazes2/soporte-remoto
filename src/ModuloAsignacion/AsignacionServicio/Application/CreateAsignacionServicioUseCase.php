@@ -50,8 +50,8 @@ class CreateAsignacionServicioUseCase
         $fecha = $date->toDateTimeString();
         foreach($serviciosPendientes as $sp){
             $especialidad = $espSer->__invoke($sp->idServicio); //busco la especialidad
-            $tecnicos = $tec->__invoke($especialidad[0]->idEspecialidad); //busco los tecnicos
 
+            $tecnicos = $tec->__invoke($especialidad[0]->idEspecialidad); //busco los tecnicos            
             if(count($tecnicos)> 0){
                 $idServicioRealizar = $sp->id;
                 $idTecnico = $tecnicos[0]->idPersonal;
