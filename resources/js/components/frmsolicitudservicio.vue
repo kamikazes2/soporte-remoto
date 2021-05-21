@@ -82,7 +82,7 @@
                 
             },
         
-        Solicitar(servicioid,precio){
+        Solicitar(){
                 let me = this;
                 axios.post('request/nuevo-solicitud-servicio',{
                     /* 

@@ -96,6 +96,7 @@ class ServicioController extends Controller
 
     public function CreateSolicitudServicio(Request $request)
     {
+        return response()->json($request);
         $request['idCliente'] = Session::get('idUsuario');
         $idSolicitud = $this->createSolicitudServicioController->__invoke($request);
         $r2 = new Request;
