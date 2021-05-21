@@ -2079,9 +2079,7 @@ __webpack_require__.r(__webpack_exports__);
       this.precio = '';
     }
   },
-  mounted: function mounted() {
-    this.listar();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -2150,9 +2148,7 @@ __webpack_require__.r(__webpack_exports__);
         'idCliente': 1,
         'idServicio': servicioid,
         'precioFijado': precio
-      }).then(function (error) {
-        location.reload();
-      })["catch"](function (error) {
+      }).then(function (error) {})["catch"](function (error) {
         console.log(error);
       });
     }

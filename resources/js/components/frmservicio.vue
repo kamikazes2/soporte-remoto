@@ -86,7 +86,7 @@
             },
         },
         mounted() {
-            this.listar();
+            
         }
     }
 </script>
