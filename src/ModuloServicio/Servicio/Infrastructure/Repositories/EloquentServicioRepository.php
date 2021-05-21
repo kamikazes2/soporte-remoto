@@ -35,5 +35,14 @@ class EloquentServicioRepository implements ServicioRepositoryContract
         return $this->eloquentServicioModel->getAllWithPrice();
     }
 
+    public function update(Servicio $servicio){
+        $EloquentServicio = $this->eloquentServicioModel;
+        $EloquentServicio->id = $servicio->getId();
+        $EloquentServicio->nombre = $servicio->getNombre();
+        $EloquentServicio->descripcion = $servicio->getDescripcion();
+        $EloquentServicio->actualizar();
+        return $EloquentServicio;
+    }
+
 
 }

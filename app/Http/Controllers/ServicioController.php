@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Src\ModuloServicio\Servicio\Infrastructure\GetServicioController;
 use Src\ModuloServicio\Servicio\Infrastructure\CreateServicioController;
+use Src\ModuloServicio\Servicio\Infrastructure\UpdateServicioController;
 use Src\ModuloServicio\PrecioServicio\Infrastructure\CreatePrecioServicioController;
 use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\CreateSolicitudServicioController;
 use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\CreateServicioRealizarController;
@@ -28,6 +29,7 @@ class ServicioController extends Controller
 {
     private $getServicioController;
     private $createServicioController;
+    private $updateServicioController;
     private $createPrecioServicioController;
     private $createSolicitudServicioController;
     private $createServicioRealizarController;
@@ -42,6 +44,7 @@ class ServicioController extends Controller
     public function __construct(
         GetServicioController $getServicioController,
         CreateServicioController $createServicioController,
+        UpdateServicioController $updateServicioController,
         CreatePrecioServicioController $createPrecioServicioController,
         CreateSolicitudServicioController $createSolicitudServicioController,
         CreateServicioRealizarController $createServicioRealizarController,
@@ -56,6 +59,7 @@ class ServicioController extends Controller
     ){
         $this->getServicioController = $getServicioController;
         $this->createServicioController = $createServicioController;
+        $this->updateServicioController = $updateServicioController;
         $this->createPrecioServicioController = $createPrecioServicioController;
         $this->createSolicitudServicioController = $createSolicitudServicioController;
         $this->createServicioRealizarController = $createServicioRealizarController;
@@ -79,6 +83,12 @@ class ServicioController extends Controller
         $precio = $this->createPrecioServicioController->__invoke($request);
 
         return response()->json("creado correctamente");
+    }
+    public function updateServicio(Request $request){
+        return $this->updateServicioController->__invoke($request);
+    }
+    public function newPrecioServicio(Request $request){
+        return $this->createPrecioServicioController->__invoke($request);
     }
 
     public function CreateSolicitudServicio(Request $request)

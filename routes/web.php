@@ -45,6 +45,8 @@ use App\Http\Controllers\PersonalController;
 
 Route::get('/listaServicios', [ServicioController::class, 'getServicios']);
 Route::post('/request/nuevo-servicio', [ServicioController::class, 'CreateServicio']);
+Route::post('/request/actualizar-servicio', [ServicioController::class, 'updateServicio']);
+Route::post('/request/actualizar-precio', [ServicioController::class, 'newPrecioServicio']);
 
 Route::post('/request/nuevo-solicitud-servicio', [ServicioController::class, 'CreateSolicitudServicio']);
 
