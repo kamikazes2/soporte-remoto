@@ -7,6 +7,7 @@
     <title>desarrollo</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="css/app.css" rel="stylesheet">
+    <link href="css/custom_login.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -21,6 +22,9 @@
                     <li @click="menu=2">
                         <a class="nav-link" href="#">Solicitud</a>
                     </li>
+                    <li @click="menu=3">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
                     
                   </ul>
                 </div>
@@ -34,6 +38,9 @@
             </template>
             <template v-if="menu==2">
                 <frmsolicitudservicio></frmsolicitudservicio> 
+            </template>
+            <template v-if="menu==3">
+                <login-component></login-component>
             </template>
             <!--Fin menu principal-->
         </div>

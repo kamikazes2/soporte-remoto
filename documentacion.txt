@@ -7,6 +7,7 @@ Crear un controlador | ServicePack es el nombre de la carpeta y seguimiento el n
 Crear una migracion
 php artisan make:migration create_servicio --create=servicio
 
+npm run watch - Para cambios de vue
 
 Lista de comandos Laravel
 Para ver la lista de comandos
