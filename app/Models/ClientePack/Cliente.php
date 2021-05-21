@@ -3,6 +3,8 @@
 namespace App\Models\ClientePack;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Cliente extends Model
 {

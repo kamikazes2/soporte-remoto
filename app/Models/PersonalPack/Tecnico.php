@@ -15,4 +15,8 @@ class Tecnico extends Model
         return $idPersonal[0]->idPersonal;
     }
 
+    public function isTecnico($idPersonal){
+        return $tecnico = DB::table('tecnico')->where('idPersonal', $idPersonal)->get();
+    }
+
 }

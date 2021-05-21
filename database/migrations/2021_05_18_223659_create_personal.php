@@ -20,6 +20,8 @@ class CreatePersonal extends Migration
             $table->string("apellido");
             $table->dateTime("fechaNacimiento");
             $table->boolean("disponible");
+            $table->string("usuario");
+            $table->string("password");
             $table->timestamps();
         });
     }

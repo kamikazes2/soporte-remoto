@@ -2,6 +2,9 @@
  Proyecto Gestion de Sistemas
 
 
+#para iniciar sesion enviar un POST a
+/request/buscar-usuario con usuario y password
+
 #Para crear un nuevo servicio enviar un POST
 con el nombre, descripcion y el precio a /request/nuevo-servicio
 
