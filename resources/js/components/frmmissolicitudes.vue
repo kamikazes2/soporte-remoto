@@ -13,7 +13,7 @@
                                 <tbody>
                                     <tr v-for="solicitud in arraySolicitudes" :key="solicitud.idSolicitud">
 
-                                        <td @click="mostrarDetalle(solicitud.idSolicitud)">
+                                        <td @click="mostrarDetalle(solicitud)">
                                         <label v-text="solicitud.idSolicitud"></label> <br>
                                         <label v-text="solicitud.fechaSolicitud"></label> <br>
                                         
@@ -22,12 +22,14 @@
                                         <td v-bind:id="solicitud.idSolicitud" >
 
                                             <dl>
-                                                <div v-for="servicio in arrayServicios" :key="servicio.id">
-                                                    <dt v-text="servicio.nombreServicio"> aa</dt>
-                                                    <dd v-text="servicio.descripcionServicio">aa</dd>
-                                                    <dd v-text="servicio.precioFijado">aa</dd>
-                                                    <dd v-text="servicio.estado">aa</dd>
-                                                    <dd v-text="servicio.nombreTecnico">aa</dd>
+                                                <div v-for="servicio in solicitud.arrayServicios" :key="servicio.idServicioRealizar">
+                                                    <dt v-text="'Servicio:   '+servicio.nombreServicio"> </dt>
+                                                    <dd v-text="'Descripcion:   '+servicio.descripcionServicio"></dd>
+                                                    <dd v-text="'Precio:   '+servicio.precioFijado"></dd>
+                                                    <dd v-text="'Estado:   '+servicio.estado"></dd>
+                                                    <dd v-text="'Tecnico:   '+servicio.nombreTecnico"></dd>
+                                                    <button v-if="servicio.estado==='ASIGNADO'" type="button" @click="Terminar(servicio.idServicioRealizar)">Finalizar Servicio</button>
+                                                    <dd></dd>
                                                 </div>
                                             </dl>
 
@@ -60,22 +62,38 @@
         mounted() {
             console.log('Component mounted.')
         },
-        mostrarDetalle(idSolicitud){
-                var x = document.getElementById(idSolicitud);
+        mostrarDetalle(solicitud){
+                
+                var x = document.getElementById(solicitud.idSolicitud);
                 if (x.style.display === "none") {
                     x.style.display = "block";
                 } else {
                     x.style.display = "none";
                 }
-
+                this.arrayServicios=solicitud.arrayServicios;
+                
             },
-            listar: function () {
-
-                axios.get('/listarMisSolicitudes').then(function (res) {
-                    this.arraySolicitudes = res.data;
-                }.bind(this));
+            Terminar(id){
+                
+                axios.post('request/finalizar-servicio',{
+                    'idServicioRealizar': id,
+                }).then(function(error){
+                    alert("Se finalizo el servicio");
+                }).catch(function(error){
+                    console.log(error);
+                }); 
+                
             },
+        listar: function () {
+
+            axios.get('/listarMisSolicitudes').then(function (res) {
+                this.arraySolicitudes = res.data;
+            }.bind(this));
+
+
         },
         
+        },
+       
     }   
 </script>

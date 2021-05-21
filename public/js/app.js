@@ -2175,6 +2175,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2188,14 +2190,25 @@ __webpack_require__.r(__webpack_exports__);
     mounted: function mounted() {
       console.log('Component mounted.');
     },
-    mostrarDetalle: function mostrarDetalle(idSolicitud) {
-      var x = document.getElementById(idSolicitud);
+    mostrarDetalle: function mostrarDetalle(solicitud) {
+      var x = document.getElementById(solicitud.idSolicitud);
 
       if (x.style.display === "none") {
         x.style.display = "block";
       } else {
         x.style.display = "none";
       }
+
+      this.arrayServicios = solicitud.arrayServicios;
+    },
+    Terminar: function Terminar(id) {
+      axios.post('request/finalizar-servicio', {
+        'idServicioRealizar': id
+      }).then(function (error) {
+        alert("Se finalizo el servicio");
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     listar: function listar() {
       axios.get('/listarMisSolicitudes').then(function (res) {
@@ -38668,7 +38681,7 @@ var render = function() {
                       {
                         on: {
                           click: function($event) {
-                            return _vm.mostrarDetalle(solicitud.idSolicitud)
+                            return _vm.mostrarDetalle(solicitud)
                           }
                         }
                       },
@@ -38694,60 +38707,72 @@ var render = function() {
                     _c("td", { attrs: { id: solicitud.idSolicitud } }, [
                       _c(
                         "dl",
-                        _vm._l(_vm.arrayServicios, function(servicio) {
-                          return _c("div", { key: servicio.id }, [
-                            _c(
-                              "dt",
-                              {
-                                domProps: {
-                                  textContent: _vm._s(servicio.nombreServicio)
-                                }
-                              },
-                              [_vm._v(" aa")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "dd",
-                              {
+                        _vm._l(solicitud.arrayServicios, function(servicio) {
+                          return _c(
+                            "div",
+                            { key: servicio.idServicioRealizar },
+                            [
+                              _c("dt", {
                                 domProps: {
                                   textContent: _vm._s(
-                                    servicio.descripcionServicio
+                                    "Servicio:   " + servicio.nombreServicio
                                   )
                                 }
-                              },
-                              [_vm._v("aa")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "dd",
-                              {
+                              }),
+                              _vm._v(" "),
+                              _c("dd", {
                                 domProps: {
-                                  textContent: _vm._s(servicio.precioFijado)
+                                  textContent: _vm._s(
+                                    "Descripcion:   " +
+                                      servicio.descripcionServicio
+                                  )
                                 }
-                              },
-                              [_vm._v("aa")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "dd",
-                              {
+                              }),
+                              _vm._v(" "),
+                              _c("dd", {
                                 domProps: {
-                                  textContent: _vm._s(servicio.estado)
+                                  textContent: _vm._s(
+                                    "Precio:   " + servicio.precioFijado
+                                  )
                                 }
-                              },
-                              [_vm._v("aa")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "dd",
-                              {
+                              }),
+                              _vm._v(" "),
+                              _c("dd", {
                                 domProps: {
-                                  textContent: _vm._s(servicio.nombreTecnico)
+                                  textContent: _vm._s(
+                                    "Estado:   " + servicio.estado
+                                  )
                                 }
-                              },
-                              [_vm._v("aa")]
-                            )
-                          ])
+                              }),
+                              _vm._v(" "),
+                              _c("dd", {
+                                domProps: {
+                                  textContent: _vm._s(
+                                    "Tecnico:   " + servicio.nombreTecnico
+                                  )
+                                }
+                              }),
+                              _vm._v(" "),
+                              servicio.estado === "ASIGNADO"
+                                ? _c(
+                                    "button",
+                                    {
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.Terminar(
+                                            servicio.idServicioRealizar
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Finalizar Servicio")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c("dd")
+                            ]
+                          )
                         }),
                         0
                       )
