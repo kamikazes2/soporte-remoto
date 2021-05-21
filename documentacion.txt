@@ -28,3 +28,14 @@ Para borrar todas las tablas de la base de datos y luego volverlas a  crear:
 	php artisan migrate:rollback
 	Para ver el estatus de cada migración 
 	php artisan migrate:status
+
+Pasos para instalar proyecto desde github
+	composer install
+	php artisan key:generate
+	npm run dev
+
+
+Comandos extras:
+	composer dump-autoload
+	composer require laravel/ui
+	php artisan ui vue

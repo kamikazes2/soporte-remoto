@@ -5,33 +5,9 @@
         <form action="" method="POST">
 
             <!--
-            <table>
-                <tr>
-                    <td>Nombre</td>
-                    <td><input type="text" v-model="nombre" placeholder="Nombre Servicio"></td>
-                </tr>
-                <tr>
-                    <td>Descripcion</td>
-                    <td><input type="text" v-model="descripcion" placeholder="Descripcion"></td>
-                </tr>
-                <tr>
-                    <td>Precio</td>
-                    <td><input type="number" v-model="precio" placeholder="Precio Servicio"></td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <button type="button" @click="nuevo()">Nuevo</button>
-                        <button type="button" @click="guardar()">Guardar</button>
-                    </td>
-                </tr>
-            </table>
  -->
             <button type="button" @click="listar()">Mostrar</button>
-           
         </form>
-
-        
-
 
 
         <table border="1">
@@ -73,23 +49,6 @@
                     console.log(error);
                 });
             },
-            guardar(){
-                let me = this;
-                axios.post('request/nuevo-servicio',{
-                    'nombre': this.nombre,
-                    'descripcion': this.descripcion,
-                    'precio': this.precio
-                }).then(function(error){
-                    me.listar();
-                }).catch(function(error){
-                    console.log(error);
-                });               
-            },
-            nuevo(){
-                this.nombre = '';
-                this.descripcion = '';
-                this.precio = '';
-            },
             Solicitar(servicioid,precio){
                 let me = this;
                 axios.post('request/nuevo-solicitud-servicio',{
@@ -97,14 +56,14 @@
                     'idServicio': servicioid,
                     'precioFijado': precio
                 }).then(function(error){
-                    me.listar();
+
                 }).catch(function(error){
                     console.log(error);
                 });
             },
         },
         mounted() {
-            this.listar();
+            
         }
     }
 </script>
