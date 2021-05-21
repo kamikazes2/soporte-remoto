@@ -25,6 +25,9 @@
             </table>
             <button type="button" @click="listar()">Mostrar</button>
         </form>
+
+
+        <!--
         <table border="1">
             <thead>
                 <tr>
@@ -43,6 +46,12 @@
                 </tr>
             </tbody>
         </table>
+        -->
+
+        <div>
+            <bootstrap-4-datatable :columns="columns" :data="rows" :filter="filter" :per-page="perPage"></bootstrap-4-datatable>
+            <bootstrap-4-datatable-pager v-model="page" type="abbreviated"></bootstrap-4-datatable-pager>
+        </div>
     </div>
 </template>
 
@@ -50,10 +59,37 @@
     export default {
         data(){
             return{
+                ///Atributos del servicio
                 nombre :'',
                 descripcion : '',
                 precio : 0,
-                arrayServicio : []
+                arrayServicio : [],
+                //////////////
+
+                /////Necesario para Data Table
+                columns: [{
+                        label: 'id',
+                        field: 'id'
+                    },
+                    {
+                        label: 'nombre',
+                        field: 'nombre'
+                    },
+                    {
+                        label: 'descripcion',
+                        field: 'descripcion'
+                    },
+                    {
+                        label: 'precio',
+                        field: 'precio'
+                    }
+                ],
+                rows: [],
+                page: 1,
+                filter:  '',
+                perPage: 12,
+
+                /////
             }
         },
         methods:{
@@ -84,9 +120,14 @@
                 this.descripcion = '';
                 this.precio = '';
             },
+            showBlogs: function () {
+                axios.get('/listaServicios').then(function (res) {
+                    this.rows = res.data;
+                }.bind(this));
+            },
         },
         mounted() {
-            
+            this.showBlogs();
         }
     }
 </script>

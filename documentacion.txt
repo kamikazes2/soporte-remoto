@@ -33,7 +33,7 @@ Pasos para instalar proyecto desde github
 	composer install
 	php artisan key:generate
 	npm run dev
-
+	npm run watch
 
 Comandos extras:
 	composer dump-autoload
