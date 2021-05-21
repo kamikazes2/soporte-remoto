@@ -15,7 +15,8 @@ class VerifyCsrfToken extends Middleware
         '/request/nuevo-servicio*',
         '/request/nuevo-solicitud-servicio*',
         '/request/asignar-servicio*',
-        '/request/nuevo-seguimiento*'
+        '/request/nuevo-seguimiento*',
+        '/request/finalizar-servicio*'
         
     ];
 }

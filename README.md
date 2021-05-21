@@ -18,3 +18,6 @@ Para crear un nuevo seguimiento enviar un POST A
         idAsignacionServicio
         idJefeTecnico
         descripcion
+
+Para completar un servicio enviar un POST A
+/request/finalizar-servicio con el dato de idServicioRealizar

@@ -10,14 +10,18 @@ use Src\ModuloServicio\Servicio\Infrastructure\CreateServicioController;
 use Src\ModuloServicio\PrecioServicio\Infrastructure\CreatePrecioServicioController;
 use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\CreateSolicitudServicioController;
 use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\CreateServicioRealizarController;
+use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\UpdateServicioRealizarController;
 
 use Src\ModuloSeguimiento\Seguimiento\Infrastructure\CreateSeguimientoController;
 
 
 //pruebas//
 use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\CreateAsignacionServicioController;
+use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\GetAsignacionServicioController;
 //fin pruebas//
 
+use App\Models\PersonalPack\Tecnico as GetPersonalController;
+use App\Models\PersonalPack\Personal;
 
 
 class ServicioController extends Controller
@@ -27,11 +31,13 @@ class ServicioController extends Controller
     private $createPrecioServicioController;
     private $createSolicitudServicioController;
     private $createServicioRealizarController;
+    private $updateServicioRealizarController;
     
     private $createSeguimientoController;
 
     //pruebas
     private $createAsignacionServicioController;
+    private $getAsignacionServicioController;
     //fin pruebas
     public function __construct(
         GetServicioController $getServicioController,
@@ -39,11 +45,13 @@ class ServicioController extends Controller
         CreatePrecioServicioController $createPrecioServicioController,
         CreateSolicitudServicioController $createSolicitudServicioController,
         CreateServicioRealizarController $createServicioRealizarController,
+        UpdateServicioRealizarController $updateServicioRealizarController,
         CreateSeguimientoController $createSeguimientoController,
 
 
         //pruebas
-        CreateAsignacionServicioController $createAsignacionServicioController
+        CreateAsignacionServicioController $createAsignacionServicioController,
+        GetAsignacionServicioController $getAsignacionServicioController
         //fin pruebas
     ){
         $this->getServicioController = $getServicioController;
@@ -51,9 +59,11 @@ class ServicioController extends Controller
         $this->createPrecioServicioController = $createPrecioServicioController;
         $this->createSolicitudServicioController = $createSolicitudServicioController;
         $this->createServicioRealizarController = $createServicioRealizarController;
+        $this->updateServicioRealizarController = $updateServicioRealizarController;
         $this->createSeguimientoController = $createSeguimientoController;
         //pruebas
         $this->createAsignacionServicioController = $createAsignacionServicioController;
+        $this->getAsignacionServicioController = $getAsignacionServicioController;
         //fin pruebas
     }
 
@@ -78,7 +88,7 @@ class ServicioController extends Controller
         //enviar la lista de servicios en un array
         //un array asociativo [idServicio => precio]
         $this->createServicioRealizarController->__invoke($request);
-
+        $this->createAsignacionServicioController->__invoke(); //asignamos el servicio a un tecnico disponible
         return response()->json("creado correctamente");
     }
 
@@ -90,6 +100,17 @@ class ServicioController extends Controller
     public function createSeguimiento(Request $request){
         $this->createSeguimientoController->__invoke($request);
         return response()->json("creado correctamente");
+    }
+
+    public function completarServicio(Request $request){
+        $this->updateServicioRealizarController->complete($request);
+        $idTecnicoAsignado = $this->getAsignacionServicioController->getTecnicoAsignado($request);
+        $tecnico = new getPersonalController();
+        $idPersonal = $tecnico->getIdPersonal($idTecnicoAsignado);
+        $personal = new Personal();
+        $personal->habilitarPersonal($idPersonal);
+        $this->createAsignacionServicioController->__invoke();
+        return response()->json("Servicio finalizado");
     }
 
 

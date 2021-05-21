@@ -28,6 +28,10 @@ class EloquentAsignacionServicioRepository implements AsignacionServicioReposito
         $newAsignacionServicio->save();
         return $newAsignacionServicio->id;
     }
+    public function getPersonalAsignado($id){
+        $newAsignacionServicio = new EloquentAsignacionServicioModel;
+        return $newAsignacionServicio->getIdTecnicoByIdServicioRealizar($id);
+    }
     
 
 }

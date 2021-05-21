@@ -18,6 +18,15 @@ class ServicioRealizar extends Model
         return  $affected = DB::table('serviciorealizar')
          ->where('id', $id)
          ->update(['estado' => 'ASIGNADO']);
-     }
+    }
+    public function updateToComplete($id){
+        $affected = DB::table('serviciorealizar')
+         ->where('id', $id)
+         ->update(['estado' => 'COMPLETADO']);
+        $affected = DB::table('serviciorealizar')
+         ->where('id', $id)
+         ->update(['completado' => 1]);
+         return 1;
+    }
 
 }
