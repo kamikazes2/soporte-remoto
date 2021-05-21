@@ -29,6 +29,8 @@ Vue.use( VuejsDatatableFactory );
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('frmservicio', require('./components/frmservicio.vue').default);
 Vue.component('frmsolicitudservicio', require('./components/frmsolicitudservicio.vue').default);
+Vue.component('login-component', require('./components/loginComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

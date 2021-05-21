@@ -17,4 +17,10 @@ class Servicio extends Model
         })->get();
     }
 
+    public function actualizar(){
+        return  $affected = DB::table('servicio')
+         ->where('id', $this->id)
+         ->update(['nombre' => $this->nombre, 'descripcion'=>$this->descripcion]);
+    }
+
 }

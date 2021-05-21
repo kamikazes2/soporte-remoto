@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Personal extends Model
 {
     protected $table = 'personal';
-    protected $fillable = ['id', 'dni', 'nombre','apellido','fechaNacimiento','disponible'];
+    protected $fillable = ['id', 'dni', 'nombre','apellido','fechaNacimiento','disponible','usuario','password'];
 
 
     public function deshabilitarPersonal($idPersonal){
@@ -22,5 +22,9 @@ class Personal extends Model
          ->where('id', $idPersonal)
          ->update(['disponible' => 1]);
      }
+
+    public function buscarPersonal($user, $pass){
+        return $personal = DB::table('personal')->where('usuario', $user)->where('password',$pass)->get();
+    }
 
 }

@@ -35,5 +35,8 @@ class EloquentServicioRealizarRepository implements ServicioRealizarRepositoryCo
         return $this->eloquentServicioRealizarModel->getServicioPendiente();
     }
 
+    public function complete($idServicioRealizar){
+        return $this->eloquentServicioRealizarModel->updateToComplete($idServicioRealizar);
+    }
 
 }
