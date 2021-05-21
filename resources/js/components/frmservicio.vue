@@ -91,7 +91,6 @@
                 var i;
                 for (i=0; i<me.rows.length; i++){
                     var servicio = me.rows[i];
-                    alert(servicio.precio);
                     if(servicio.nombre.toLowerCase().indexOf(search) != -1 ||
                         servicio.descripcion.toLowerCase().indexOf(search) != -1 ||
                         servicio.precio.toString().indexOf(search) != -1 )
