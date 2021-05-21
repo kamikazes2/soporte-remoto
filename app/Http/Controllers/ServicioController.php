@@ -23,6 +23,9 @@ use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\GetAsignacionServicio
 
 use App\Models\PersonalPack\Tecnico as GetPersonalController;
 use App\Models\PersonalPack\Personal;
+use Session;
+use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\Repositories\EloquentServicioRealizarRepository;
+
 
 
 class ServicioController extends Controller
@@ -93,11 +96,19 @@ class ServicioController extends Controller
 
     public function CreateSolicitudServicio(Request $request)
     {
-        $request['idSolicitud'] = $this->createSolicitudServicioController->__invoke($request);
-
-        //enviar la lista de servicios en un array
-        //un array asociativo [idServicio => precio]
-        $this->createServicioRealizarController->__invoke($request);
+        $request['idCliente'] = Session::get('idUsuario');
+        $idSolicitud = $this->createSolicitudServicioController->__invoke($request);
+        $r2 = new Request;
+        $r2['idSolicitud'] = $idSolicitud;
+        //return response()->json($request['arrayServicios']);
+        foreach($request['arrayServicios'] as $array){
+            if($array['idServicio']!='' && $array['precioFijado']!=''){
+                $r2['idServicio'] = $array['idServicio'];
+                $r2['precioFijado'] = $array['precioFijado'];
+            }
+            $csrc = new CreateServicioRealizarController(new EloquentServicioRealizarRepository);
+            $csrc->__invoke($r2);
+        }
         $this->createAsignacionServicioController->__invoke(); //asignamos el servicio a un tecnico disponible
         return response()->json("creado correctamente");
     }

@@ -51821,8 +51821,8 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuejs_datatable_dist_themes_bootstrap_4_esm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuejs-datatable/dist/themes/bootstrap-4.esm */ "./node_modules/vuejs-datatable/dist/themes/bootstrap-4.esm.js");
-/* harmony import */ var vuejs_datatable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datatable */ "./node_modules/vuejs-datatable/dist/vuejs-datatable.esm.js");
+/* harmony import */ var vuejs_datatable_dist_themes_bootstrap_4_esm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datatable/dist/themes/bootstrap-4.esm */ "./node_modules/vuejs-datatable/dist/themes/bootstrap-4.esm.js");
+/* harmony import */ var vuejs_datatable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuejs-datatable */ "./node_modules/vuejs-datatable/dist/vuejs-datatable.esm.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -51833,7 +51833,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
 
-Vue.use(vuejs_datatable__WEBPACK_IMPORTED_MODULE_1__["VuejsDatatableFactory"]);
+Vue.use(vuejs_datatable__WEBPACK_IMPORTED_MODULE_2__["VuejsDatatableFactory"]);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -52202,8 +52202,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
