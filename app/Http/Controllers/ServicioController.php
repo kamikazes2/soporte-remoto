@@ -169,8 +169,9 @@ class ServicioController extends Controller
                 array_push($arrListServ, $arregloServ);
             }
             $arregloSolicitud['arrayServicios'] = $arrListServ;
+            array_push($arreglo, $arregloSolicitud);
         }
-        array_push($arreglo, $arregloSolicitud);
+        
         return response()->json($arreglo);
     }
 
