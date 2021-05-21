@@ -2172,13 +2172,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       ///Atributos del servicio
       nombre: '',
       descripcion: '',
-      precio: 0,
+      precio: '',
       search: '',
       arrayServicio: [],
       totalServicios: [],
@@ -2209,16 +2213,19 @@ __webpack_require__.r(__webpack_exports__);
     filtrarServicios: function filtrarServicios() {
       var me = this;
       var search = this.search;
-      this.arrayServicio = [];
       var i;
 
-      for (i = 0; i < me.rows.length; i++) {
-        var servicio = me.rows[i];
-        alert(servicio.precio);
-        if (servicio.nombre.toLowerCase().indexOf(search) != -1 || servicio.descripcion.toLowerCase().indexOf(search) != -1 || servicio.precio.toString().indexOf(search) != -1) this.arrayServicio.push(servicio);
-      }
+      if (search == '') {
+        this.rows = me.arrayServicio;
+      } else {
+        this.rows = [];
 
-      me.listar();
+        for (i = 0; i < me.arrayServicio.length; i++) {
+          var servicio = me.arrayServicio[i];
+          if (servicio.nombre.toLowerCase().indexOf(search) != -1 || servicio.descripcion.toLowerCase().indexOf(search) != -1 || servicio.precio.toString().indexOf(search) != -1) this.rows.push(servicio);
+        }
+      } //me.listar();
+
     },
     /////Muestra en el cuadro el arrayServicios
     listar: function listar() {
@@ -2238,7 +2245,7 @@ __webpack_require__.r(__webpack_exports__);
     },*/
     guardar: function guardar() {
       var me = this;
-      axios.post('request/nuevo-servicio', {
+      if (me.nombre == '' || me.descripcion == '' || me.precio == '') alert("Debe Llenar el formulario");else axios.post('request/nuevo-servicio', {
         'nombre': this.nombre,
         'descripcion': this.descripcion,
         'precio': this.precio
@@ -2249,21 +2256,33 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     nuevo: function nuevo() {
+      var x = document.getElementById("itabla");
+
+      if (x.style.display === "none") {
+        x.style.display = "block";
+        document.getElementById("bguardar").style.display = "block";
+      } else {
+        x.style.display = "none";
+        document.getElementById("bguardar").style.display = "none";
+      }
+
       this.nombre = '';
       this.descripcion = '';
       this.precio = '';
     },
     getTodo: function getTodo() {
       axios.get('/listaServicios').then(function (res) {
-        this.totalServicios = res.data;
+        this.arrayServicio = res.data;
       }.bind(this));
     },
     showTodo: function showTodo() {
-      this.rows = this.totalServicios;
+      this.rows = this.arrayServicio;
     }
   },
   mounted: function mounted() {
     this.getTodo();
+    document.getElementById("itabla").style.display = "none";
+    document.getElementById("bguardar").style.display = "none";
   }
 });
 
@@ -38447,155 +38466,144 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("h3", [_vm._v("Registro de Servicio")]),
     _vm._v(" "),
-    _c("form", { attrs: { action: "", method: "POST" } }, [
-      _c("table", [
-        _c("tr", [
-          _c("td", [_vm._v("Nombre")]),
-          _vm._v(" "),
-          _c("td", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.nombre,
-                  expression: "nombre"
-                }
-              ],
-              attrs: { type: "text", placeholder: "Nombre Servicio" },
-              domProps: { value: _vm.nombre },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.nombre = $event.target.value
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_vm._v("Descripcion")]),
-          _vm._v(" "),
-          _c("td", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.descripcion,
-                  expression: "descripcion"
-                }
-              ],
-              attrs: { type: "text", placeholder: "Descripcion" },
-              domProps: { value: _vm.descripcion },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.descripcion = $event.target.value
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_vm._v("Precio")]),
-          _vm._v(" "),
-          _c("td", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.precio,
-                  expression: "precio"
-                }
-              ],
-              attrs: { type: "number", placeholder: "Precio Servicio" },
-              domProps: { value: _vm.precio },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.precio = $event.target.value
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", { attrs: { colspan: "3" } }, [
-            _c(
-              "button",
-              {
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.nuevo()
-                  }
-                }
-              },
-              [_vm._v("Nuevo")]
-            ),
+    _c(
+      "button",
+      {
+        attrs: { type: "button" },
+        on: {
+          click: function($event) {
+            return _vm.nuevo()
+          }
+        }
+      },
+      [_vm._v("Nuevo")]
+    ),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "itabla" } }, [
+      _c("form", { attrs: { action: "", method: "POST" } }, [
+        _c("table", [
+          _c("tr", [
+            _c("td", [_vm._v("Nombre")]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                attrs: { type: "button" },
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.nombre,
+                    expression: "nombre"
+                  }
+                ],
+                attrs: { type: "text", placeholder: "Nombre Servicio" },
+                domProps: { value: _vm.nombre },
                 on: {
-                  click: function($event) {
-                    return _vm.guardar()
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.nombre = $event.target.value
                   }
                 }
-              },
-              [_vm._v("Guardar")]
-            )
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("td", [_vm._v("Descripcion")]),
+            _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.descripcion,
+                    expression: "descripcion"
+                  }
+                ],
+                attrs: { type: "text", placeholder: "Descripcion" },
+                domProps: { value: _vm.descripcion },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.descripcion = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("td", [_vm._v("Precio")]),
+            _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.precio,
+                    expression: "precio"
+                  }
+                ],
+                attrs: { type: "number", placeholder: "Precio Servicio" },
+                domProps: { value: _vm.precio },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.precio = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("td", { attrs: { colspan: "3" } }, [
+              _c(
+                "button",
+                {
+                  attrs: { id: "bguardar", type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.guardar()
+                    }
+                  }
+                },
+                [_vm._v("Guardar")]
+              )
+            ])
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _vm._v("\n                    Filtrar por texto: "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
-            }
-          ],
-          domProps: { value: _vm.search },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.search = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", [
+      _vm._v("\n        Buscar: "),
+      _c("input", {
+        directives: [
           {
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                return _vm.filtrarServicios()
-              }
+            name: "model",
+            rawName: "v-model",
+            value: _vm.search,
+            expression: "search"
+          }
+        ],
+        domProps: { value: _vm.search },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
             }
-          },
-          [_vm._v("Filtrar")]
-        )
-      ]),
+            _vm.search = $event.target.value
+          }
+        }
+      }),
       _vm._v(" "),
       _c(
         "button",
@@ -38603,11 +38611,11 @@ var render = function() {
           attrs: { type: "button" },
           on: {
             click: function($event) {
-              return _vm.showTodo()
+              return _vm.filtrarServicios()
             }
           }
         },
-        [_vm._v("Mostrar Todos los Servicios")]
+        [_vm._v("Mostrar")]
       )
     ]),
     _vm._v(" "),

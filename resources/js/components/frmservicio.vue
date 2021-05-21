@@ -2,7 +2,12 @@
     <div class="container">
         <h3>Registro de Servicio</h3>
         <!--Listrado de Registros-->
-        <form action="" method="POST">
+       
+        <button type="button" @click="nuevo()">Nuevo</button>
+                    
+
+        <div id="itabla">
+        <form action="" method="POST" >
             <table>
                 <tr>
                     <td>Nombre</td>
@@ -18,23 +23,22 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <button type="button" @click="nuevo()">Nuevo</button>
-                        <button type="button" @click="guardar()">Guardar</button>
+                        <button  id="bguardar" type="button" @click="guardar()">Guardar</button>
                     </td>
                 </tr>
             </table>
 
-                    <div>
-                        Filtrar por texto: <input v-model="search">
-                        <button type="button" @click="filtrarServicios()">Filtrar</button>
-                        
-                    </div>
+            
 
-
-            <button type="button" @click="showTodo()">Mostrar Todos los Servicios</button>
+            <!--<button type="button" @click="showTodo()">Mostrar Todos los Servicios</button> -->
         </form>
-
-
+        </div>
+        
+        <div>
+            Buscar: <input v-model="search">
+            <button type="button" @click="filtrarServicios()">Mostrar</button>
+            
+        </div>
         <div>
             <bootstrap-4-datatable :columns="columns" :data="rows" :filter="filter" :per-page="perPage"></bootstrap-4-datatable>
             <bootstrap-4-datatable-pager v-model="page" type="abbreviated"></bootstrap-4-datatable-pager>
@@ -49,7 +53,7 @@
                 ///Atributos del servicio
                 nombre :'',
                 descripcion : '',
-                precio : 0,
+                precio : '',
                 search: '',
                 arrayServicio : [],
                 totalServicios: [],
@@ -87,17 +91,21 @@
             filtrarServicios(){
                 let me = this;
                 let search= this.search;
-                this.arrayServicio=[];
+                
                 var i;
-                for (i=0; i<me.rows.length; i++){
-                    var servicio = me.rows[i];
+                if(search==''){
+                    this.rows=me.arrayServicio;
+                }else{
+                    this.rows=[];
+                for (i=0; i<me.arrayServicio.length; i++){
+                    var servicio = me.arrayServicio[i];
                     if(servicio.nombre.toLowerCase().indexOf(search) != -1 ||
                         servicio.descripcion.toLowerCase().indexOf(search) != -1 ||
                         servicio.precio.toString().indexOf(search) != -1 )
-                            this.arrayServicio.push(servicio);
+                            this.rows.push(servicio);
                 }
-
-                me.listar();
+                }
+                //me.listar();
             },
 
             /////Muestra en el cuadro el arrayServicios
@@ -118,6 +126,9 @@
             },*/
             guardar(){
                 let me = this;
+                if(me.nombre =='' || me.descripcion =='' || me.precio=='')
+                    alert("Debe Llenar el formulario");
+                else
                 axios.post('request/nuevo-servicio',{
                     'nombre': this.nombre,
                     'descripcion': this.descripcion,
@@ -126,24 +137,37 @@
                     me.listar();
                 }).catch(function(error){
                     console.log(error);
-                });               
+                });        
             },
             nuevo(){
+                
+
+                var x = document.getElementById("itabla");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                    document.getElementById("bguardar").style.display="block";
+                } else {
+                    x.style.display = "none";
+                    document.getElementById("bguardar").style.display="none";
+                }
+
                 this.nombre = '';
                 this.descripcion = '';
                 this.precio = '';
             },
             getTodo: function () {
                 axios.get('/listaServicios').then(function (res) {
-                    this.totalServicios = res.data;
+                    this.arrayServicio = res.data;
                 }.bind(this));
             },
             showTodo: function () {
-                    this.rows = this.totalServicios ;
+                    this.rows = this.arrayServicio ;
             },
         },
         mounted() {
             this.getTodo();
+            document.getElementById("itabla").style.display="none";
+            document.getElementById("bguardar").style.display="none";
         }
     }
 </script>
