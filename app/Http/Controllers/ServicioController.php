@@ -153,6 +153,7 @@ class ServicioController extends Controller
             $arrListServ = array();
             foreach($serviciosARealizar->getServicioRealizarByIdSolicitud($solicitud->id) as $serv){
                 $s = $servicio->getById($serv->idServicio);
+                $arregloServ['idServicioRealizar'] = $serv->id;
                 $arregloServ['nombreServicio'] = $s->nombre;
                 $arregloServ['descripcionServicio'] = $s->descripcion;
                 $arregloServ['precioFijado'] = $serv->precioFijado;
