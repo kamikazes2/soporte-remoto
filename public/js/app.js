@@ -1977,6 +1977,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1997,7 +2002,8 @@ __webpack_require__.r(__webpack_exports__);
       rows: [],
       page: 1,
       filter: '',
-      perPage: 12
+      perPage: 12,
+      search: ''
     };
   },
   methods: {
@@ -2014,6 +2020,102 @@ __webpack_require__.r(__webpack_exports__);
     this.showBlogs();
   }
 });
+/*
+
+
+<div id="tabledemo">
+  <h3>Vue Datatable example</h3>
+  Filter by anything: <input v-model="search">
+  <hr>
+  <data-table :users="filteredUsers"></data-table>
+</div>
+
+
+Vue.component("data-table", {
+  template: "<table></table>",
+  props: ["servicios"],
+  data() {
+    return {
+      headers: [
+        { title: "id" },
+        { title: "nombre" },
+        { title: "descripcion" },
+        { title: "precio" }
+      ],
+      rows: [],
+      dtHandle: null
+    };
+  },
+  watch: {
+    servicios(val, oldVal) {
+      let vm = this;
+      vm.rows = [];
+      // You should _probably_ check that this is changed data... but we'll skip that for this example.
+      val.forEach(function (item) {
+        // Fish out the specific column data for each item in your data set and push it to the appropriate place.
+        // Basically we're just building a multi-dimensional array here. If the data is _already_ in the right format you could
+        // skip this loop...
+        let row = [];
+
+        row.push(item.id);
+        row.push(item.nombre);
+        row.push(item.descripcion);
+        row.push(item.precio);
+
+        vm.rows.push(row);
+      });
+
+      // Here's the magic to keeping the DataTable in sync.
+      // It must be cleared, new rows added, then redrawn!
+      vm.dtHandle.clear();
+      vm.dtHandle.rows.add(vm.rows);
+      vm.dtHandle.draw();
+    }
+  },
+  mounted() {
+    let vm = this;
+    // Instantiate the datatable and store the reference to the instance in our dtHandle element.
+    vm.dtHandle = $(this.$el).DataTable({
+      // Specify whatever options you want, at a minimum these:
+      columns: vm.headers,
+      data: vm.rows,
+      searching: false,
+      paging: false,
+      info: false
+    });
+  }
+});
+
+new Vue({
+  el: "#tabledemo",
+  data: {
+    servicios: [],
+    search: ""
+  },
+  computed: {
+    filteredServicios: function () {
+      let self = this;
+      let search = self.search.toLowerCase();
+      return self.servicios.filter(function (servicio) {
+        return (
+          servicio.nombre.toLowerCase().indexOf(search) !== -1 ||
+          servicio.descripcion.toLowerCase().indexOf(search) !== -1 ||
+          servicio.precio.indexOf(search) !== -1
+        );
+      });
+    }
+  },
+  mounted() {
+    let vm = this;
+
+    axios.get('/listaServicios').then(function (res) {
+                        vm.servicios = res.data;
+                    }.bind(this));
+
+  }
+});
+
+*/
 
 /***/ }),
 
@@ -2070,19 +2172,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2090,7 +2179,9 @@ __webpack_require__.r(__webpack_exports__);
       nombre: '',
       descripcion: '',
       precio: 0,
+      search: '',
       arrayServicio: [],
+      totalServicios: [],
       //////////////
       /////Necesario para Data Table
       columns: [{
@@ -2114,15 +2205,37 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    ////Aca mantengo rows que es el total y solo anhado lo que si coinciden al arrayServicios
+    filtrarServicios: function filtrarServicios() {
+      var me = this;
+      var search = this.search;
+      this.arrayServicio = [];
+      var i;
+
+      for (i = 0; i < me.rows.length; i++) {
+        var servicio = me.rows[i];
+        alert(servicio.precio);
+        if (servicio.nombre.toLowerCase().indexOf(search) != -1 || servicio.descripcion.toLowerCase().indexOf(search) != -1 || servicio.precio.toString().indexOf(search) != -1) this.arrayServicio.push(servicio);
+      }
+
+      me.listar();
+    },
+    /////Muestra en el cuadro el arrayServicios
     listar: function listar() {
       var me = this;
-      var url = '/listaServicios';
-      axios.get(url).then(function (response) {
-        me.arrayServicio = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      me.rows = me.arrayServicio;
     },
+
+    /*listar(){
+        let me = this;
+        var url='/listaServicios';
+        axios.get(url).then(function(response){
+            me.arrayServicio= response.data;
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    },*/
     guardar: function guardar() {
       var me = this;
       axios.post('request/nuevo-servicio', {
@@ -2140,14 +2253,17 @@ __webpack_require__.r(__webpack_exports__);
       this.descripcion = '';
       this.precio = '';
     },
-    showBlogs: function showBlogs() {
+    getTodo: function getTodo() {
       axios.get('/listaServicios').then(function (res) {
-        this.rows = res.data;
+        this.totalServicios = res.data;
       }.bind(this));
+    },
+    showTodo: function showTodo() {
+      this.rows = this.totalServicios;
     }
   },
   mounted: function mounted() {
-    this.showBlogs();
+    this.getTodo();
   }
 });
 
@@ -38242,6 +38358,40 @@ var render = function() {
           _c(
             "div",
             [
+              _vm._v("\n                    Filter by anything: "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.filteredServicios()
+                    }
+                  }
+                },
+                [_vm._v("Mostrar")]
+              ),
+              _vm._v(" "),
               _c("bootstrap-4-datatable", {
                 attrs: {
                   columns: _vm.columns,
@@ -38408,17 +38558,53 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _c("div", [
+        _vm._v("\n                    Filtrar por texto: "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.filtrarServicios()
+              }
+            }
+          },
+          [_vm._v("Filtrar")]
+        )
+      ]),
+      _vm._v(" "),
       _c(
         "button",
         {
           attrs: { type: "button" },
           on: {
             click: function($event) {
-              return _vm.listar()
+              return _vm.showTodo()
             }
           }
         },
-        [_vm._v("Mostrar")]
+        [_vm._v("Mostrar Todos los Servicios")]
       )
     ]),
     _vm._v(" "),
@@ -51424,7 +51610,7 @@ var app = new Vue({
   data: {
     menu: 0
   }
-});
+}); ////require('./datatable');
 
 /***/ }),
 

@@ -4,7 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+ require('./bootstrap');
+
+
 
 window.Vue = require('vue');
 
@@ -39,3 +41,7 @@ const app = new Vue({
         menu:0
     }
 });
+
+
+
+////require('./datatable');

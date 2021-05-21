@@ -21,6 +21,7 @@
                     <li @click="menu=2">
                         <a class="nav-link" href="#">Solicitud</a>
                     </li>
+                   
                     
                   </ul>
                 </div>
@@ -28,7 +29,8 @@
             <!-- Menu principal-->
             <template v-if="menu==0">
                 <b>Gestion de Sistemas - Soporte Remoto</b>
-                <example-component></example-component>
+                <!--<example-component></example-component> -->
+                
             </template>
             <template v-if="menu==1">
                 <frmservicio></frmservicio> 
@@ -36,6 +38,18 @@
             <template v-if="menu==2">
                 <frmsolicitudservicio></frmsolicitudservicio> 
             </template>
+
+            <!--
+            <template v-if="menu==3">
+                <div id="tabledemo">
+                <h3>Vue Datatable example</h3>
+                Filter by anything: <input v-model="search">
+                <hr>
+                <data-table :servicios="filteredservicios"></data-table>
+                </div>
+               
+            </template>
+             -->
             <!--Fin menu principal-->
         </div>
     </div>

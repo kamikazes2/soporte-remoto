@@ -23,30 +23,17 @@
                     </td>
                 </tr>
             </table>
-            <button type="button" @click="listar()">Mostrar</button>
+
+                    <div>
+                        Filtrar por texto: <input v-model="search">
+                        <button type="button" @click="filtrarServicios()">Filtrar</button>
+                        
+                    </div>
+
+
+            <button type="button" @click="showTodo()">Mostrar Todos los Servicios</button>
         </form>
 
-
-        <!--
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Precio</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="servicio in arrayServicio" :key="servicio.id">
-                    <td v-text="servicio.id"></td>
-                    <td v-text="servicio.nombre"></td>
-                    <td v-text="servicio.descripcion"></td>
-                    <td v-text="servicio.precio"></td>
-                </tr>
-            </tbody>
-        </table>
-        -->
 
         <div>
             <bootstrap-4-datatable :columns="columns" :data="rows" :filter="filter" :per-page="perPage"></bootstrap-4-datatable>
@@ -63,7 +50,9 @@
                 nombre :'',
                 descripcion : '',
                 precio : 0,
+                search: '',
                 arrayServicio : [],
+                totalServicios: [],
                 //////////////
 
                 /////Necesario para Data Table
@@ -93,7 +82,32 @@
             }
         },
         methods:{
+
+            ////Aca mantengo rows que es el total y solo anhado lo que si coinciden al arrayServicios
+            filtrarServicios(){
+                let me = this;
+                let search= this.search;
+                this.arrayServicio=[];
+                var i;
+                for (i=0; i<me.rows.length; i++){
+                    var servicio = me.rows[i];
+                    alert(servicio.precio);
+                    if(servicio.nombre.toLowerCase().indexOf(search) != -1 ||
+                        servicio.descripcion.toLowerCase().indexOf(search) != -1 ||
+                        servicio.precio.toString().indexOf(search) != -1 )
+                            this.arrayServicio.push(servicio);
+                }
+
+                me.listar();
+            },
+
+            /////Muestra en el cuadro el arrayServicios
             listar(){
+                let me = this;
+                me.rows = me.arrayServicio;
+            },
+            
+            /*listar(){
                 let me = this;
                 var url='/listaServicios';
                 axios.get(url).then(function(response){
@@ -102,7 +116,7 @@
                 .catch(function(error){
                     console.log(error);
                 });
-            },
+            },*/
             guardar(){
                 let me = this;
                 axios.post('request/nuevo-servicio',{
@@ -120,14 +134,17 @@
                 this.descripcion = '';
                 this.precio = '';
             },
-            showBlogs: function () {
+            getTodo: function () {
                 axios.get('/listaServicios').then(function (res) {
-                    this.rows = res.data;
+                    this.totalServicios = res.data;
                 }.bind(this));
+            },
+            showTodo: function () {
+                    this.rows = this.totalServicios ;
             },
         },
         mounted() {
-            this.showBlogs();
+            this.getTodo();
         }
     }
 </script>
