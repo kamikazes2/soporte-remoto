@@ -2328,6 +2328,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2335,12 +2336,36 @@ __webpack_require__.r(__webpack_exports__);
       descripcion: '',
       precio: 0,
       arrayServicio: [],
-      listaservicios: []
+      listaservicios: [],
+      carritoservicios: [],
+      servicio: {
+        'idServicio': 0,
+        'precioFijado': 0
+      }
     };
   },
   methods: {
     listar: function listar() {
       this.listaservicios = this.arrayServicio;
+    },
+    Agregar: function Agregar(servicioid, precio) {
+      var me = this; /////Busca si un elemento del carrito ya posee el idServicio
+
+      if (me.carritoservicios.findIndex(function (servicio) {
+        return servicio.idServicio === servicioid;
+      }) != -1) {
+        alert('Servicio ya esta en carrito');
+      } else {
+        ///Se debe inicializar el objeto a quere usar
+        var servicio = {
+          'idServicio': 0,
+          'precioFijado': 0
+        };
+        servicio.idServicio = servicioid;
+        servicio.precioFijado = precio;
+        me.carritoservicios.push(servicio);
+        console.log(this.carritoservicios);
+      }
     },
     Solicitar: function Solicitar(servicioid, precio) {
       var me = this;
@@ -2348,8 +2373,7 @@ __webpack_require__.r(__webpack_exports__);
         /* 
             Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
         */
-        'idServicio': servicioid,
-        'precioFijado': precio
+        'arrayServicios': this.carritoservicios
       }).then(function (error) {
         alert("La solicitud fue registrada correctamente");
         me.listaservicios = [];
@@ -38751,6 +38775,19 @@ var render = function() {
               [_vm._v("Mostrar")]
             ),
             _vm._v(" "),
+            _c(
+              "button",
+              {
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.Solicitar()
+                  }
+                }
+              },
+              [_vm._v("Solicitar")]
+            ),
+            _vm._v(" "),
             _c("table", { attrs: { border: "1" } }, [
               _c(
                 "tbody",
@@ -38783,11 +38820,11 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.Solicitar(servicio.id, servicio.precio)
+                              return _vm.Agregar(servicio.id, servicio.precio)
                             }
                           }
                         },
-                        [_vm._v("Solicitar")]
+                        [_vm._v("Agregar")]
                       )
                     ])
                   ])
