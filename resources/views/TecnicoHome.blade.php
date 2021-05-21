@@ -16,6 +16,9 @@
                 <a @click="menu=0" class="navbar-brand" href="#">Inicio</a>
                 <div>
                   <ul class="navbar-nav mr-auto">
+                    <li @click="menu=1">
+                        <a class="nav-link" href="#">Trabajos Asignados</a>
+                    </li>
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
                     </li> 
@@ -25,6 +28,9 @@
             <!-- Menu principal-->
             <template v-if="menu==0">
                 <b>Gestion de Sistemas - Soporte Remoto</b>
+            </template>
+            <template v-if="menu==1">
+                <b>Trabajos asignados</b>
             </template>
 
             <!--Fin menu principal-->

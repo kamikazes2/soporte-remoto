@@ -18,6 +18,9 @@
                   <ul class="navbar-nav mr-auto">
                     <li @click="menu=1">
                         <a class="nav-link" href="#">Solicitar un servicio</a>
+                    </li>
+                    <li @click="menu=2">
+                        <a class="nav-link" href="#">Mis Solicitudes</a>
                     </li> 
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
@@ -31,6 +34,9 @@
             </template>
             <template v-if="menu==1">
                 <frmsolicitudservicio></frmsolicitudservicio> 
+            </template>
+            <template v-if="menu==2">
+                <h1>mis solicitudes</h1>
             </template>
             <!--Fin menu principal-->
         </div>

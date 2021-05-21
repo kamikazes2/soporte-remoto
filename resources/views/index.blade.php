@@ -17,12 +17,6 @@
                 <div>
                   <ul class="navbar-nav mr-auto">
                     <li @click="menu=1">
-                        <a class="nav-link" href="#">Servicio</a>
-                    </li>
-                    <li @click="menu=2">
-                        <a class="nav-link" href="#">Solicitud</a>
-                    </li>
-                    <li @click="menu=3">
                         <a class="nav-link" href="#">Login</a>
                     </li>
                     
@@ -33,15 +27,8 @@
             <template v-if="menu==0">
                 <b>Gestion de Sistemas - Soporte Remoto</b>
                 <!--<example-component></example-component> -->
-                
             </template>
             <template v-if="menu==1">
-                <frmservicio></frmservicio> 
-            </template>
-            <template v-if="menu==2">
-                <frmsolicitudservicio></frmsolicitudservicio> 
-            </template>
-            <template v-if="menu==3">
                 <login-component></login-component>
             </template>
             <!--Fin menu principal-->
