@@ -2181,13 +2181,7 @@ __webpack_require__.r(__webpack_exports__);
       arraySolicitudes: [],
       idSolicitud: 0,
       fechaSolicitud: '',
-      arrayServicios: [{
-        nombreServicio: '',
-        descripcionServicio: '',
-        precioFijado: 0,
-        estado: '',
-        nombreTecnico: ''
-      }]
+      arrayServicios: []
     };
   },
   methods: {
@@ -2204,11 +2198,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     listar: function listar() {
-      console.log(this.arraySolicitudes);
       axios.get('/listarMisSolicitudes').then(function (res) {
         this.arraySolicitudes = res.data;
       }.bind(this));
-      console.log(this.arraySolicitudes);
     }
   }
 });
@@ -38703,36 +38695,58 @@ var render = function() {
                       _c(
                         "dl",
                         _vm._l(_vm.arrayServicios, function(servicio) {
-                          return _c("div", { key: servicio.idServicio }, [
-                            _c("dt", {
-                              domProps: {
-                                textContent: _vm._s(servicio.nombreServicio)
-                              }
-                            }),
+                          return _c("div", { key: servicio.id }, [
+                            _c(
+                              "dt",
+                              {
+                                domProps: {
+                                  textContent: _vm._s(servicio.nombreServicio)
+                                }
+                              },
+                              [_vm._v(" aa")]
+                            ),
                             _vm._v(" "),
-                            _c("dd", {
-                              domProps: {
-                                textContent: _vm._s(
-                                  servicio.descripcionServicio
-                                )
-                              }
-                            }),
+                            _c(
+                              "dd",
+                              {
+                                domProps: {
+                                  textContent: _vm._s(
+                                    servicio.descripcionServicio
+                                  )
+                                }
+                              },
+                              [_vm._v("aa")]
+                            ),
                             _vm._v(" "),
-                            _c("dd", {
-                              domProps: {
-                                textContent: _vm._s(servicio.precioFijado)
-                              }
-                            }),
+                            _c(
+                              "dd",
+                              {
+                                domProps: {
+                                  textContent: _vm._s(servicio.precioFijado)
+                                }
+                              },
+                              [_vm._v("aa")]
+                            ),
                             _vm._v(" "),
-                            _c("dd", {
-                              domProps: { textContent: _vm._s(servicio.estado) }
-                            }),
+                            _c(
+                              "dd",
+                              {
+                                domProps: {
+                                  textContent: _vm._s(servicio.estado)
+                                }
+                              },
+                              [_vm._v("aa")]
+                            ),
                             _vm._v(" "),
-                            _c("dd", {
-                              domProps: {
-                                textContent: _vm._s(servicio.nombreTecnico)
-                              }
-                            })
+                            _c(
+                              "dd",
+                              {
+                                domProps: {
+                                  textContent: _vm._s(servicio.nombreTecnico)
+                                }
+                              },
+                              [_vm._v("aa")]
+                            )
                           ])
                         }),
                         0

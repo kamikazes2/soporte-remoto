@@ -22,12 +22,12 @@
                                         <td v-bind:id="solicitud.idSolicitud" >
 
                                             <dl>
-                                                <div v-for="servicio in arrayServicios" :key="servicio.idServicio">
-                                                <dt v-text="servicio.nombreServicio"> </dt>
-                                                    <dd v-text="servicio.descripcionServicio"></dd>
-                                                    <dd v-text="servicio.precioFijado"></dd>
-                                                    <dd v-text="servicio.estado"></dd>
-                                                    <dd v-text="servicio.nombreTecnico"></dd>
+                                                <div v-for="servicio in arrayServicios" :key="servicio.id">
+                                                    <dt v-text="servicio.nombreServicio"> aa</dt>
+                                                    <dd v-text="servicio.descripcionServicio">aa</dd>
+                                                    <dd v-text="servicio.precioFijado">aa</dd>
+                                                    <dd v-text="servicio.estado">aa</dd>
+                                                    <dd v-text="servicio.nombreTecnico">aa</dd>
                                                 </div>
                                             </dl>
 
@@ -50,17 +50,9 @@
         data() {
             return {
                 arraySolicitudes: [],
-                
-                
                 idSolicitud : 0,
                 fechaSolicitud: '',
-                arrayServicios: [{
-                        nombreServicio: '',
-                        descripcionServicio: '',
-                        precioFijado: 0,
-                        estado: '',
-                        nombreTecnico: '',
-                    }]
+                arrayServicios: []
                 
             }
         },
@@ -78,11 +70,10 @@
 
             },
             listar: function () {
-                console.log(this.arraySolicitudes);
+
                 axios.get('/listarMisSolicitudes').then(function (res) {
                     this.arraySolicitudes = res.data;
                 }.bind(this));
-                console.log(this.arraySolicitudes);
             },
         },
         
