@@ -68,3 +68,4 @@ Route::post('/request/buscar-usuario', [UsuarioController::class, 'buscarUsuario
 //pruebas
 //Route::get('/request/asignar-servicio', [ServicioController::class, 'asignarServicio']);
 
+Route::get('/listarMisSolicitudes', [ServicioController::class, 'getMisSolicitudes']);

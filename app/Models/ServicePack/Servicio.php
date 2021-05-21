@@ -23,4 +23,9 @@ class Servicio extends Model
          ->update(['nombre' => $this->nombre, 'descripcion'=>$this->descripcion]);
     }
 
+    public function getById($id){
+        $serv = DB::table('servicio')->where('id', $id)->get();
+        return $serv[0];
+    }
+
 }

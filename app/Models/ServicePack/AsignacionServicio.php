@@ -16,4 +16,13 @@ class AsignacionServicio extends Model
         return $AsignacionServicio[0]->idTecnico;
     }
 
+    public function estaAsignado($idServicioRealizar){
+        $AsignacionServicio = DB::table('asignacionservicio')->where('idServicioRealizar', $idServicioRealizar)->get();
+        if(count($AsignacionServicio)>0){
+            return $AsignacionServicio[0];
+        }else{
+            return false;
+        }
+    }
+
 }

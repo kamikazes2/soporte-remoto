@@ -30,3 +30,6 @@ con el idServicio y precio a /request/actualizar-precio
 
 #Para completar un servicio enviar un POST A
 /request/finalizar-servicio con el dato de idServicioRealizar
+
+#para listar mis solicitudes solicitar un get a
+/listarMisSolicitudes
