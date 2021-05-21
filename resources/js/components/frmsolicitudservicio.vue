@@ -47,7 +47,11 @@
             Solicitar(servicioid,precio){
                 let me = this;
                 axios.post('request/nuevo-solicitud-servicio',{
-                    'idCliente': 1,
+                    
+
+                    /* 
+                        Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
+                    */
                     'idServicio': servicioid,
                     'precioFijado': precio
                 }).then(function(error){
