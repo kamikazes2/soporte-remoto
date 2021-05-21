@@ -30,6 +30,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('frmservicio', require('./components/frmservicio.vue').default);
 Vue.component('frmsolicitudservicio', require('./components/frmsolicitudservicio.vue').default);
 Vue.component('login-component', require('./components/loginComponent.vue').default);
+Vue.component('frmmissolicitudes', require('./components/frmmissolicitudes.vue').default);
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -36,7 +36,7 @@
                 <frmsolicitudservicio></frmsolicitudservicio> 
             </template>
             <template v-if="menu==2">
-                <h1>mis solicitudes</h1>
+                <frmmissolicitudes></frmmissolicitudes>
             </template>
             <!--Fin menu principal-->
         </div>
