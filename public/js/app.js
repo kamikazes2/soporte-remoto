@@ -2308,24 +2308,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       nombre: '',
       descripcion: '',
       precio: 0,
-      arrayServicio: []
+      arrayServicio: [],
+      listaservicios: []
     };
   },
   methods: {
     listar: function listar() {
-      var me = this;
-      var url = '/listaServicios';
-      axios.get(url).then(function (response) {
-        me.arrayServicio = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      this.listaservicios = this.arrayServicio;
     },
     Solicitar: function Solicitar(servicioid, precio) {
       var me = this;
@@ -2333,12 +2329,19 @@ __webpack_require__.r(__webpack_exports__);
         'idCliente': 1,
         'idServicio': servicioid,
         'precioFijado': precio
-      }).then(function (error) {})["catch"](function (error) {
+      }).then(function (error) {
+        alert("La solicitud fue registrada correctamente");
+        me.listaservicios = [];
+      })["catch"](function (error) {
         console.log(error);
       });
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    axios.get('/listaServicios').then(function (response) {
+      this.arrayServicio = response.data;
+    }.bind(this));
+  }
 });
 
 /***/ }),
@@ -38658,62 +38661,74 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("h3", [_vm._v("Solicitud de Servicio")]),
-    _vm._v(" "),
-    _c("form", { attrs: { action: "", method: "POST" } }, [
-      _c(
-        "button",
-        {
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.listar()
-            }
-          }
-        },
-        [_vm._v("Mostrar")]
-      )
-    ]),
-    _vm._v(" "),
-    _c("table", { attrs: { border: "1" } }, [
-      _c(
-        "tbody",
-        _vm._l(_vm.arrayServicio, function(servicio) {
-          return _c("tr", { key: servicio.id }, [
-            _c("td", [
-              _c("input", {
-                attrs: { type: "hidden" },
-                domProps: { textContent: _vm._s(servicio.id) }
-              }),
-              _vm._v(" "),
-              _c("h1", { domProps: { textContent: _vm._s(servicio.nombre) } }),
-              _c("br"),
-              _vm._v(" "),
-              _c("label", {
-                domProps: { textContent: _vm._s(servicio.descripcion) }
-              }),
-              _c("br"),
-              _vm._v(" "),
-              _c("h3", { domProps: { textContent: _vm._s(servicio.precio) } }),
-              _c("br"),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.Solicitar(servicio.id, servicio.precio)
-                    }
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v(" Solicitud de Servicio")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "button",
+              {
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.listar()
                   }
-                },
-                [_vm._v("Solicitar")]
+                }
+              },
+              [_vm._v("Mostrar")]
+            ),
+            _vm._v(" "),
+            _c("table", { attrs: { border: "1" } }, [
+              _c(
+                "tbody",
+                _vm._l(_vm.listaservicios, function(servicio) {
+                  return _c("tr", { key: servicio.id }, [
+                    _c("td", [
+                      _c("input", {
+                        attrs: { type: "hidden" },
+                        domProps: { textContent: _vm._s(servicio.id) }
+                      }),
+                      _vm._v(" "),
+                      _c("h3", {
+                        domProps: { textContent: _vm._s(servicio.nombre) }
+                      }),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("label", {
+                        domProps: { textContent: _vm._s(servicio.descripcion) }
+                      }),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("h5", {
+                        domProps: { textContent: _vm._s(servicio.precio) }
+                      }),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.Solicitar(servicio.id, servicio.precio)
+                            }
+                          }
+                        },
+                        [_vm._v("Solicitar")]
+                      )
+                    ])
+                  ])
+                }),
+                0
               )
             ])
           ])
-        }),
-        0
-      )
+        ])
+      ])
     ])
   ])
 }
