@@ -29,4 +29,8 @@ class ServicioRealizar extends Model
          return 1;
     }
 
+    public function getServicioRealizarByIdSolicitud($id){
+        return $serv = DB::table('serviciorealizar')->where('idSolicitud', $id)->get();
+    }
+
 }

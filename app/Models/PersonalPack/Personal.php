@@ -27,4 +27,9 @@ class Personal extends Model
         return $personal = DB::table('personal')->where('usuario', $user)->where('password',$pass)->get();
     }
 
+    public function getByIdPersonal($id){
+        $personal = DB::table('personal')->where('id', $id)->get();
+        return  $personal[0];
+    }
+
 }
