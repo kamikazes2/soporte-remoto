@@ -38688,7 +38688,9 @@ var render = function() {
                       [
                         _c("label", {
                           domProps: {
-                            textContent: _vm._s(solicitud.idSolicitud)
+                            textContent: _vm._s(
+                              "Solicitud:  " + solicitud.idSolicitud
+                            )
                           }
                         }),
                         _vm._v(" "),
@@ -38696,7 +38698,9 @@ var render = function() {
                         _vm._v(" "),
                         _c("label", {
                           domProps: {
-                            textContent: _vm._s(solicitud.fechaSolicitud)
+                            textContent: _vm._s(
+                              "Fecha de Solicitud:  " + solicitud.fechaSolicitud
+                            )
                           }
                         }),
                         _vm._v(" "),
