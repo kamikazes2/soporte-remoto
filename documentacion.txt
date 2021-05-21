@@ -34,6 +34,8 @@ Pasos para instalar proyecto desde github
 	php artisan key:generate
 	npm run dev
 	npm run watch
+	npm install vuejs-datatable
+	npm install
 
 Comandos extras:
 	composer dump-autoload
