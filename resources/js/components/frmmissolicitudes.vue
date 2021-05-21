@@ -50,19 +50,18 @@
         data() {
             return {
                 arraySolicitudes: [],
-                /*
-                response : [{
+                
+                
                 idSolicitud : 0,
                 fechaSolicitud: '',
-                arrayservicios: [{
+                arrayServicios: [{
                         nombreServicio: '',
                         descripcionServicio: '',
                         precioFijado: 0,
                         estado: '',
                         nombreTecnico: '',
                     }]
-                }],
-                */
+                
             }
         },
         methods: {
@@ -78,11 +77,14 @@
                 }
 
             },
-        },
-        listar: function () {
-                axios.get('/listaServicios').then(function (res) {
+            listar: function () {
+                console.log(this.arraySolicitudes);
+                axios.get('/listarMisSolicitudes').then(function (res) {
                     this.arraySolicitudes = res.data;
                 }.bind(this));
+                console.log(this.arraySolicitudes);
             },
+        },
+        
     }   
 </script>

@@ -2178,21 +2178,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      arraySolicitudes: []
-      /*
-      response : [{
-      idSolicitud : 0,
+      arraySolicitudes: [],
+      idSolicitud: 0,
       fechaSolicitud: '',
-      arrayservicios: [{
-              nombreServicio: '',
-              descripcionServicio: '',
-              precioFijado: 0,
-              estado: '',
-              nombreTecnico: '',
-          }]
-      }],
-      */
-
+      arrayServicios: [{
+        nombreServicio: '',
+        descripcionServicio: '',
+        precioFijado: 0,
+        estado: '',
+        nombreTecnico: ''
+      }]
     };
   },
   methods: {
@@ -2207,12 +2202,14 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         x.style.display = "none";
       }
+    },
+    listar: function listar() {
+      console.log(this.arraySolicitudes);
+      axios.get('/listarMisSolicitudes').then(function (res) {
+        this.arraySolicitudes = res.data;
+      }.bind(this));
+      console.log(this.arraySolicitudes);
     }
-  },
-  listar: function listar() {
-    axios.get('/listaServicios').then(function (res) {
-      this.arraySolicitudes = res.data;
-    }.bind(this));
   }
 });
 
