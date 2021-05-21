@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 use Src\ModuloServicio\Servicio\Infrastructure\GetServicioController;
 use Src\ModuloServicio\Servicio\Infrastructure\CreateServicioController;
 use Src\ModuloServicio\PrecioServicio\Infrastructure\CreatePrecioServicioController;
-use Src\ModuloServicio\SolicitudServicio\Infrastructure\CreateSolicitudServicioController;
-use Src\ModuloServicio\ServicioRealizar\Infrastructure\CreateServicioRealizarController;
+use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\CreateSolicitudServicioController;
+use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\CreateServicioRealizarController;
 
 
 //pruebas//
-use Src\ModuloServicio\AsignacionServicio\Infrastructure\CreateAsignacionServicioController;
+use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\CreateAsignacionServicioController;
 
 
 //fin pruebas//
