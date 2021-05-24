@@ -29,6 +29,7 @@ use App\Models\ServicePack\SolicitudServicio;
 use App\Models\ServicePack\ServicioRealizar;
 use App\Models\ServicePack\AsignacionServicio;
 use App\Models\ServicePack\Servicio;
+use App\Models\ServicePack\PrecioServicio;
 
 
 class ServicioController extends Controller
@@ -174,6 +175,18 @@ class ServicioController extends Controller
         }
         
         return response()->json($arreglo);
+    }
+
+    public function eliminarServicio(Request $request){
+        $idServicio = $request['idServicio'];
+        $serv = new Servicio;
+        $ps = new PrecioServicio;
+
+        $ps->deleteByIdServicio($idServicio);
+        $serv->deleteById($idServicio);
+
+        return response()->json("eliminado");
+
     }
 
 

@@ -28,4 +28,9 @@ class Servicio extends Model
         return $serv[0];
     }
 
+    public function deleteById($idServicio){
+        DB::table('servicio')->where('id', $idServicio)->delete();
+        return true;
+    }
+
 }
