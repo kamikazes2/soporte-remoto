@@ -32,6 +32,12 @@ Route::post('/request/eliminar', [ServicioController::class, 'eliminarServicio']
 Route::delete('/request/eliminar/{idServicio}', [ServicioController::class, 'eliminarServicio']);
 #FIN SERVICIO ------------------------------------------------------
 
+#personales
+Route::post('/request/nuevo-tecnico', [PersonalController::class, 'createTecnico']);
+Route::post('/request/nueva-especialidad-personal', [PersonalController::class, 'addEspecialidadPersonal']);
+
+#fin personales
+
 Route::post('/request/nuevo-solicitud-servicio', [ServicioController::class, 'CreateSolicitudServicio']);
 
 Route::post('/request/nuevo-seguimiento', [ServicioController::class, 'CreateSeguimiento']);

@@ -22,6 +22,9 @@
                     <li @click="menu=1">
                         <a class="nav-link" href="#">Servicio</a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
+                    </li> 
                   </ul>
                 </div>
             </nav>

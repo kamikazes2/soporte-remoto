@@ -14,4 +14,13 @@ class Cliente extends Model
     public function buscarCliente($usuario, $pass){
         return $cliente = DB::table('cliente')->where('usuario', $usuario)->where('password',$pass)->get();
     }
+
+    public function existeCliente($usuario){
+        $cliente = DB::table('cliente')->where('usuario', $usuario)->get();
+        if(count($cliente)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

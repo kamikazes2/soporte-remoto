@@ -24,11 +24,31 @@ con el idServicio y precio a /request/actualizar-precio
 
 #FIN SERVICIO ------------------------------------------------------
 
+
+#PERSONALES-----------------------------------------------
+
+#para crear un nuevo tecnico enviar un POST A
+/request/nuevo-tecnico
+con los siguientes datos
+dni
+nombre
+apellido
+fechaNacimiento
+usuario
+password
+#FIN PERSONALES ----------------------------------------------
+
+
+
+
+#SOLICITUD SERVICIO ------------------------------------------------------
 #Para crear una nueva solicitud de servicio enviar un POST a
 /request/nuevo-solicitud-servicio con los siguientes datos
         idCliente
         idServicio
         precioFijado
+#FIN SOLICITUD SERVICIO ------------------------------------------------------
+
 
 #Para crear un nuevo seguimiento enviar un POST A
 /request/nuevo-seguimiento con los siguientes datos
