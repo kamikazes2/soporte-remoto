@@ -4,7 +4,7 @@
 }
 
 #servicio-table-main-content{
-    padding: 30px;
+    padding: 100px;
 }
 #busquedaServicio{
     width: 600px;
@@ -25,3 +25,9 @@
 .table th, table td{
     border: 1px solid gray;
 }
+
+
+#tablaServicio_filter{
+    display: none;
+}
+

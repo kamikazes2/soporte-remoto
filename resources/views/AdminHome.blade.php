@@ -10,7 +10,7 @@
     <link href="../css/custom_login.css" rel="stylesheet">
     <link href="../css/custom_modal.css" rel="stylesheet">
     <link href="../css/adminHome.css" rel="stylesheet">
-    <link href="../css/dataTable.css" rel="stylesheet">
+    <link href="{{asset("template/css/main.css")}}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -38,5 +38,9 @@
     </div>
 
     <script src="../js/app.js"></script>
+    <script src="../template/js/bootstrap.min.js"></script>
+    <script src="{{asset("template/js/main.js")}}"></script>
+    {{-- <script src="../template/js/main.js"></script> --}}
+    {{-- <script src="../template/js/popper.min.js"></script> --}}
 </body>
 </html>

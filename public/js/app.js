@@ -2315,25 +2315,93 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      showModal: false
+      showModal: false,
+      arrayServicio: [],
+      idServicio: 0,
+      nombre: '',
+      descripcion: '',
+      precio: 0.0,
+      search: '',
+      rows: [],
+      buscado: false,
+      classBtnGuardar: "btn btn-primary",
+      classBtnModificar: "displayNone"
     };
   },
   mounted: function mounted() {
-    this.tabla();
+    this.getServicios();
+    document.getElementById("bodyTabla").setAttribute("style", "display: none");
   },
   methods: {
     closeModal: function closeModal() {
       this.showModal = false;
+      this.classBtnGuardar = "btn btn-primary";
+      this.classBtnModificar = "displayNone";
     },
     tabla: function tabla() {
       this.$nextTick(function () {
         $('#tablaServicio').DataTable();
       });
-    }
+    },
+    getServicios: function getServicios() {
+      axios.get('/listaServicios').then(function (res) {
+        this.arrayServicio = res.data;
+        this.tabla();
+      }.bind(this));
+    },
+    filtrarServicios: function filtrarServicios() {
+      if (this.buscado == false) {
+        this.getServicios();
+        document.getElementById("bodyTabla").removeAttribute("style");
+        this.buscado = true;
+      }
+
+      var me = this;
+      var search = this.search;
+      var i;
+
+      if (search == '') {
+        this.getServicios();
+        this.rows = this.arrayServicio;
+      } else {
+        this.rows = [];
+
+        for (i = 0; i < me.arrayServicio.length; i++) {
+          var servicio = me.arrayServicio[i];
+          if (servicio.nombre.toLowerCase().indexOf(search) != -1 || servicio.descripcion.toLowerCase().indexOf(search) != -1 || servicio.precio.toString().indexOf(search) != -1) this.rows.push(servicio);
+        }
+      }
+
+      this.arrayServicio = this.rows;
+    },
+    modificar: function modificar(id, nombre, descripcion, precio) {
+      this.nombre = nombre;
+      this.descripcion = descripcion;
+      this.precio = precio;
+      this.classBtnGuardar = "displayNone";
+      this.classBtnModificar = "btn btn-primary";
+      this.showModal = true;
+    },
+    eliminar: function eliminar() {},
+    modificarBaseDatos: function modificarBaseDatos() {}
   }
 });
 
@@ -54350,12 +54418,33 @@ var render = function() {
                 }
               },
               [
-                _c("h3", { attrs: { slot: "header" }, slot: "header" }, [
-                  _vm._v("Nuevo Servicio")
+                _c("h2", { attrs: { slot: "header" }, slot: "header" }, [
+                  _vm._v("Servicio")
                 ]),
                 _vm._v(" "),
                 _c("div", { attrs: { slot: "body" }, slot: "body" }, [
                   _c("form", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.idServicio,
+                          expression: "idServicio"
+                        }
+                      ],
+                      attrs: { type: "hidden", id: "id" },
+                      domProps: { value: _vm.idServicio },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.idServicio = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
                     _c(
                       "label",
                       { staticClass: "grey-text", attrs: { for: "nombre" } },
@@ -54467,7 +54556,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-primary",
+                      class: _vm.classBtnGuardar,
                       on: {
                         click: function($event) {
                           return _vm.guardar()
@@ -54475,6 +54564,19 @@ var render = function() {
                       }
                     },
                     [_vm._v("Añadir")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      class: _vm.classBtnModificar,
+                      on: {
+                        click: function($event) {
+                          return _vm.modificarBaseDatos()
+                        }
+                      }
+                    },
+                    [_vm._v("Modificar")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -54497,7 +54599,103 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm._m(0)
+    _c("div", { attrs: { id: "servicio-table-main-content" } }, [
+      _c("div"),
+      _vm._v(" "),
+      _c("div", [
+        _vm._v("\n        Buscar: "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { id: "busquedaServicio", width: "50px" },
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                return _vm.filtrarServicios()
+              }
+            }
+          },
+          [_vm._v("Buscar")]
+        ),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("br")
+      ]),
+      _vm._v(" "),
+      _c("table", { staticClass: "table", attrs: { id: "tablaServicio" } }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          { attrs: { id: "bodyTabla" } },
+          _vm._l(_vm.arrayServicio, function(servicio) {
+            return _c("tr", { key: servicio.id }, [
+              _c("td", [_vm._v(_vm._s(servicio.nombre))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(servicio.descripcion))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(servicio.precio))]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success btn-sm",
+                    on: {
+                      click: function($event) {
+                        return _vm.modificar(
+                          servicio.id,
+                          servicio.nombre,
+                          servicio.descripcion,
+                          servicio.precio
+                        )
+                      }
+                    }
+                  },
+                  [_vm._v("Modificar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger btn-sm",
+                    on: {
+                      click: function($event) {
+                        return _vm.eliminar()
+                      }
+                    }
+                  },
+                  [_vm._v("Eliminar")]
+                )
+              ])
+            ])
+          }),
+          0
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -54505,29 +54703,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "servicio-table-main-content" } }, [
-      _c("div"),
-      _vm._v(" "),
-      _c("table", { attrs: { id: "tablaServicio" } }, [
-        _c("thead", [
-          _c("tr", [
-            _c("th", [_vm._v("Nombre")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Descripcion")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Precio")])
-          ])
-        ]),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v("algun nombre")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("alguna desc")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("25.00")])
-          ])
-        ])
+        _c("th", [_vm._v("Descripcion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
       ])
     ])
   }
