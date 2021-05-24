@@ -44,6 +44,12 @@
                         <label for="descripcion" class="grey-text">Descripcion del Servicio</label>
                         <input type="text" v-model="descripcion" id="descripcion" placeholder="Ej: Intalacion completa de Windows 10" class="form-control"/>
                         <br/>
+                        <label for="especialidad" class="grey-text">Especialidad</label>
+                        <select id="especialidad" v-for="especialidad in arrayEspecialidad" :key="especialidad.id">
+                            <option  v-text="especialidad.nombre"   ></option>
+                        </select>
+                        <input type="number" v-model="especialidad" id="especialidad" placeholder="Ej: 120.00" class="form-control"/>
+                        <br/>
                         <label for="precio" class="grey-text">Precio del Servicio</label>
                         <input type="number" v-model="precio" id="precio" placeholder="Ej: 120.00" class="form-control"/>
                         <br/>
@@ -109,10 +115,12 @@ export default {
             index: 0,
             showModal: false,
             arrayServicio: [],
+            arrayEspecialidad: [],
             idServicio: 0,
             nombre: '',
             descripcion: '',
             precio: 0.0,
+            especialidad: '',
             search: '',
             rows: [],
             buscado: false,

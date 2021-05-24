@@ -2334,6 +2334,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -54676,6 +54682,77 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "label",
+                      {
+                        staticClass: "grey-text",
+                        attrs: { for: "especialidad" }
+                      },
+                      [_vm._v("Especialidad")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.especialidad,
+                            expression: "especialidad"
+                          }
+                        ],
+                        attrs: { id: "especialidad" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.especialidad = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.arrayEspecialidad, function(especialidad) {
+                        return _c("option", { key: especialidad.id })
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.especialidad,
+                          expression: "especialidad"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "especialidad",
+                        placeholder: "Ej: 120.00"
+                      },
+                      domProps: { value: _vm.especialidad },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.especialidad = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "label",
                       { staticClass: "grey-text", attrs: { for: "precio" } },
                       [_vm._v("Precio del Servicio")]
                     ),
@@ -68432,8 +68509,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
