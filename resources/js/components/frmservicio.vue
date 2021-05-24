@@ -92,7 +92,7 @@
                         <td>{{servicio.precio}}</td>
                         <td>
                             <button class="btn btn-success btn-sm" @click="modificar(servicio.id, servicio.nombre, servicio.descripcion, servicio.precio)">Modificar</button>
-                            <button class="btn btn-danger btn-sm" @click="eliminar()">Eliminar</button>
+                            <button class="btn btn-danger btn-sm" @click="eliminar(servicio.id)">Eliminar</button>
                         </td>
                     </tr>
                 </tbody>
@@ -183,7 +183,17 @@ export default {
             document.getElementById("BtnGuardar").style.display= "none";
             document.getElementById("BtnModificar").style.display= "inline-block";
         },
-        eliminar(){
+        eliminar(idServicio){
+            axios.delete('/request/eliminar', {params: {idServicio:     
+                idServicio}})
+            .then((response) => {
+                "Se elimino correctamente";
+                console.log(response);
+            }, (error) => {
+                 console.log("Puede que el servicio haya sido utilizado previamente");
+                 console.log(response);
+                // error callback
+            })
 
         },
         VerificarBaseDatos(){

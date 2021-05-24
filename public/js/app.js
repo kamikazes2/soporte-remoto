@@ -2416,7 +2416,20 @@ __webpack_require__.r(__webpack_exports__);
       document.getElementById("BtnGuardar").style.display = "none";
       document.getElementById("BtnModificar").style.display = "inline-block";
     },
-    eliminar: function eliminar() {},
+    eliminar: function eliminar(idServicio) {
+      axios["delete"]('/request/eliminar', {
+        params: {
+          idServicio: idServicio
+        }
+      }).then(function (response) {
+        "Se elimino correctamente";
+
+        console.log(response);
+      }, function (error) {
+        console.log("Puede que el servicio haya sido utilizado previamente");
+        console.log(response); // error callback
+      });
+    },
     VerificarBaseDatos: function VerificarBaseDatos() {
       ///Verifica que los datos locales y la BD sean Iguales
       //var local = [...this.arrayServicio];
@@ -54836,7 +54849,7 @@ var render = function() {
                     staticClass: "btn btn-danger btn-sm",
                     on: {
                       click: function($event) {
-                        return _vm.eliminar()
+                        return _vm.eliminar(servicio.id)
                       }
                     }
                   },
