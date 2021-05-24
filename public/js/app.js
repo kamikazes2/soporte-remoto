@@ -2338,6 +2338,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      index: 0,
       showModal: false,
       arrayServicio: [],
       idServicio: 0,
@@ -2416,19 +2417,25 @@ __webpack_require__.r(__webpack_exports__);
       document.getElementById("BtnGuardar").style.display = "none";
       document.getElementById("BtnModificar").style.display = "inline-block";
     },
-    eliminar: function eliminar(idServicio) {
-      axios["delete"]('/request/eliminar', {
-        params: {
-          idServicio: idServicio
-        }
-      }).then(function (response) {
-        "Se elimino correctamente";
+    eliminar: function eliminar(idServ, index) {
+      var _this = this;
 
-        console.log(response);
-      }, function (error) {
-        console.log("Puede que el servicio haya sido utilizado previamente");
-        console.log(response); // error callback
-      });
+      if (confirm("Estas seguro de eliminar?")) {
+        axios.post('/request/eliminar-servicio/' + idServ, {
+          _method: 'delete'
+        }).then(function (response) {
+          if (response.data == "ExisteTransaccion") {
+            alert("No se puede eliminar, Existe una transaccion");
+          } else {
+            "Se elimino correctamente";
+
+            _this.arrayServicio.splice(index, 1);
+          }
+        }, function (error) {
+          console.log("Puede que el servicio haya sido utilizado previamente");
+          console.log(response); // error callback
+        });
+      }
     },
     VerificarBaseDatos: function VerificarBaseDatos() {
       ///Verifica que los datos locales y la BD sean Iguales
@@ -2449,7 +2456,7 @@ __webpack_require__.r(__webpack_exports__);
       return false;
     },
     modificarTabla: function modificarTabla() {
-      var _this = this;
+      var _this2 = this;
 
       // console.log("primera vez q menciona servicio");
       this.servicio.id = this.idServicio;
@@ -2466,7 +2473,7 @@ __webpack_require__.r(__webpack_exports__);
       //console.log("Posicion");
 
       var posicion = local.findIndex(function (x) {
-        return x.id === _this.idServicio;
+        return x.id === _this2.idServicio;
       }); //var original = JSON.parse(JSON.stringify(local[x]));
       //console.log(posicion);
       //console.log("///////////////////////");
@@ -54849,7 +54856,7 @@ var render = function() {
                     staticClass: "btn btn-danger btn-sm",
                     on: {
                       click: function($event) {
-                        return _vm.eliminar(servicio.id)
+                        return _vm.eliminar(servicio.id, _vm.index)
                       }
                     }
                   },
@@ -68425,8 +68432,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

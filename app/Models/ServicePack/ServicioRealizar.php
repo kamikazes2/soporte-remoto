@@ -33,4 +33,13 @@ class ServicioRealizar extends Model
         return $serv = DB::table('serviciorealizar')->where('idSolicitud', $id)->get();
     }
 
+    public function existeServicio($idServicio){
+        $serv = DB::table('serviciorealizar')->where('idServicio', $idServicio)->get();
+        if(count($serv)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
