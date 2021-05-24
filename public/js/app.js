@@ -2401,7 +2401,26 @@ __webpack_require__.r(__webpack_exports__);
       this.showModal = true;
     },
     eliminar: function eliminar() {},
-    modificarBaseDatos: function modificarBaseDatos() {}
+    modificarBaseDatos: function modificarBaseDatos() {},
+    guardar: function guardar() {
+      var me = this;
+      if (me.nombre == '' || me.descripcion == '' || me.precio == '') alert("Debe Llenar el formulario");else axios.post('request/nuevo-servicio', {
+        'nombre': this.nombre,
+        'descripcion': this.descripcion,
+        'precio': this.precio
+      }).then(function (error) {
+        me.getServicios();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      this.closeModal();
+    },
+    vaciarModal: function vaciarModal() {
+      this.id = 0;
+      this.nombre = "";
+      this.descripcion = "";
+      this.precio = 0;
+    }
   }
 });
 
