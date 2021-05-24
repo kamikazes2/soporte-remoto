@@ -31,9 +31,13 @@
             </template>
             <template v-if="menu==1">
                 <b>Trabajos asignados</b>
+                <!-- Menu principal-->
+                <frmservicio></frmservicio>
+                <!--Fin menu principal-->
             </template>
 
             <!--Fin menu principal-->
+            
         </div>
     </div>
 

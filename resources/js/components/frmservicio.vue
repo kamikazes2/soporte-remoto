@@ -1,11 +1,9 @@
 <template>
     <div class="container">
         <h3>Registro de Servicio</h3>
-        <!--Listrado de Registros-->
+        <!--Resgistro de nuevos servicios-->
        
         <button type="button" @click="nuevo()">Nuevo</button>
-                    
-
         <div id="itabla">
         <form action="" method="POST" >
             <table>
@@ -28,12 +26,11 @@
                 </tr>
             </table>
 
-            
-
             <!--<button type="button" @click="showTodo()">Mostrar Todos los Servicios</button> -->
         </form>
         </div>
         
+        <!--Listrado de Registros-->
         <div>
             Buscar: <input v-model="search">
             <button type="button" @click="filtrarServicios()">Mostrar</button>
