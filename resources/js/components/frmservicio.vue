@@ -37,7 +37,7 @@
                 <h2 slot="header">Servicio</h2>
                 <div slot="body">
                       <form>
-                        <input type="text" v-model="idServicio" id="id">
+                        <input type="hidden" v-model="idServicio" id="id">
                         <label for="nombre" class="grey-text">Nombre del Servicio</label>
                         <input type="text" v-model="nombre" id="nombre" placeholder="Ej: Instalacion Windows 10" class="form-control"/>
                         <br/>
@@ -45,10 +45,18 @@
                         <input type="text" v-model="descripcion" id="descripcion" placeholder="Ej: Intalacion completa de Windows 10" class="form-control"/>
                         <br/>
                         <label for="especialidad" class="grey-text">Especialidad</label>
+                        <multiselect v-model="especialidades" :options="values" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Escoja una o mas especialidades" label="nombre" track-by="id" :preselect-first="false">
+                            <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} especialidades seleccionadas</span></template>
+                        </multiselect>
+
+
+                        <pre class="language-json"><code>{{ especialidades  }}</code></pre>
+                        <!--
                         <select id="especialidad" v-for="especialidad in arrayEspecialidad" :key="especialidad.id">
                             <option  v-text="especialidad.nombre"   ></option>
                         </select>
                         <input type="number" v-model="especialidad" id="especialidad" placeholder="Ej: 120.00" class="form-control"/>
+                        -->
                         <br/>
                         <label for="precio" class="grey-text">Precio del Servicio</label>
                         <input type="number" v-model="precio" id="precio" placeholder="Ej: 120.00" class="form-control"/>
@@ -109,9 +117,22 @@
 
 <script>
 import datatable from 'datatables.net-bs4'
+import Multiselect from 'vue-multiselect'
+Vue.component('multiselect',Multiselect);
+
 export default {
     data(){
         return{
+            especialidades: '',
+            /*especialidades: [
+                { id:0 , nombre: 'Vue.js', descripcion: 'JavaScript' },
+                { id:1 , nombre: 'Adonis', descripcion: 'JavaScript' },
+                { id:2 , nombre: 'Rails', descripcion: 'Ruby' },
+                { id:3 , nombre: 'Sinatra', descripcion: 'Ruby' },
+                { id:4 , nombre: 'Laravel', descripcion: 'PHP' },
+                { id:5 , nombre: 'Phoenix', descripcion: 'Elixir' }
+            ],
+*/          values: [],
             index: 0,
             showModal: false,
             arrayServicio: [],
@@ -138,6 +159,7 @@ export default {
     },
     mounted(){
         this.getServicios();
+        this.getEspecialidades();
         document.getElementById("bodyTabla").setAttribute("style","display: none");
     },
     methods:{
@@ -150,6 +172,13 @@ export default {
             this.$nextTick(()=>{
                 $('#tablaServicio').DataTable();
             });
+        },
+        getEspecialidades(){
+            axios.get('/request/lista-especialidad').then(function (res) {
+                    this.arrayEspecialidad = res.data;
+                    this.values=this.arrayEspecialidad;
+                    this.tabla();
+            }.bind(this));
         },
         getServicios(){
             axios.get('/listaServicios').then(function (res) {
@@ -189,6 +218,7 @@ export default {
             this.classBtnGuardar = "display: none";
             this.classBtnModificar = "btn btn-primary";
             this.showModal = true;
+            
             document.getElementById("BtnGuardar").style.display= "none";
             document.getElementById("BtnModificar").style.display= "inline-block";
         },
@@ -337,7 +367,7 @@ export default {
             this.id = 0;
             this.nombre = "";
             this.descripcion = "";
-            this.precio = 0;
+            this.precio = '';
             this.classBtnGuardar = "btn btn-primary";
             //this.classBtnModificar = "display: none";
             
@@ -348,3 +378,4 @@ export default {
     }
 }
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

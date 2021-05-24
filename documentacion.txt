@@ -52,3 +52,6 @@ npm install --save jszip
 npm install --save pdfmake
 npm install --save datatables.net-bs4
 npm install --save datatables.net-buttons-bs4
+
+comando multiselect
+npm install vue-multiselect --save
