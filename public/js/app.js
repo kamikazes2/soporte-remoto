@@ -2329,10 +2329,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      index: 0,
       showModal: false,
       arrayServicio: [],
       idServicio: 0,
@@ -2343,7 +2349,15 @@ __webpack_require__.r(__webpack_exports__);
       rows: [],
       buscado: false,
       classBtnGuardar: "btn btn-primary",
-      classBtnModificar: "displayNone"
+      classBtnModificar: "displayNone",
+      BtnGuardar: "BtnGuardar",
+      BtnModificar: "BtnModificar",
+      servicio: {
+        'id': 0,
+        'nombre': '',
+        'descripcion': '',
+        'precio': 0
+      }
     };
   },
   mounted: function mounted() {
@@ -2354,7 +2368,7 @@ __webpack_require__.r(__webpack_exports__);
     closeModal: function closeModal() {
       this.showModal = false;
       this.classBtnGuardar = "btn btn-primary";
-      this.classBtnModificar = "displayNone";
+      this.classBtnModificar = "display: none";
     },
     tabla: function tabla() {
       this.$nextTick(function () {
@@ -2393,23 +2407,140 @@ __webpack_require__.r(__webpack_exports__);
       this.arrayServicio = this.rows;
     },
     modificar: function modificar(id, nombre, descripcion, precio) {
+      this.idServicio = id;
       this.nombre = nombre;
       this.descripcion = descripcion;
       this.precio = precio;
-      this.classBtnGuardar = "displayNone";
+      this.classBtnGuardar = "display: none";
       this.classBtnModificar = "btn btn-primary";
       this.showModal = true;
+      document.getElementById("BtnGuardar").style.display = "none";
+      document.getElementById("BtnModificar").style.display = "inline-block";
     },
-    eliminar: function eliminar() {},
-    modificarBaseDatos: function modificarBaseDatos() {},
+    eliminar: function eliminar(idServ, index) {
+      var _this = this;
+
+      if (confirm("Estas seguro de eliminar?")) {
+        axios.post('/request/eliminar-servicio/' + idServ, {
+          _method: 'delete'
+        }).then(function (response) {
+          if (response.data == "ExisteTransaccion") {
+            alert("No se puede eliminar, Existe una transaccion");
+          } else {
+            "Se elimino correctamente";
+
+            _this.arrayServicio.splice(index, 1);
+          }
+        }, function (error) {
+          console.log("Puede que el servicio haya sido utilizado previamente");
+          console.log(response); // error callback
+        });
+      }
+    },
+    VerificarBaseDatos: function VerificarBaseDatos() {
+      ///Verifica que los datos locales y la BD sean Iguales
+      //var local = [...this.arrayServicio];
+      var local = Array.from(this.arrayServicio);
+      this.getServicios(); // console.log("local");
+      //console.log(local);
+      //console.log("BD");
+      //console.log(this.arrayServicio);
+
+      if (JSON.stringify(local) == JSON.stringify(this.arrayServicio)) {
+        console.log("Tabla Integra");
+        return true;
+      }
+
+      console.log("Tabla Distinta");
+      alert("Posiblemente necesite actualizar su tabla con la BD");
+      return false;
+    },
+    modificarTabla: function modificarTabla() {
+      var _this2 = this;
+
+      // console.log("primera vez q menciona servicio");
+      this.servicio.id = this.idServicio;
+      this.servicio.nombre = this.nombre;
+      this.servicio.descripcion = this.descripcion;
+      this.servicio.precio = this.precio;
+      console.log("Se construyo el servicio");
+      console.log(this.servicio);
+      var local = this.arrayServicio;
+      /*
+      console.log(local);
+      alert (local.findIndex(x => x.id === servicio.idServicio));
+      */
+      //console.log("Posicion");
+
+      var posicion = local.findIndex(function (x) {
+        return x.id === _this2.idServicio;
+      }); //var original = JSON.parse(JSON.stringify(local[x]));
+      //console.log(posicion);
+      //console.log("///////////////////////");
+
+      if (this.verificarTabla(local, this.servicio, posicion)) {
+        if (this.VerificarBaseDatos()) {
+          axios.post('request/actualizar-servicio', {
+            'id': this.servicio.id,
+            'nombre': this.servicio.nombre,
+            'descripcion': this.servicio.descripcion
+          }).then(function (error) {})["catch"](function (error) {
+            console.log(error);
+          }); //console.log("Antes del if para actualizar el precio");
+
+          if (this.servicio.precio != local[posicion].precio) {
+            //console.log("Entro al if");
+            axios.post('request/actualizar-precio', {
+              'idServicio': this.servicio.id,
+              'precio': this.servicio.precio
+            }).then(function (error) {
+              alert("Se modifico correctamente");
+            })["catch"](function (error) {
+              console.log(error);
+            });
+          }
+        }
+      }
+
+      this.getServicios();
+    },
+    verificarTabla: function verificarTabla(listaServicios, servicio, posicion) {
+      ////Verifica si no existe repetido, osea es posible realizar el cambio.
+      //console.log("Entrando a VeridicarTabla: 1 Servicio, 2 posicion");
+      // console.log(servicio);
+      //console.log(posicion);
+      var i;
+
+      for (i = 0; i < listaServicios.length; i++) {
+        if (i != posicion) {
+          //console.log("Antes del if donde entra servicio" + i);
+          if (servicio.nombre == listaServicios[i].nombre || servicio.descripcion == listaServicios[i].descripcion) {
+            console.log("Se encontro un elemento similar en:" + posicion);
+            alert("Posiblemente ya exista el servicio (nombre/descripcion)");
+            return false;
+          }
+        }
+      }
+
+      console.log("Todo en orden, no se encontro alguno similar");
+      return true;
+    },
+    showNuevo: function showNuevo() {
+      this.showModal = true;
+      this.vaciarModal();
+    },
     guardar: function guardar() {
       var me = this;
-      if (me.nombre == '' || me.descripcion == '' || me.precio == '') alert("Debe Llenar el formulario");else axios.post('request/nuevo-servicio', {
+      this.servicio.nombre = me.nombre;
+      this.servicio.descripcion = me.descripcion;
+      this.servicio.precio = me.precio;
+      if (me.nombre == '' || me.descripcion == '' || me.precio == '') alert("Debe Llenar el formulario");else if (this.verificarTabla(this.arrayServicio, this.servicio, -1)) axios.post('request/nuevo-servicio', {
         'nombre': this.nombre,
         'descripcion': this.descripcion,
         'precio': this.precio
       }).then(function (error) {
         me.getServicios();
+        alert("Se anhadio correctamente el servicio");
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2420,6 +2551,10 @@ __webpack_require__.r(__webpack_exports__);
       this.nombre = "";
       this.descripcion = "";
       this.precio = 0;
+      this.classBtnGuardar = "btn btn-primary"; //this.classBtnModificar = "display: none";
+
+      document.getElementById("BtnGuardar").style.display = "inline-block";
+      document.getElementById("BtnModificar").style.display = "none";
     }
   }
 });
@@ -54279,7 +54414,9 @@ var render = function() {
                       [
                         _c("label", {
                           domProps: {
-                            textContent: _vm._s(solicitud.idSolicitud)
+                            textContent: _vm._s(
+                              "Solicitud:  " + solicitud.idSolicitud
+                            )
                           }
                         }),
                         _vm._v(" "),
@@ -54287,7 +54424,9 @@ var render = function() {
                         _vm._v(" "),
                         _c("label", {
                           domProps: {
-                            textContent: _vm._s(solicitud.fechaSolicitud)
+                            textContent: _vm._s(
+                              "Fecha de Solicitud:  " + solicitud.fechaSolicitud
+                            )
                           }
                         }),
                         _vm._v(" "),
@@ -54419,7 +54558,7 @@ var render = function() {
             attrs: { id: "show-modal-servicio-btn" },
             on: {
               click: function($event) {
-                _vm.showModal = true
+                return _vm.showNuevo()
               }
             }
           },
@@ -54452,7 +54591,7 @@ var render = function() {
                           expression: "idServicio"
                         }
                       ],
-                      attrs: { type: "hidden", id: "id" },
+                      attrs: { type: "text", id: "id" },
                       domProps: { value: _vm.idServicio },
                       on: {
                         input: function($event) {
@@ -54576,6 +54715,7 @@ var render = function() {
                     "button",
                     {
                       class: _vm.classBtnGuardar,
+                      attrs: { id: _vm.BtnGuardar },
                       on: {
                         click: function($event) {
                           return _vm.guardar()
@@ -54589,9 +54729,10 @@ var render = function() {
                     "button",
                     {
                       class: _vm.classBtnModificar,
+                      attrs: { id: _vm.BtnModificar },
                       on: {
                         click: function($event) {
-                          return _vm.modificarBaseDatos()
+                          return _vm.modificarTabla()
                         }
                       }
                     },
@@ -54658,6 +54799,19 @@ var render = function() {
           [_vm._v("Buscar")]
         ),
         _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                return _vm.getServicios()
+              }
+            }
+          },
+          [_vm._v("Refresh")]
+        ),
+        _vm._v(" "),
         _c("br"),
         _vm._v(" "),
         _c("br")
@@ -54702,7 +54856,7 @@ var render = function() {
                     staticClass: "btn btn-danger btn-sm",
                     on: {
                       click: function($event) {
-                        return _vm.eliminar()
+                        return _vm.eliminar(servicio.id, _vm.index)
                       }
                     }
                   },

@@ -182,11 +182,18 @@ class ServicioController extends Controller
         $idServicio = $request['idServicio'];
         $serv = new Servicio;
         $ps = new PrecioServicio;
+        $servReal = new ServicioRealizar;
+        if($servReal->existeServicio($idServicio)){
+            return response()->json("ExisteTransaccion");
+        };
 
         $ps->deleteByIdServicio($idServicio);
-        $serv->deleteById($idServicio);
+        $s = $serv->deleteById($idServicio);
 
-        return response()->json("eliminado");
+
+        return response()->json($s);
+
+        return response()->json("Eliminado");
 
     }
 

@@ -12,8 +12,8 @@ class PrecioServicio extends Model
 
 
     public function deleteByIdServicio($idServicio){
-        DB::table('precioservicio')->where('idServicio', $idServicio)->delete();
-        return true;
+        $a = DB::table('precioservicio')->where('idServicio', $idServicio)->delete();
+        return $a;
     }
 
 

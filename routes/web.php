@@ -29,8 +29,8 @@ Route::get('/listaServicios', [ServicioController::class, 'getServicios']);
 Route::post('/request/nuevo-servicio', [ServicioController::class, 'CreateServicio']);
 Route::post('/request/actualizar-servicio', [ServicioController::class, 'updateServicio']);
 Route::post('/request/actualizar-precio', [ServicioController::class, 'newPrecioServicio']);
-Route::post('/request/eliminar', [ServicioController::class, 'eliminarServicio']);
-Route::delete('/request/eliminar/{idServicio}', [ServicioController::class, 'eliminarServicio']);
+//Route::post('/request/eliminar', [ServicioController::class, 'eliminarServicio']);
+Route::delete('/request/eliminar-servicio/{idServicio}', [ServicioController::class, 'eliminarServicio']);
 #FIN SERVICIO ------------------------------------------------------
 
 #personales

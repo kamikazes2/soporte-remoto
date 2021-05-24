@@ -14,8 +14,8 @@
                                     <tr v-for="solicitud in arraySolicitudes" :key="solicitud.idSolicitud">
 
                                         <td @click="mostrarDetalle(solicitud)">
-                                        <label v-text="solicitud.idSolicitud"></label> <br>
-                                        <label v-text="solicitud.fechaSolicitud"></label> <br>
+                                        <label v-text="'Solicitud:  '+solicitud.idSolicitud"></label> <br>
+                                        <label v-text="'Fecha de Solicitud:  '+solicitud.fechaSolicitud"></label> <br>
                                         
                                         </td>
 

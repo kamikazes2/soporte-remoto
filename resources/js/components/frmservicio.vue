@@ -31,13 +31,13 @@
     <!-- Finish template for the modal component -->
     <!-- app -->
         <div id="app">
-            <button id="show-modal-servicio-btn" class="btn btn-primary" @click="showModal = true">Nuevo Servicio</button>
+            <button id="show-modal-servicio-btn" class="btn btn-primary" @click="showNuevo()">Nuevo Servicio</button>
             <!-- use the modal component, pass in the prop -->
             <modal v-if="showModal" @close="showModal = false">
                 <h2 slot="header">Servicio</h2>
                 <div slot="body">
                       <form>
-                        <input type="hidden" v-model="idServicio" id="id">
+                        <input type="text" v-model="idServicio" id="id">
                         <label for="nombre" class="grey-text">Nombre del Servicio</label>
                         <input type="text" v-model="nombre" id="nombre" placeholder="Ej: Instalacion Windows 10" class="form-control"/>
                         <br/>
@@ -50,10 +50,14 @@
                     </form>   
                 </div>
                 <div slot="footer">
-                    <button  v-bind:class="classBtnGuardar" @click="guardar()" >Añadir</button>
-                    <button v-bind:class="classBtnModificar"  @click="modificarBaseDatos()" >Modificar</button>
+                    <button v-bind:id="BtnGuardar" v-bind:class="classBtnGuardar"  @click="guardar()" >Añadir</button>
+                    <button v-bind:id="BtnModificar" v-bind:class="classBtnModificar"   @click="modificarTabla()" >Modificar</button>
                     <button class="btn btn-danger" @click="closeModal()">Cerrar</button>
                 </div>
+                <!-- 
+                    <button v-bind:id="BtnGuardar" v-bind:class="classBtnGuardar"  @click="guardar()" >Añadir</button>
+                    <button v-bind:class="classBtnModificar"  @click="modificarBaseDatos()" >Modificar</button>
+                 -->
             </modal>
         </div>
 
@@ -67,6 +71,7 @@
         <div>
             Buscar: <input id="busquedaServicio" v-model="search" class="form-control" width="50px">
             <button class="btn btn-success" @click="filtrarServicios()">Buscar</button>
+            <button class="btn btn-success" @click="getServicios()">Refresh</button>
             <br>
             <br>
             
@@ -87,7 +92,7 @@
                         <td>{{servicio.precio}}</td>
                         <td>
                             <button class="btn btn-success btn-sm" @click="modificar(servicio.id, servicio.nombre, servicio.descripcion, servicio.precio)">Modificar</button>
-                            <button class="btn btn-danger btn-sm" @click="eliminar()">Eliminar</button>
+                            <button class="btn btn-danger btn-sm" @click="eliminar(servicio.id, index)">Eliminar</button>
                         </td>
                     </tr>
                 </tbody>
@@ -101,6 +106,7 @@ import datatable from 'datatables.net-bs4'
 export default {
     data(){
         return{
+            index: 0,
             showModal: false,
             arrayServicio: [],
             idServicio: 0,
@@ -111,7 +117,15 @@ export default {
             rows: [],
             buscado: false,
             classBtnGuardar: "btn btn-primary",
-            classBtnModificar: "displayNone"
+            classBtnModificar: "displayNone",
+            BtnGuardar: "BtnGuardar",
+            BtnModificar: "BtnModificar",
+            servicio: {
+                'id': 0,
+               'nombre': '',
+               'descripcion': '',
+               'precio': 0
+           }
         }
     },
     mounted(){
@@ -122,7 +136,7 @@ export default {
         closeModal(){
             this.showModal = false;
             this.classBtnGuardar = "btn btn-primary";
-            this.classBtnModificar = "displayNone";
+            this.classBtnModificar = "display: none";
         },
         tabla(){
             this.$nextTick(()=>{
@@ -160,30 +174,151 @@ export default {
                 this.arrayServicio = this.rows;
         },
         modificar(id, nombre, descripcion, precio){
+            this.idServicio= id;
             this.nombre = nombre;
             this.descripcion = descripcion;
             this.precio = precio;
-            this.classBtnGuardar = "displayNone";
+            this.classBtnGuardar = "display: none";
             this.classBtnModificar = "btn btn-primary";
             this.showModal = true;
+            document.getElementById("BtnGuardar").style.display= "none";
+            document.getElementById("BtnModificar").style.display= "inline-block";
         },
-        eliminar(){
+        eliminar(idServ, index){
+            if(confirm("Estas seguro de eliminar?")){
+                axios.post('/request/eliminar-servicio/'+idServ
+                ,{_method: 'delete'}).then((response) => {
+                    if(response.data == "ExisteTransaccion"){
+                        alert("No se puede eliminar, Existe una transaccion");
+                    }else{
+                        "Se elimino correctamente";
+                        this.arrayServicio.splice(index, 1);
+                    }
+                }, (error) => {
+                    console.log("Puede que el servicio haya sido utilizado previamente");
+                    console.log(response);
+                    // error callback
+                })
+            }
+        },
+        VerificarBaseDatos(){
+            ///Verifica que los datos locales y la BD sean Iguales
+
+            //var local = [...this.arrayServicio];
+            var local = Array.from(this.arrayServicio);
+            this.getServicios();
+
+           // console.log("local");
+            //console.log(local);
+            //console.log("BD");
+            //console.log(this.arrayServicio);
+            if(JSON.stringify(local)==JSON.stringify(this.arrayServicio)){
+                console.log("Tabla Integra");
+                return true;
+            }
+            console.log("Tabla Distinta");
+            alert("Posiblemente necesite actualizar su tabla con la BD");
+            return false;
 
         },
-        modificarBaseDatos(){
+        modificarTabla(){
+           // console.log("primera vez q menciona servicio");
+            this.servicio.id=this.idServicio;
+           this.servicio.nombre=this.nombre;
+           this.servicio.descripcion=this.descripcion;
+           this.servicio.precio=this.precio;
+           
+            console.log("Se construyo el servicio");
+           console.log(this.servicio);
+           let local = this.arrayServicio;
 
+           /*
+           console.log(local);
+           alert (local.findIndex(x => x.id === servicio.idServicio));
+           */
+          //console.log("Posicion");
+           var posicion =local.findIndex(x => x.id === this.idServicio);
+           //var original = JSON.parse(JSON.stringify(local[x]));
+            //console.log(posicion);
+
+            //console.log("///////////////////////");
+
+           if(this.verificarTabla(local,this.servicio,posicion)){
+               if(this.VerificarBaseDatos())
+               {
+
+                   axios.post('request/actualizar-servicio',{
+
+                    'id': this.servicio.id,
+                    'nombre': this.servicio.nombre,
+                    'descripcion': this.servicio.descripcion,
+
+                    }).then(function(error){
+                        
+
+                    }).catch(function(error){
+                        console.log(error);
+                    });
+
+                    //console.log("Antes del if para actualizar el precio");
+                        if(this.servicio.precio!=local[posicion].precio){
+                            //console.log("Entro al if");
+                            axios.post('request/actualizar-precio',{
+                                'idServicio': this.servicio.id,
+                                'precio': this.servicio.precio
+                            }).then(function(error){
+                                alert("Se modifico correctamente");
+                            }).catch(function(error){
+                                console.log(error);
+                            });        
+                        }
+                   
+               }
+
+           }
+          this.getServicios();
+
+        },
+        verificarTabla(listaServicios,servicio,posicion){
+            ////Verifica si no existe repetido, osea es posible realizar el cambio.
+            //console.log("Entrando a VeridicarTabla: 1 Servicio, 2 posicion");
+           // console.log(servicio);
+            //console.log(posicion);
+            var i;
+            for(i=0; i<listaServicios.length; i++){
+                
+                if(i!=posicion){
+                //console.log("Antes del if donde entra servicio" + i);
+                if(servicio.nombre==listaServicios[i].nombre || 
+                    servicio.descripcion==listaServicios[i].descripcion){
+                        console.log("Se encontro un elemento similar en:" + posicion);
+                        alert("Posiblemente ya exista el servicio (nombre/descripcion)");
+                        return false;
+                    }
+                }
+            }
+            console.log("Todo en orden, no se encontro alguno similar");
+            return true;
+        },
+        showNuevo(){
+            this.showModal = true;
+            this.vaciarModal();
         },
         guardar(){
                 let me = this;
+                this.servicio.nombre=me.nombre;
+                this.servicio.descripcion=me.descripcion;
+                this.servicio.precio=me.precio;
                 if(me.nombre =='' || me.descripcion =='' || me.precio=='')
                     alert("Debe Llenar el formulario");
-                else
+                else if(this.verificarTabla(this.arrayServicio,this.servicio,-1))
                 axios.post('request/nuevo-servicio',{
                     'nombre': this.nombre,
                     'descripcion': this.descripcion,
                     'precio': this.precio
                 }).then(function(error){
                     me.getServicios();
+                    alert("Se anhadio correctamente el servicio");
                 }).catch(function(error){
                     console.log(error);
                 });        
@@ -195,6 +330,12 @@ export default {
             this.nombre = "";
             this.descripcion = "";
             this.precio = 0;
+            this.classBtnGuardar = "btn btn-primary";
+            //this.classBtnModificar = "display: none";
+            
+            document.getElementById("BtnGuardar").style.display = "inline-block";
+            document.getElementById("BtnModificar").style.display= "none";
+
         }
     }
 }
