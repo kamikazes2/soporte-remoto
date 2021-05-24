@@ -24,6 +24,28 @@ con el idServicio y precio a /request/actualizar-precio
 
 #FIN SERVICIO ------------------------------------------------------
 
+#ESPECIALIDAD ----------------------------------------------------
+get ->      /request/nuevo-especialidad             nombre, descripcion
+post ->     /request/actualizar-especialidad        id, nombre, descripcion
+get ->      /request/lista-especialidad             
+delete->    /request/eliminar-especialidad/{id}     id
+
+#para anhadir especialidad al servicio enviar un POST a 
+/request/nueva-especialidad-servicio con los siguientes datos
+{
+    "idServicio": 0,
+    "idEspecialidades":[
+        {
+            "id" : 0
+        },
+        {
+            "id" : 0
+        }
+    ]
+}
+#FIN ESPECIALIDAD ---------------------------------------------------
+
+
 
 #PERSONALES-----------------------------------------------
 
@@ -50,7 +72,6 @@ password
         }
     ]
 }
-
 #FIN PERSONALES ----------------------------------------------
 
 
