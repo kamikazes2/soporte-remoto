@@ -36,6 +36,21 @@ apellido
 fechaNacimiento
 usuario
 password
+
+#para anhadir especialidad al tecnico enviar un POST a 
+/request/nueva-especialidad-personal con los siguientes datos
+{
+    "idPersonal": 0,
+    "idEspecialidades":[
+        {
+            "id" : 0
+        },
+        {
+            "id" : 0
+        }
+    ]
+}
+
 #FIN PERSONALES ----------------------------------------------
 
 
