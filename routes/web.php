@@ -10,6 +10,7 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\EspecialidadController;
 
 Route::get('/cliente', function () {
     return view('ClienteHome');
@@ -46,3 +47,11 @@ Route::post('/request/finalizar-servicio', [ServicioController::class, 'completa
 Route::post('/request/buscar-usuario', [UsuarioController::class, 'buscarUsuario']);
 
 Route::get('/listarMisSolicitudes', [ServicioController::class, 'getMisSolicitudes']);
+
+
+#ESPECIALIDAD------------------------------
+Route::post('/request/nuevo-especialidad', [EspecialidadController::class, 'createEspecialidad']);
+Route::post('/request/actualizar-especialidad', [EspecialidadController::class, 'actualizarEspecialidad']);
+Route::get('/request/lista-especialidad', [EspecialidadController::class, 'getEspecialidades']);
+Route::delete('/request/eliminar-especialidad/{id}', [EspecialidadController::class, 'eliminarEspecialidad']);
+#FIN ESPECIALIDAD ---------------------------
