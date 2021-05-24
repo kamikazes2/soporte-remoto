@@ -30,7 +30,7 @@ use App\Models\ServicePack\ServicioRealizar;
 use App\Models\ServicePack\AsignacionServicio;
 use App\Models\ServicePack\Servicio;
 use App\Models\ServicePack\PrecioServicio;
-use App\Models\PersonalPack\EspecialidadServicio;
+use App\Models\ServicePack\EspecialidadServicio;
 
 
 class ServicioController extends Controller
@@ -199,6 +199,7 @@ class ServicioController extends Controller
 
     public function addEspecialidadServicio(Request $request){
         $idServicio = $request['idServicio'];
+
         foreach($request['idEspecialidades'] as $especialidad){
             $esp = new EspecialidadServicio;
             $esp->idServicio = $idServicio;
