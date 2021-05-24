@@ -1,0 +1,27 @@
+#show-modal-servicio-btn{
+    float: right;
+    margin: 20px;
+}
+
+#servicio-table-main-content{
+    padding: 30px;
+}
+#busquedaServicio{
+    width: 600px;
+    display: inline;
+}
+
+.table{
+    background-color: ghostwhite;
+}
+
+.table thead{
+    background-color: cornflowerblue;
+}
+
+.table thead th{
+    border: 1px solid gray;
+}
+.table th, table td{
+    border: 1px solid gray;
+}

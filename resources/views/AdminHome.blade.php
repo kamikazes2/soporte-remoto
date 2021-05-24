@@ -8,6 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="../css/app.css" rel="stylesheet">
     <link href="../css/custom_login.css" rel="stylesheet">
+    <link href="../css/custom_modal.css" rel="stylesheet">
+    <link href="../css/adminHome.css" rel="stylesheet">
+    <link href="../css/dataTable.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">

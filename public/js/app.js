@@ -2277,9 +2277,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      showModal: false,
       ///Atributos del servicio
       nombre: '',
       descripcion: '',
@@ -2310,6 +2336,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    closeModal: function closeModal() {
+      this.showModal = false;
+    },
     ////Aca mantengo rows que es el total y solo anhado lo que si coinciden al arrayServicios
     filtrarServicios: function filtrarServicios() {
       var me = this;
@@ -2323,27 +2352,19 @@ __webpack_require__.r(__webpack_exports__);
 
         for (i = 0; i < me.arrayServicio.length; i++) {
           var servicio = me.arrayServicio[i];
-          if (servicio.nombre.toLowerCase().indexOf(search) != -1 || servicio.descripcion.toLowerCase().indexOf(search) != -1 || servicio.precio.toString().indexOf(search) != -1) this.rows.push(servicio);
+
+          if (servicio.nombre.toLowerCase().indexOf(search) != -1 || servicio.descripcion.toLowerCase().indexOf(search) != -1 || servicio.precio.toString().indexOf(search) != -1) {
+            this.rows.push(servicio);
+          }
         }
       } //me.listar();
 
     },
-    /////Muestra en el cuadro el arrayServicios
+    //Muestra en el cuadro el arrayServicios
     listar: function listar() {
       var me = this;
       me.rows = me.arrayServicio;
     },
-
-    /*listar(){
-        let me = this;
-        var url='/listaServicios';
-        axios.get(url).then(function(response){
-            me.arrayServicio= response.data;
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-    },*/
     guardar: function guardar() {
       var me = this;
       if (me.nombre == '' || me.descripcion == '' || me.precio == '') alert("Debe Llenar el formulario");else axios.post('request/nuevo-servicio', {
@@ -2356,21 +2377,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    nuevo: function nuevo() {
-      var x = document.getElementById("itabla");
-
-      if (x.style.display === "none") {
-        x.style.display = "block";
-        document.getElementById("bguardar").style.display = "block";
-      } else {
-        x.style.display = "none";
-        document.getElementById("bguardar").style.display = "none";
-      }
-
-      this.nombre = '';
-      this.descripcion = '';
-      this.precio = '';
-    },
     getTodo: function getTodo() {
       axios.get('/listaServicios').then(function (res) {
         this.arrayServicio = res.data;
@@ -2381,9 +2387,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.getTodo();
-    document.getElementById("itabla").style.display = "none";
-    document.getElementById("bguardar").style.display = "none";
+    this.getTodo(); // document.getElementById("itabla").style.display="none";
+    // document.getElementById("bguardar").style.display="none";
   }
 });
 
@@ -38810,187 +38815,255 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("h3", [_vm._v("Registro de Servicio")]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        attrs: { type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.nuevo()
-          }
-        }
-      },
-      [_vm._v("Nuevo")]
-    ),
-    _vm._v(" "),
-    _c("div", { attrs: { id: "itabla" } }, [
-      _c("form", { attrs: { action: "", method: "POST" } }, [
-        _c("table", [
-          _c("tr", [
-            _c("td", [_vm._v("Nombre")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.nombre,
-                    expression: "nombre"
-                  }
-                ],
-                attrs: { type: "text", placeholder: "Nombre Servicio" },
-                domProps: { value: _vm.nombre },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.nombre = $event.target.value
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Descripcion")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.descripcion,
-                    expression: "descripcion"
-                  }
-                ],
-                attrs: { type: "text", placeholder: "Descripcion" },
-                domProps: { value: _vm.descripcion },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.descripcion = $event.target.value
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Precio")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.precio,
-                    expression: "precio"
-                  }
-                ],
-                attrs: { type: "number", placeholder: "Precio Servicio" },
-                domProps: { value: _vm.precio },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.precio = $event.target.value
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", { attrs: { colspan: "3" } }, [
-              _c(
-                "button",
-                {
-                  attrs: { id: "bguardar", type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.guardar()
-                    }
-                  }
-                },
-                [_vm._v("Guardar")]
-              )
-            ])
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", [
-      _vm._v("\n        Buscar: "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.search,
-            expression: "search"
-          }
-        ],
-        domProps: { value: _vm.search },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.search = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.filtrarServicios()
-            }
-          }
-        },
-        [_vm._v("Mostrar")]
+  return _c("div", { attrs: { id: "contentFrmServicio" } }, [
+    _c("script", { attrs: { type: "text/x-template", id: "modal-template" } }, [
+      _vm._v(
+        '\n        <transition name="modal">\n            <div class="modal-mask">\n            <div class="modal-wrapper">\n                <div class="modal-container">\n                <div class="modal-header">\n                    <slot name="header">\n                    default header\n                    </slot>\n                </div>\n                <div class="modal-body">\n                    <slot name="body">\n                    default body\n                    </slot>\n                </div>\n                <div class="modal-footer">\n                    <slot name="footer">\n                    <button class="btn btn-danger" @click="$emit(\'close\')">\n                        Cerrar\n                    </button>\n                    </slot>\n                </div>\n                </div>\n            </div>\n            </div>\n        </transition>\n    '
       )
     ]),
     _vm._v(" "),
     _c(
       "div",
+      { attrs: { id: "app" } },
       [
-        _c("bootstrap-4-datatable", {
-          attrs: {
-            columns: _vm.columns,
-            data: _vm.rows,
-            filter: _vm.filter,
-            "per-page": _vm.perPage
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { id: "show-modal-servicio-btn" },
+            on: {
+              click: function($event) {
+                _vm.showModal = true
+              }
+            }
+          },
+          [_vm._v("Nuevo Servicio")]
+        ),
+        _vm._v(" "),
+        _vm.showModal
+          ? _c(
+              "modal",
+              {
+                on: {
+                  close: function($event) {
+                    _vm.showModal = false
+                  }
+                }
+              },
+              [
+                _c("h3", { attrs: { slot: "header" }, slot: "header" }, [
+                  _vm._v("Nuevo Servicio")
+                ]),
+                _vm._v(" "),
+                _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+                  _c("form", [
+                    _c(
+                      "label",
+                      { staticClass: "grey-text", attrs: { for: "nombre" } },
+                      [_vm._v("Nombre del Servicio")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.nombre,
+                          expression: "nombre"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "nombre",
+                        placeholder: "Ej: Instalacion Windows 10"
+                      },
+                      domProps: { value: _vm.nombre },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.nombre = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "grey-text",
+                        attrs: { for: "descripcion" }
+                      },
+                      [_vm._v("Descripcion del Servicio")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.descripcion,
+                          expression: "descripcion"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "descripcion",
+                        placeholder: "Ej: Intalacion completa de Windows 10"
+                      },
+                      domProps: { value: _vm.descripcion },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.descripcion = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      { staticClass: "grey-text", attrs: { for: "precio" } },
+                      [_vm._v("Precio del Servicio")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.precio,
+                          expression: "precio"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "precio",
+                        placeholder: "Ej: 120.00"
+                      },
+                      domProps: { value: _vm.precio },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.precio = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("br")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.guardar()
+                        }
+                      }
+                    },
+                    [_vm._v("Añadir")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          return _vm.closeModal()
+                        }
+                      }
+                    },
+                    [_vm._v("Cerrar")]
+                  )
+                ])
+              ]
+            )
+          : _vm._e()
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "servicio-table-main-content" } }, [
+      _c("div", [
+        _vm._v("\n        Buscar: "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { id: "busquedaServicio", width: "50px" },
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
           }
         }),
         _vm._v(" "),
-        _c("bootstrap-4-datatable-pager", {
-          attrs: { type: "abbreviated" },
-          model: {
-            value: _vm.page,
-            callback: function($$v) {
-              _vm.page = $$v
-            },
-            expression: "page"
-          }
-        })
-      ],
-      1
-    )
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.filtrarServicios()
+              }
+            }
+          },
+          [_vm._v("Mostrar")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        [
+          _c("bootstrap-4-datatable", {
+            attrs: {
+              columns: _vm.columns,
+              data: _vm.rows,
+              filter: _vm.filter,
+              "per-page": _vm.perPage
+            }
+          }),
+          _vm._v(" "),
+          _c("bootstrap-4-datatable-pager", {
+            attrs: { type: "abbreviated" },
+            model: {
+              value: _vm.page,
+              callback: function($$v) {
+                _vm.page = $$v
+              },
+              expression: "page"
+            }
+          })
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -52096,6 +52169,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 Vue.use(vuejs_datatable__WEBPACK_IMPORTED_MODULE_1__["VuejsDatatableFactory"]);
+Vue.component('modal', {
+  template: '#modal-template'
+});
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -52534,8 +52610,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
