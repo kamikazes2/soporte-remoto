@@ -32,4 +32,13 @@ class Personal extends Model
         return  $personal[0];
     }
 
+    public function existePersonal($usuario){
+        $personal = DB::table('personal')->where('usuario', $usuario)->get();
+        if(count($personal)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

@@ -8,6 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="../css/app.css" rel="stylesheet">
     <link href="../css/custom_login.css" rel="stylesheet">
+    <link href="../css/custom_modal.css" rel="stylesheet">
+    <link href="../css/adminHome.css" rel="stylesheet">
+    <link href="{{asset("template/css/main.css")}}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -19,6 +22,9 @@
                     <li @click="menu=1">
                         <a class="nav-link" href="#">Servicio</a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
+                    </li> 
                   </ul>
                 </div>
             </nav>
@@ -35,5 +41,9 @@
     </div>
 
     <script src="../js/app.js"></script>
+    <script src="../template/js/bootstrap.min.js"></script>
+    <script src="{{asset("template/js/main.js")}}"></script>
+    {{-- <script src="../template/js/main.js"></script> --}}
+    {{-- <script src="../template/js/popper.min.js"></script> --}}
 </body>
 </html>

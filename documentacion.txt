@@ -42,3 +42,13 @@ Comandos extras:
 	composer dump-autoload
 	composer require laravel/ui
 	php artisan ui vue
+
+
+
+
+
+comando datatables 
+npm install --save jszip
+npm install --save pdfmake
+npm install --save datatables.net-bs4
+npm install --save datatables.net-buttons-bs4

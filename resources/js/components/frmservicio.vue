@@ -1,127 +1,179 @@
 <template>
-    <div class="container">
-        <h3>Registro de Servicio</h3>
-        <!--Resgistro de nuevos servicios-->
-       
-        <button type="button" @click="nuevo()">Nuevo</button>
-        <div id="itabla">
-        <form action="" method="POST" >
-            <table>
-                <tr>
-                    <td>Nombre</td>
-                    <td><input type="text" v-model="nombre" placeholder="Nombre Servicio"></td>
-                </tr>
-                <tr>
-                    <td>Descripcion</td>
-                    <td><input type="text" v-model="descripcion" placeholder="Descripcion"></td>
-                </tr>
-                <tr>
-                    <td>Precio</td>
-                    <td><input type="number" v-model="precio" placeholder="Precio Servicio"></td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <button  id="bguardar" type="button" @click="guardar()">Guardar</button>
-                    </td>
-                </tr>
-            </table>
-
-            <!--<button type="button" @click="showTodo()">Mostrar Todos los Servicios</button> -->
-        </form>
+    <!-- template for the modal component -->
+    <div id="contentFrmServicio">
+        <script type="text/x-template" id="modal-template">
+            <transition name="modal">
+                <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+                    <div class="modal-header">
+                        <slot name="header">
+                        default header
+                        </slot>
+                    </div>
+                    <div class="modal-body">
+                        <slot name="body">
+                        default body
+                        </slot>
+                    </div>
+                    <div class="modal-footer">
+                        <slot name="footer">
+                        <button class="btn btn-danger" @click="$emit('close')">
+                            Cerrar
+                        </button>
+                        </slot>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </transition>
+        </script>
+    <!-- Finish template for the modal component -->
+    <!-- app -->
+        <div id="app">
+            <button id="show-modal-servicio-btn" class="btn btn-primary" @click="showModal = true">Nuevo Servicio</button>
+            <!-- use the modal component, pass in the prop -->
+            <modal v-if="showModal" @close="showModal = false">
+                <h2 slot="header">Servicio</h2>
+                <div slot="body">
+                      <form>
+                        <input type="hidden" v-model="idServicio" id="id">
+                        <label for="nombre" class="grey-text">Nombre del Servicio</label>
+                        <input type="text" v-model="nombre" id="nombre" placeholder="Ej: Instalacion Windows 10" class="form-control"/>
+                        <br/>
+                        <label for="descripcion" class="grey-text">Descripcion del Servicio</label>
+                        <input type="text" v-model="descripcion" id="descripcion" placeholder="Ej: Intalacion completa de Windows 10" class="form-control"/>
+                        <br/>
+                        <label for="precio" class="grey-text">Precio del Servicio</label>
+                        <input type="number" v-model="precio" id="precio" placeholder="Ej: 120.00" class="form-control"/>
+                        <br/>
+                    </form>   
+                </div>
+                <div slot="footer">
+                    <button  v-bind:class="classBtnGuardar" @click="guardar()" >Añadir</button>
+                    <button v-bind:class="classBtnModificar"  @click="modificarBaseDatos()" >Modificar</button>
+                    <button class="btn btn-danger" @click="closeModal()">Cerrar</button>
+                </div>
+            </modal>
         </div>
-        
-        <!--Listrado de Registros-->
+
+    <!-- Tabla de la lista de servicios-->
+    <div id="servicio-table-main-content">
         <div>
-            Buscar: <input v-model="search">
-            <button type="button" @click="filtrarServicios()">Mostrar</button>
+            <!-- Buscar: <input id="busquedaServicio" v-model="search" class="form-control" width="50px">
+            <button class="btn btn-primary" type="button" @click="filtrarServicios()">Mostrar</button> -->
+                
+        </div>
+        <div>
+            Buscar: <input id="busquedaServicio" v-model="search" class="form-control" width="50px">
+            <button class="btn btn-success" @click="filtrarServicios()">Buscar</button>
+            <br>
+            <br>
             
         </div>
-        <div>
-            <bootstrap-4-datatable :columns="columns" :data="rows" :filter="filter" :per-page="perPage"></bootstrap-4-datatable>
-            <bootstrap-4-datatable-pager v-model="page" type="abbreviated"></bootstrap-4-datatable-pager>
+            <table id="tablaServicio" class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="bodyTabla">
+                    <tr v-for="servicio in arrayServicio" :key="servicio.id">
+                        <td>{{servicio.nombre}}</td>
+                        <td>{{servicio.descripcion}}</td>
+                        <td>{{servicio.precio}}</td>
+                        <td>
+                            <button class="btn btn-success btn-sm" @click="modificar(servicio.id, servicio.nombre, servicio.descripcion, servicio.precio)">Modificar</button>
+                            <button class="btn btn-danger btn-sm" @click="eliminar()">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        data(){
-            return{
-                ///Atributos del servicio
-                nombre :'',
-                descripcion : '',
-                precio : '',
-                search: '',
-                arrayServicio : [],
-                totalServicios: [],
-                //////////////
-
-                /////Necesario para Data Table
-                columns: [{
-                        label: 'id',
-                        field: 'id'
-                    },
-                    {
-                        label: 'nombre',
-                        field: 'nombre'
-                    },
-                    {
-                        label: 'descripcion',
-                        field: 'descripcion'
-                    },
-                    {
-                        label: 'precio',
-                        field: 'precio'
-                    }
-                ],
-                rows: [],
-                page: 1,
-                filter:  '',
-                perPage: 12,
-
-                /////
-            }
+import datatable from 'datatables.net-bs4'
+export default {
+    data(){
+        return{
+            showModal: false,
+            arrayServicio: [],
+            idServicio: 0,
+            nombre: '',
+            descripcion: '',
+            precio: 0.0,
+            search: '',
+            rows: [],
+            buscado: false,
+            classBtnGuardar: "btn btn-primary",
+            classBtnModificar: "displayNone"
+        }
+    },
+    mounted(){
+        this.getServicios();
+        document.getElementById("bodyTabla").setAttribute("style","display: none");
+    },
+    methods:{
+        closeModal(){
+            this.showModal = false;
+            this.classBtnGuardar = "btn btn-primary";
+            this.classBtnModificar = "displayNone";
         },
-        methods:{
-
-            ////Aca mantengo rows que es el total y solo anhado lo que si coinciden al arrayServicios
-            filtrarServicios(){
+        tabla(){
+            this.$nextTick(()=>{
+                $('#tablaServicio').DataTable();
+            });
+        },
+        getServicios(){
+            axios.get('/listaServicios').then(function (res) {
+                    this.arrayServicio = res.data;
+                    this.tabla();
+            }.bind(this));
+        },
+        filtrarServicios(){
+                if(this.buscado == false){
+                    this.getServicios();
+                    document.getElementById("bodyTabla").removeAttribute("style");
+                    this.buscado = true;
+                }
                 let me = this;
                 let search= this.search;
-                
                 var i;
                 if(search==''){
-                    this.rows=me.arrayServicio;
+                    this.getServicios();
+                    this.rows = this.arrayServicio;
                 }else{
                     this.rows=[];
-                for (i=0; i<me.arrayServicio.length; i++){
-                    var servicio = me.arrayServicio[i];
-                    if(servicio.nombre.toLowerCase().indexOf(search) != -1 ||
-                        servicio.descripcion.toLowerCase().indexOf(search) != -1 ||
-                        servicio.precio.toString().indexOf(search) != -1 )
-                            this.rows.push(servicio);
+                    for (i=0; i<me.arrayServicio.length; i++){
+                        var servicio = me.arrayServicio[i];
+                        if(servicio.nombre.toLowerCase().indexOf(search) != -1 ||
+                            servicio.descripcion.toLowerCase().indexOf(search) != -1 ||
+                            servicio.precio.toString().indexOf(search) != -1 )
+                                this.rows.push(servicio);
+                    }
                 }
-                }
-                //me.listar();
-            },
+                this.arrayServicio = this.rows;
+        },
+        modificar(id, nombre, descripcion, precio){
+            this.nombre = nombre;
+            this.descripcion = descripcion;
+            this.precio = precio;
+            this.classBtnGuardar = "displayNone";
+            this.classBtnModificar = "btn btn-primary";
+            this.showModal = true;
+        },
+        eliminar(){
 
-            /////Muestra en el cuadro el arrayServicios
-            listar(){
-                let me = this;
-                me.rows = me.arrayServicio;
-            },
-            
-            /*listar(){
-                let me = this;
-                var url='/listaServicios';
-                axios.get(url).then(function(response){
-                    me.arrayServicio= response.data;
-                })
-                .catch(function(error){
-                    console.log(error);
-                });
-            },*/
-            guardar(){
+        },
+        modificarBaseDatos(){
+
+        },
+        guardar(){
                 let me = this;
                 if(me.nombre =='' || me.descripcion =='' || me.precio=='')
                     alert("Debe Llenar el formulario");
@@ -131,40 +183,19 @@
                     'descripcion': this.descripcion,
                     'precio': this.precio
                 }).then(function(error){
-                    me.listar();
+                    me.getServicios();
                 }).catch(function(error){
                     console.log(error);
                 });        
-            },
-            nuevo(){
-                
+                this.closeModal();
 
-                var x = document.getElementById("itabla");
-                if (x.style.display === "none") {
-                    x.style.display = "block";
-                    document.getElementById("bguardar").style.display="block";
-                } else {
-                    x.style.display = "none";
-                    document.getElementById("bguardar").style.display="none";
-                }
-
-                this.nombre = '';
-                this.descripcion = '';
-                this.precio = '';
-            },
-            getTodo: function () {
-                axios.get('/listaServicios').then(function (res) {
-                    this.arrayServicio = res.data;
-                }.bind(this));
-            },
-            showTodo: function () {
-                    this.rows = this.arrayServicio ;
-            },
         },
-        mounted() {
-            this.getTodo();
-            document.getElementById("itabla").style.display="none";
-            document.getElementById("bguardar").style.display="none";
+        vaciarModal(){
+            this.id = 0;
+            this.nombre = "";
+            this.descripcion = "";
+            this.precio = 0;
         }
     }
+}
 </script>
