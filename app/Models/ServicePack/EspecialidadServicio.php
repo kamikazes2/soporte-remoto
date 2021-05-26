@@ -11,6 +11,6 @@ class EspecialidadServicio extends Model
     protected $fillable = ['idServicio', 'idEspecialidad'];
 
     public function getEspecialidadByIdServicio($id){
-        return $serviciosPendientes = DB::table('especialidadservicio')->where('idServicio', $id)->get();
+        return $especialidadServicio = DB::table('especialidadservicio')->where('idServicio', $id)->get();
     }
 }

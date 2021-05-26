@@ -90,7 +90,7 @@ class ServicioController extends Controller
         $request['idServicio'] = $this->createServicioController->__invoke($request);
         $precio = $this->createPrecioServicioController->__invoke($request);
 
-        return response()->json("creado correctamente");
+        return response()->json($request['idServicio']);
     }
     public function updateServicio(Request $request){
         return $this->updateServicioController->__invoke($request);
@@ -209,6 +209,12 @@ class ServicioController extends Controller
         return response()->json("creado correctamente");
     }
 
+    public function getEspecialidadesServicio(Request $request){
+        $idServicio = $request['idServicio'];
+        $espServicio = new EspecialidadServicio;
+
+        return response()->json($espServicio->getEspecialidadByIdServicio($idServicio));
+    }
 
 
 

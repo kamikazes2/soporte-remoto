@@ -25,10 +25,11 @@ con el idServicio y precio a /request/actualizar-precio
 #FIN SERVICIO ------------------------------------------------------
 
 #ESPECIALIDAD ----------------------------------------------------
-get ->      /request/nuevo-especialidad             nombre, descripcion
+post ->      /request/nuevo-especialidad             nombre, descripcion
 post ->     /request/actualizar-especialidad        id, nombre, descripcion
 get ->      /request/lista-especialidad             
 delete->    /request/eliminar-especialidad/{id}     id
+get->       /request/get-especialidad?idServicio=1  ------> Get Especialidades by IdServicio
 
 #para anhadir especialidad al servicio enviar un POST a 
 /request/nueva-especialidad-servicio con los siguientes datos
