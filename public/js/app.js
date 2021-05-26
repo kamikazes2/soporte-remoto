@@ -2733,9 +2733,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      dni: '',
+      nombre: '',
+      apellido: '',
+      fechaNacimiento: '',
       usuario: '',
       idUsuario: '',
       tipoUsuario: '',
@@ -2757,6 +2764,35 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     loginCorrecto: function loginCorrecto() {//window.location = '/';
+    },
+    crearCuenta: function crearCuenta() {
+      document.getElementById("nuevaCuentaForm").style.display = "block";
+      document.getElementById("ingresarForm").style.display = "none";
+    },
+    tengoCuenta: function tengoCuenta() {
+      document.getElementById("nuevaCuentaForm").style.display = "none";
+      document.getElementById("ingresarForm").style.display = "block";
+    },
+    signUp: function signUp() {
+      axios.post('/request/new-cliente', {
+        'dni': this.dni,
+        'nombre': this.nombre,
+        'apellido': this.apellido,
+        'fechaNacimiento': this.fechaNacimiento,
+        'usuario': this.usuario,
+        'password': this.password
+      }).then(function (response) {
+        console.log(response.data);
+
+        if (response.data.error == true) {
+          alert(response.data.message);
+        } else {
+          alert("creado correctamente");
+          window.location = '/';
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -55773,12 +55809,180 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "login-login-page" }, [
     _c("div", { staticClass: "login-form" }, [
-      _vm._m(0),
+      _c(
+        "form",
+        {
+          staticClass: "login-register-form",
+          attrs: { id: "nuevaCuentaForm" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.loginCorrecto()
+            }
+          }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.dni,
+                expression: "dni"
+              }
+            ],
+            attrs: { type: "text", placeholder: "DNI" },
+            domProps: { value: _vm.dni },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.dni = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.nombre,
+                expression: "nombre"
+              }
+            ],
+            attrs: { type: "text", placeholder: "Nombre" },
+            domProps: { value: _vm.nombre },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.nombre = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.apellido,
+                expression: "apellido"
+              }
+            ],
+            attrs: { type: "text", placeholder: "Apellido" },
+            domProps: { value: _vm.apellido },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.apellido = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.fechaNacimiento,
+                expression: "fechaNacimiento"
+              }
+            ],
+            attrs: { type: "date", placeholder: "Fecha de Nacimiento" },
+            domProps: { value: _vm.fechaNacimiento },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.fechaNacimiento = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.usuario,
+                expression: "usuario"
+              }
+            ],
+            attrs: { type: "text", placeholder: "usuario" },
+            domProps: { value: _vm.usuario },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.usuario = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.password,
+                expression: "password"
+              }
+            ],
+            attrs: { type: "password", placeholder: "Contraseña" },
+            domProps: { value: _vm.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.password = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.signUp()
+                }
+              }
+            },
+            [_vm._v("crear")]
+          ),
+          _vm._v(" "),
+          _c("p", { staticClass: "message" }, [
+            _vm._v("Ya tienes una cuenta? "),
+            _c(
+              "a",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    return _vm.tengoCuenta()
+                  }
+                }
+              },
+              [_vm._v("Ingresar")]
+            )
+          ])
+        ]
+      ),
       _vm._v(" "),
       _c(
         "form",
         {
           staticClass: "login-login-form",
+          attrs: { id: "ingresarForm" },
           on: {
             submit: function($event) {
               $event.preventDefault()
@@ -55838,45 +56042,30 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("login")]
+            [_vm._v("Ingresar")]
           ),
           _vm._v(" "),
-          _vm._m(1)
+          _c("p", { staticClass: "message" }, [
+            _vm._v("No tienes una cuenta? "),
+            _c(
+              "a",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    return _vm.crearCuenta()
+                  }
+                }
+              },
+              [_vm._v("Crear cuenta")]
+            )
+          ])
         ]
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("form", { staticClass: "login-register-form" }, [
-      _c("input", { attrs: { type: "text", placeholder: "name" } }),
-      _vm._v(" "),
-      _c("input", { attrs: { type: "password", placeholder: "password" } }),
-      _vm._v(" "),
-      _c("input", { attrs: { type: "text", placeholder: "email address" } }),
-      _vm._v(" "),
-      _c("button", [_vm._v("crear")]),
-      _vm._v(" "),
-      _c("p", { staticClass: "message" }, [
-        _vm._v("Already registered? "),
-        _c("a", { attrs: { href: "#" } }, [_vm._v("Sign In")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "message" }, [
-      _vm._v("No tienes una cuenta? "),
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Crear cuenta")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

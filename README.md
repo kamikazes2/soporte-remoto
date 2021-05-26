@@ -98,3 +98,17 @@ password
 
 #para listar mis solicitudes solicitar un get a
 /listarMisSolicitudes
+
+
+
+
+
+#clientes---------------------------------
+
+post -> /request/new-cliente                        dni, nombre, apellido, fechaNacimiento, usuario, password
+post -> /request/update-cliente-datos-personales    idCliente, dni, nombre, apellido
+post -> /request/update-cliente-password            idCliente, oldPassword, newPassword
+
+
+
+#clientes fin ----------------------------

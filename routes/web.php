@@ -11,7 +11,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\EspecialidadController;
-
+use App\Http\Controllers\ClienteController;
 Route::get('/cliente', function () {
     return view('ClienteHome');
 });
@@ -57,3 +57,10 @@ Route::post('/request/nueva-especialidad-servicio', [ServicioController::class, 
 Route::get('/request/get-especialidad', [ServicioController::class, 'getEspecialidadesServicio']);
 #FIN ESPECIALIDAD ---------------------------
 
+#clientes-------------------------------------
+Route::post('/request/new-cliente', [ClienteController::class, 'createCliente']);
+Route::post('/request/update-cliente-datos-personales',[ClienteController::class,'updateDatosPersonales']);
+Route::post('/request/update-cliente-password',[ClienteController::class,'changePassword']);
+
+
+#fin clientes-----------------------------------
