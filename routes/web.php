@@ -55,6 +55,7 @@ Route::delete('/request/eliminar-especialidad/{id}', [EspecialidadController::cl
 Route::post('/request/nueva-especialidad-personal', [PersonalController::class, 'addEspecialidadPersonal']);
 Route::post('/request/nueva-especialidad-servicio', [ServicioController::class, 'addEspecialidadServicio']);
 Route::get('/request/get-especialidad', [ServicioController::class, 'getEspecialidadesServicio']);
+Route::post('/request/update-especialidad-servicio',[ServicioController::class, 'updateEspecialidadServicio']);
 #FIN ESPECIALIDAD ---------------------------
 
 #clientes-------------------------------------

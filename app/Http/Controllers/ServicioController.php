@@ -31,6 +31,7 @@ use App\Models\ServicePack\AsignacionServicio;
 use App\Models\ServicePack\Servicio;
 use App\Models\ServicePack\PrecioServicio;
 use App\Models\ServicePack\EspecialidadServicio;
+use App\Models\ServicePack\Especialidad;
 
 
 class ServicioController extends Controller
@@ -209,11 +210,62 @@ class ServicioController extends Controller
         return response()->json("creado correctamente");
     }
 
+
+    public function updateEspecialidadServicio(Request $request){
+        $idServicio = $request['idServicio'];
+        $espServicio = new EspecialidadServicio;
+        $listaEsp = $espServicio->getEspecialidadByIdServicio($idServicio);
+        foreach($listaEsp as $le){
+            //eliminar lo que no envio
+            $existe = false;
+            foreach($request['idEspecialidades'] as $especialidad){
+                if($especialidad['id'] == $le->idEspecialidad){
+                    $existe = true;
+                    break;
+                }
+            }
+            if(!$existe){
+                $espServicioDelete = new EspecialidadServicio;
+                $espServicioDelete->deleteAsociation($idServicio, $le->idEspecialidad);
+            }
+        }
+        foreach($request['idEspecialidades'] as $especialidad){
+            //creamos si no existe
+            foreach($listaEsp as $le){
+                $existe = false;
+                if($especialidad['id'] == $le->idEspecialidad){
+                    $existe = true;
+                    break;
+                }
+            }
+            if(!$existe){
+                $esp = new EspecialidadServicio;
+                $esp->idServicio = $idServicio;
+                $esp->idEspecialidad = $especialidad['id'];
+                $esp->save();
+            }
+        }
+        return response()->json("actualizado correctamente");
+    }
+
+
+
     public function getEspecialidadesServicio(Request $request){
         $idServicio = $request['idServicio'];
         $espServicio = new EspecialidadServicio;
+        $especialidad = new Especialidad;
 
-        return response()->json($espServicio->getEspecialidadByIdServicio($idServicio));
+        $arrayEspecialidades = array();
+
+        foreach($espServicio->getEspecialidadByIdServicio($idServicio) as $es){
+            $infoEspecialidad = $especialidad->getById($es->idEspecialidad);
+            $aux['idEspecialidad'] = $es->idEspecialidad;
+            $aux['nombre'] = $infoEspecialidad->nombre;
+            array_push($arrayEspecialidades, $aux);
+        }
+
+
+        return response()->json($arrayEspecialidades);
     }
 
 

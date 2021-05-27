@@ -44,6 +44,20 @@ get->       /request/get-especialidad?idServicio=1  ------> Get Especialidades b
         }
     ]
 }
+#para actualizar especialidad al servicio enviar un POST a
+/request/update-especialidad-servicio con los siguientes datos
+{
+    "idServicio": 1,
+    "idEspecialidades":[
+        {
+            "id" : 0
+        },
+        {
+            "id" : 0
+        }
+    ]
+}
+
 #FIN ESPECIALIDAD ---------------------------------------------------
 
 
