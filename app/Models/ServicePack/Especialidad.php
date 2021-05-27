@@ -20,11 +20,12 @@ class Especialidad extends Model
          ->update(['nombre' => $this->nombre, 'descripcion'=>$this->descripcion]);
     }
     public function getById($id){
-        $esp = DB::table('servicio')->where('id', $id)->get();
+        $esp = DB::table('especialidad')->where('id', $id)->get();
         return $esp[0];
     }
 
     public function getAll(){
         return DB::table('especialidad')->get();
     }
+
 }

@@ -13,4 +13,9 @@ class EspecialidadServicio extends Model
     public function getEspecialidadByIdServicio($id){
         return $especialidadServicio = DB::table('especialidadservicio')->where('idServicio', $id)->get();
     }
+
+    public function deleteAsociation($idServicio, $idEspecialidad){
+        $especialidadServicio = DB::table('especialidadservicio')->where('idServicio', $idServicio)->where('idEspecialidad',$idEspecialidad)->delete();
+        return true;
+    }
 }
