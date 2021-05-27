@@ -165,6 +165,7 @@
                         <th>Nombre</th>
                         <th>Descripcion</th>
                         <th>Precio</th>
+                        <th>Especialidad(es)</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -174,6 +175,13 @@
                         <td>{{ servicio.descripcion }}</td>
                         <td>{{ servicio.precio }}</td>
                         <td>
+                            <ul>
+                                <div v-for="especialidad in servicio.arrayEspecialidades" :key="especialidad.id">
+                                    <dt v-text="especialidad.nombre"></dt>
+                                </div>
+                            </ul>
+                        </td>
+                        <td>
                             <button
                                 class="btn btn-success btn-sm"
                                 @click="
@@ -181,12 +189,14 @@
                                         servicio.id,
                                         servicio.nombre,
                                         servicio.descripcion,
+                                        servicio.arrayEspecialidades,
                                         servicio.precio
                                     )
                                 "
                             >
                                 Modificar
                             </button>
+
                             <button
                                 class="btn btn-danger btn-sm"
                                 @click="eliminar(servicio.id, index)"
@@ -309,10 +319,11 @@ export default {
             }
             this.arrayServicio = this.rows;
         },
-        modificar(id, nombre, descripcion, precio) {
+        modificar(id, nombre, descripcion, especialidades, precio) {
             this.idServicio = id;
             this.nombre = nombre;
             this.descripcion = descripcion;
+            this.especialidades= especialidades;
             this.precio = precio;
             this.classBtnGuardar = "display: none";
             this.classBtnModificar = "btn btn-primary";

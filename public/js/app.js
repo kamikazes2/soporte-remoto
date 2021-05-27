@@ -2436,6 +2436,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -2535,10 +2545,11 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
 
       this.arrayServicio = this.rows;
     },
-    modificar: function modificar(id, nombre, descripcion, precio) {
+    modificar: function modificar(id, nombre, descripcion, especialidades, precio) {
       this.idServicio = id;
       this.nombre = nombre;
       this.descripcion = descripcion;
+      this.especialidades = especialidades;
       this.precio = precio;
       this.classBtnGuardar = "display: none";
       this.classBtnModificar = "btn btn-primary";
@@ -55733,6 +55744,20 @@ var render = function() {
               _vm._v(" "),
               _c("td", [
                 _c(
+                  "ul",
+                  _vm._l(servicio.arrayEspecialidades, function(especialidad) {
+                    return _c("div", { key: especialidad.id }, [
+                      _c("dt", {
+                        domProps: { textContent: _vm._s(especialidad.nombre) }
+                      })
+                    ])
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
                   "button",
                   {
                     staticClass: "btn btn-success btn-sm",
@@ -55742,6 +55767,7 @@ var render = function() {
                           servicio.id,
                           servicio.nombre,
                           servicio.descripcion,
+                          servicio.arrayEspecialidades,
                           servicio.precio
                         )
                       }
@@ -55791,6 +55817,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Descripcion")]),
         _vm._v(" "),
         _c("th", [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Especialidad(es)")]),
         _vm._v(" "),
         _c("th", [_vm._v("Acciones")])
       ])
