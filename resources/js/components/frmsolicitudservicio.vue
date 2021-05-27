@@ -127,4 +127,9 @@
                 }.bind(this));
             },
     }
+
 </script>
+
+<style lang="scss">
+    @import "../../../public/css/customcards.css";
+</style>
