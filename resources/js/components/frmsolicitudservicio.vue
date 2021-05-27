@@ -18,7 +18,8 @@
                                             <h3 v-text="servicio.nombre"></h3><br>
                                             <label v-text="servicio.descripcion"></label><br>
                                             <h5 v-text="servicio.precio"></h5><br>
-                                            <button type="button" @click="Agregar(servicio.id,servicio.precio)">Agregar</button> 
+                                            <button v-bind:id="'btnAgregar'+servicio.id" type="button" @click="Agregar(servicio.id,servicio.precio)">Agregar</button>
+                                            <button style="display: none" v-bind:id="'btnQuitar'+servicio.id" type="button" @click="Quitar(servicio.id,servicio.precio)">Quitar</button> 
                                         </td>
                                     </tr>
                                 </tbody>
@@ -76,6 +77,28 @@
                     servicio.precioFijado=precio;
                     me.carritoservicios.push(servicio);
                     console.log(this.carritoservicios);
+                    document.getElementById("btnAgregar"+servicioid).style.display="none";
+                    document.getElementById("btnQuitar"+servicioid).style.display="inline-block";
+                    alert(" Se ha agregado");
+                }
+
+                
+                
+            }, 
+            Quitar(servicioid){
+                let me = this;
+                var posicion=me.carritoservicios.findIndex(servicio => 
+                    servicio.idServicio === servicioid
+                    );
+                /////Busca si un elemento del carrito ya posee el idServicio
+                if(posicion != -1)
+                {
+                    
+                    me.carritoservicios.splice(posicion,1);
+                    document.getElementById("btnAgregar"+servicioid).style.display="inline-block";
+                    document.getElementById("btnQuitar"+servicioid).style.display="none";
+                    console.log(this.carritoservicios);
+                alert('Servicio se elimino del carrito');
                 }
 
                 

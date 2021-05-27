@@ -2477,8 +2477,6 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       buscado: false,
       classBtnGuardar: "btn btn-primary",
       classBtnModificar: "displayNone",
-      BtnGuardar: "BtnGuardar",
-      BtnModificar: "BtnModificar",
       servicio: {
         id: 0,
         nombre: "",
@@ -2554,8 +2552,10 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       this.classBtnGuardar = "display: none";
       this.classBtnModificar = "btn btn-primary";
       this.showModal = true;
-      document.getElementById("BtnGuardar").style.display = "none";
-      document.getElementById("BtnModificar").style.display = "inline-block";
+      setTimeout(function () {
+        document.getElementById("BtnGuardar").style.display = "none";
+        document.getElementById("BtnModificar").style.display = "inline-block";
+      }, 1);
     },
     eliminar: function eliminar(idServ, index) {
       var _this = this;
@@ -2709,8 +2709,10 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       this.precio = "";
       this.classBtnGuardar = "btn btn-primary"; //this.classBtnModificar = "display: none";
 
-      document.getElementById("BtnGuardar").style.display = "inline-block";
-      document.getElementById("BtnModificar").style.display = "none";
+      setTimeout(function () {
+        document.getElementById("BtnGuardar").style.display = "inline-block";
+        document.getElementById("BtnModificar").style.display = "none";
+      }, 1);
     }
   }
 });
@@ -2726,6 +2728,7 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2794,6 +2797,23 @@ __webpack_require__.r(__webpack_exports__);
         servicio.precioFijado = precio;
         me.carritoservicios.push(servicio);
         console.log(this.carritoservicios);
+        document.getElementById("btnAgregar" + servicioid).style.display = "none";
+        document.getElementById("btnQuitar" + servicioid).style.display = "inline-block";
+        alert(" Se ha agregado");
+      }
+    },
+    Quitar: function Quitar(servicioid) {
+      var me = this;
+      var posicion = me.carritoservicios.findIndex(function (servicio) {
+        return servicio.idServicio === servicioid;
+      }); /////Busca si un elemento del carrito ya posee el idServicio
+
+      if (posicion != -1) {
+        me.carritoservicios.splice(posicion, 1);
+        document.getElementById("btnAgregar" + servicioid).style.display = "inline-block";
+        document.getElementById("btnQuitar" + servicioid).style.display = "none";
+        console.log(this.carritoservicios);
+        alert('Servicio se elimino del carrito');
       }
     },
     Solicitar: function Solicitar() {
@@ -55622,7 +55642,7 @@ var render = function() {
                     "button",
                     {
                       class: _vm.classBtnGuardar,
-                      attrs: { id: _vm.BtnGuardar },
+                      attrs: { id: "BtnGuardar" },
                       on: {
                         click: function($event) {
                           return _vm.guardar()
@@ -55636,7 +55656,7 @@ var render = function() {
                     "button",
                     {
                       class: _vm.classBtnModificar,
-                      attrs: { id: _vm.BtnModificar },
+                      attrs: { id: "BtnModificar" },
                       on: {
                         click: function($event) {
                           return _vm.modificarTabla()
@@ -55910,7 +55930,10 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          attrs: { type: "button" },
+                          attrs: {
+                            id: "btnAgregar" + servicio.id,
+                            type: "button"
+                          },
                           on: {
                             click: function($event) {
                               return _vm.Agregar(servicio.id, servicio.precio)
@@ -55918,6 +55941,23 @@ var render = function() {
                           }
                         },
                         [_vm._v("Agregar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticStyle: { display: "none" },
+                          attrs: {
+                            id: "btnQuitar" + servicio.id,
+                            type: "button"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.Quitar(servicio.id, servicio.precio)
+                            }
+                          }
+                        },
+                        [_vm._v("Quitar")]
                       )
                     ])
                   ])

@@ -112,14 +112,14 @@
                 </div>
                 <div slot="footer">
                     <button
-                        v-bind:id="BtnGuardar"
+                        v-bind:id="'BtnGuardar'"
                         v-bind:class="classBtnGuardar"
                         @click="guardar()"
                     >
                         Añadir
                     </button>
                     <button
-                        v-bind:id="BtnModificar"
+                        v-bind:id="'BtnModificar'"
                         v-bind:class="classBtnModificar"
                         @click="modificarTabla()"
                     >
@@ -243,8 +243,6 @@ export default {
             buscado: false,
             classBtnGuardar: "btn btn-primary",
             classBtnModificar: "displayNone",
-            BtnGuardar: "BtnGuardar",
-            BtnModificar: "BtnModificar",
             servicio: {
                 id: 0,
                 nombre: "",
@@ -328,10 +326,12 @@ export default {
             this.classBtnGuardar = "display: none";
             this.classBtnModificar = "btn btn-primary";
             this.showModal = true;
-
-            document.getElementById("BtnGuardar").style.display = "none";
-            document.getElementById("BtnModificar").style.display =
+            setTimeout(function(){
+                document.getElementById("BtnGuardar").style.display = "none";
+                document.getElementById("BtnModificar").style.display =
                 "inline-block";
+            },1);
+            
         },
         eliminar(idServ, index) {
             if (confirm("Estas seguro de eliminar?")) {
@@ -513,10 +513,12 @@ export default {
             this.precio = "";
             this.classBtnGuardar = "btn btn-primary";
             //this.classBtnModificar = "display: none";
-
-            document.getElementById("BtnGuardar").style.display =
+            setTimeout(function(){
+                document.getElementById("BtnGuardar").style.display =
                 "inline-block";
-            document.getElementById("BtnModificar").style.display = "none";
+                document.getElementById("BtnModificar").style.display = "none";
+            },1);
+            
         }
     }
 };
