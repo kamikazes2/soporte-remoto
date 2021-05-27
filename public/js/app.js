@@ -2350,13 +2350,99 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
-Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default.a);
+Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      especialidades: '',
+      especialidades: "",
 
       /*especialidades: [
           { id:0 , nombre: 'Vue.js', descripcion: 'JavaScript' },
@@ -2367,17 +2453,16 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
           { id:5 , nombre: 'Phoenix', descripcion: 'Elixir' }
       ],
       */
-      values: [],
       index: 0,
       showModal: false,
       arrayServicio: [],
       arrayEspecialidad: [],
       idServicio: 0,
-      nombre: '',
-      descripcion: '',
+      nombre: "",
+      descripcion: "",
       precio: 0.0,
-      especialidad: '',
-      search: '',
+      especialidad: "",
+      search: "",
       rows: [],
       buscado: false,
       classBtnGuardar: "btn btn-primary",
@@ -2385,10 +2470,10 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       BtnGuardar: "BtnGuardar",
       BtnModificar: "BtnModificar",
       servicio: {
-        'id': 0,
-        'nombre': '',
-        'descripcion': '',
-        'precio': 0
+        id: 0,
+        nombre: "",
+        descripcion: "",
+        precio: 0
       }
     };
   },
@@ -2398,6 +2483,10 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
     document.getElementById("bodyTabla").setAttribute("style", "display: none");
   },
   methods: {
+    refresh: function refresh() {
+      this.getEspecialidades();
+      this.getServicios();
+    },
     closeModal: function closeModal() {
       this.showModal = false;
       this.classBtnGuardar = "btn btn-primary";
@@ -2405,18 +2494,18 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
     },
     tabla: function tabla() {
       this.$nextTick(function () {
-        $('#tablaServicio').DataTable();
+        $("#tablaServicio").DataTable();
       });
     },
     getEspecialidades: function getEspecialidades() {
-      axios.get('/request/lista-especialidad').then(function (res) {
-        this.arrayEspecialidad = res.data;
-        this.values = this.arrayEspecialidad;
+      axios.get("/request/lista-especialidad").then(function (res) {
+        this.arrayEspecialidad = res.data; //this.values = this.arrayEspecialidad;
+
         this.tabla();
       }.bind(this));
     },
     getServicios: function getServicios() {
-      axios.get('/listaServicios').then(function (res) {
+      axios.get("/listaServicios").then(function (res) {
         this.arrayServicio = res.data;
         this.tabla();
       }.bind(this));
@@ -2432,7 +2521,7 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       var search = this.search;
       var i;
 
-      if (search == '') {
+      if (search == "") {
         this.getServicios();
         this.rows = this.arrayServicio;
       } else {
@@ -2461,8 +2550,8 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       var _this = this;
 
       if (confirm("Estas seguro de eliminar?")) {
-        axios.post('/request/eliminar-servicio/' + idServ, {
-          _method: 'delete'
+        axios.post("/request/eliminar-servicio/" + idServ, {
+          _method: "delete"
         }).then(function (response) {
           if (response.data == "ExisteTransaccion") {
             alert("No se puede eliminar, Existe una transaccion");
@@ -2480,18 +2569,21 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
     VerificarBaseDatos: function VerificarBaseDatos() {
       ///Verifica que los datos locales y la BD sean Iguales
       //var local = [...this.arrayServicio];
-      var local = Array.from(this.arrayServicio);
-      this.getServicios(); // console.log("local");
+      var localServicios = Array.from(this.arrayServicio);
+      var localEspecialidades = Array.from(this.arrayEspecialidad);
+      this.refresh(); // console.log("local");
       //console.log(local);
       //console.log("BD");
       //console.log(this.arrayServicio);
 
-      if (JSON.stringify(local) == JSON.stringify(this.arrayServicio)) {
-        console.log("Tabla Integra");
+      if (JSON.stringify(localServicios) == JSON.stringify(this.arrayServicio) && JSON.stringify(localEspecialidades) == JSON.stringify(this.arrayEspecialidad)) {
+        console.log("Tablas Integras");
         return true;
       }
 
-      console.log("Tabla Distinta");
+      this.arrayServicio = Array.from(localServicios);
+      this.arrayEspecialidad = Array.from(localEspecialidades);
+      console.log("Tablas Distintas");
       alert("Posiblemente necesite actualizar su tabla con la BD");
       return false;
     },
@@ -2520,19 +2612,19 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
 
       if (this.verificarTabla(local, this.servicio, posicion)) {
         if (this.VerificarBaseDatos()) {
-          axios.post('request/actualizar-servicio', {
-            'id': this.servicio.id,
-            'nombre': this.servicio.nombre,
-            'descripcion': this.servicio.descripcion
+          axios.post("request/actualizar-servicio", {
+            id: this.servicio.id,
+            nombre: this.servicio.nombre,
+            descripcion: this.servicio.descripcion
           }).then(function (error) {})["catch"](function (error) {
             console.log(error);
           }); //console.log("Antes del if para actualizar el precio");
 
           if (this.servicio.precio != local[posicion].precio) {
             //console.log("Entro al if");
-            axios.post('request/actualizar-precio', {
-              'idServicio': this.servicio.id,
-              'precio': this.servicio.precio
+            axios.post("request/actualizar-precio", {
+              idServicio: this.servicio.id,
+              precio: this.servicio.precio
             }).then(function (error) {
               alert("Se modifico correctamente");
             })["catch"](function (error) {
@@ -2574,23 +2666,36 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       this.servicio.nombre = me.nombre;
       this.servicio.descripcion = me.descripcion;
       this.servicio.precio = me.precio;
-      if (me.nombre == '' || me.descripcion == '' || me.precio == '') alert("Debe Llenar el formulario");else if (this.verificarTabla(this.arrayServicio, this.servicio, -1)) axios.post('request/nuevo-servicio', {
-        'nombre': this.nombre,
-        'descripcion': this.descripcion,
-        'precio': this.precio
-      }).then(function (error) {
+      if (me.nombre == "" || me.descripcion == "" || me.precio == "") alert("Debe Llenar el formulario");else if (this.VerificarBaseDatos() && this.verificarTabla(this.arrayServicio, this.servicio, -1)) axios.post("request/nuevo-servicio", {
+        nombre: this.nombre,
+        descripcion: this.descripcion,
+        precio: this.precio
+      }).then(function (response) {
         me.getServicios();
-        alert("Se anhadio correctamente el servicio");
+        console.log(response);
+        me.RelacionarEspecialidad(response.data, me.especialidades);
+        alert(response.data + " Se anhadio correctamente el servicio");
       })["catch"](function (error) {
         console.log(error);
       });
       this.closeModal();
     },
+    RelacionarEspecialidad: function RelacionarEspecialidad(id, listaespecialidades) {
+      var me = this;
+      axios.post("request/nueva-especialidad-servicio", {
+        idServicio: id,
+        idEspecialidades: listaespecialidades
+      }).then(function (error) {
+        console.log(error);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     vaciarModal: function vaciarModal() {
       this.id = 0;
       this.nombre = "";
       this.descripcion = "";
-      this.precio = '';
+      this.precio = "";
       this.classBtnGuardar = "btn btn-primary"; //this.classBtnModificar = "display: none";
 
       document.getElementById("BtnGuardar").style.display = "inline-block";
@@ -55283,7 +55388,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Nuevo Servicio")]
+          [_vm._v("\n            Nuevo Servicio\n        ")]
         ),
         _vm._v(" "),
         _vm.showModal
@@ -55408,7 +55513,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("multiselect", {
                         attrs: {
-                          options: _vm.values,
+                          options: _vm.arrayEspecialidad,
                           multiple: true,
                           "close-on-select": false,
                           "clear-on-select": false,
@@ -55433,8 +55538,9 @@ var render = function() {
                                         { staticClass: "multiselect__single" },
                                         [
                                           _vm._v(
-                                            _vm._s(values.length) +
-                                              " especialidades seleccionadas"
+                                            "\n                                " +
+                                              _vm._s(values.length) +
+                                              " especialidades seleccionadas\n                            "
                                           )
                                         ]
                                       )
@@ -55445,7 +55551,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          3573317701
+                          3581208174
                         ),
                         model: {
                           value: _vm.especialidades,
@@ -55512,7 +55618,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Añadir")]
+                    [_vm._v("\n                    Añadir\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -55526,7 +55632,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Modificar")]
+                    [
+                      _vm._v(
+                        "\n                    Modificar\n                "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -55539,7 +55649,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Cerrar")]
+                    [_vm._v("\n                    Cerrar\n                ")]
                   )
                 ])
               ]
@@ -55553,7 +55663,7 @@ var render = function() {
       _c("div"),
       _vm._v(" "),
       _c("div", [
-        _vm._v("\n        Buscar: "),
+        _vm._v("\n            Buscar:\n            "),
         _c("input", {
           directives: [
             {
@@ -55586,7 +55696,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Buscar")]
+          [_vm._v("\n                Buscar\n            ")]
         ),
         _vm._v(" "),
         _c(
@@ -55595,11 +55705,11 @@ var render = function() {
             staticClass: "btn btn-success",
             on: {
               click: function($event) {
-                return _vm.getServicios()
+                return _vm.refresh()
               }
             }
           },
-          [_vm._v("Refresh")]
+          [_vm._v("\n                Refresh\n            ")]
         ),
         _vm._v(" "),
         _c("br"),
@@ -55637,7 +55747,11 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Modificar")]
+                  [
+                    _vm._v(
+                      "\n                            Modificar\n                        "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _c(
@@ -55650,7 +55764,11 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Eliminar")]
+                  [
+                    _vm._v(
+                      "\n                            Eliminar\n                        "
+                    )
+                  ]
                 )
               ])
             ])
@@ -69404,8 +69522,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
