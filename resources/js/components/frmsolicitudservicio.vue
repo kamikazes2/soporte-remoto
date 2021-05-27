@@ -1,48 +1,58 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header"> Solicitud de Servicio</div>
-                                  
-                        <div class="card-body">
-                            <button type="button" @click="listar()">Mostrar</button>
-                            <button type="button" @click="Solicitar()">Solicitar</button>
-                
-                            <table border="1">
-                                
-                                <tbody>
-                                    <tr v-for="servicio in listaservicios" :key="servicio.id">
-                                        <td>
-                                            <input type="hidden" v-text="servicio.id"> 
-                                            <h3 v-text="servicio.nombre"></h3><br>
-                                            <label v-text="servicio.descripcion"></label><br>
-                                            <h5 v-text="servicio.precio"></h5><br>
-                                            <button v-bind:id="'btnAgregar'+servicio.id" type="button" @click="Agregar(servicio.id,servicio.precio)">Agregar</button>
-                                            <button style="display: none" v-bind:id="'btnQuitar'+servicio.id" type="button" @click="Quitar(servicio.id,servicio.precio)">Quitar</button> 
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="row justify-content-center">			
+			<div class="mx-auto">
+				<div class="col-lg-12">
+					<div class="text-center my-3">
+						<h6 class="text-center my-5"><b>Solicitud de Servicio</b></h6>
+                        <h5 v-text="this.precioTotal"></h5>	
+                        <button type="button" @click="listar()">Mostrar</button>
+                        <button type="button" @click="Solicitar()">Solicitar</button>
+
+						<div class="card-deck no-gutters">
+
+							<div class="col-12 col-sm-6 col-md-6 col-lg-3"
+                            v-for="servicio in listaservicios" :key="servicio.id">
+
+								<div class="card h-100 mb-4 ">                    
+									<div class="card-header">                                
+										<h5 class="card-title m-0 p-0 font-weight-bolder text-secondary" v-text="servicio.nombre"></h5>
+									</div>
+									<div class="card-body text-left">
+										<p class="card-text" v-text="servicio.descripcion"> </p>
+										<span class="font-lead-base font-weight-bold text-muted" v-text="servicio.precio+' BOB'"></span>
+										
+									</div>
+									<div class="card-footer">
+                                        
+                                        <button class="btn btn-success" v-bind:id="'btnAgregar'+servicio.id" type="button" @click="Agregar(servicio.id,servicio.precio)">Agregar</button>
+                                        <button class="btn btn-danger" style="display: none" v-bind:id="'btnQuitar'+servicio.id" type="button" @click="Quitar(servicio.id,servicio.precio)">Quitar</button> 
+                                    </div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </template>
 
 <script>
+import newcomponent from './newcomponent.vue';
     export default {
+  components: { newcomponent },
         data(){
             return{
                 nombre :'',
                 descripcion : '',
                 precio : 0,
+                precioTotal: 0,
                 arrayServicio : [],
                 listaservicios: [],
-                carritoservicios: [
-
-                 ],
+                carritoservicios: [],
                 servicio: {
                     'idServicio': 0,
                     'precioFijado': 0,
@@ -75,8 +85,13 @@
 
                     servicio.idServicio=servicioid;
                     servicio.precioFijado=precio;
+                    console.log("Total "+me.precioTotal+" + Precio " +precio);
+                   
+                    me.precioTotal+=precio;
+                    me.precioTotal = parseFloat((me.precioTotal).toPrecision())
+                    console.log("Resultado"+me.precioTotal);
                     me.carritoservicios.push(servicio);
-                    console.log(this.carritoservicios);
+                    //console.log(this.carritoservicios);
                     document.getElementById("btnAgregar"+servicioid).style.display="none";
                     document.getElementById("btnQuitar"+servicioid).style.display="inline-block";
                     alert(" Se ha agregado");
@@ -93,11 +108,16 @@
                 /////Busca si un elemento del carrito ya posee el idServicio
                 if(posicion != -1)
                 {
+                    console.log("Total "+me.precioTotal+" + Precio " +me.carritoservicios[posicion].precioFijado);
+                    me.precioTotal-=me.carritoservicios[posicion].precioFijado;
+                    me.precioTotal = parseFloat((me.precioTotal).toPrecision())
+                    console.log("Resultado"+me.precioTotal);
                     
                     me.carritoservicios.splice(posicion,1);
                     document.getElementById("btnAgregar"+servicioid).style.display="inline-block";
                     document.getElementById("btnQuitar"+servicioid).style.display="none";
-                    console.log(this.carritoservicios);
+                    //console.log(this.carritoservicios);
+                    
                 alert('Servicio se elimino del carrito');
                 }
 
@@ -131,5 +151,5 @@
 </script>
 
 <style lang="scss">
-    @import "../../../public/css/customcards.css";
+    @import "../../../public/css/customcards.scss";
 </style>

@@ -2505,18 +2505,44 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
         $("#tablaServicio").DataTable();
       });
     },
+    getEspecialidadesbyServicioId: function getEspecialidadesbyServicioId(idServicio) {
+      var arrayEspecialidades = [];
+      axios.get("/request/get-especialidad?idServicio=" + idServicio).then(function (res) {
+        this.especialidades = res.data;
+        console.log(res.data);
+        arrayEspecialidades = Array.from(res.data);
+        console.log(arrayEspecialidades);
+        console.log("Fin AXIOS"); //return res.data;
+      }.bind(this));
+      console.log("Antes de Return");
+      console.log(arrayEspecialidades);
+      return arrayEspecialidades;
+    },
     getEspecialidades: function getEspecialidades() {
       axios.get("/request/lista-especialidad").then(function (res) {
-        this.arrayEspecialidad = res.data; //this.values = this.arrayEspecialidad;
-
+        this.arrayEspecialidad = res.data;
         this.tabla();
       }.bind(this));
     },
     getServicios: function getServicios() {
       axios.get("/listaServicios").then(function (res) {
         this.arrayServicio = res.data;
+        /*
+        for (var i=0; i<res.data.length;i++){
+            var servicio = res.data[i];
+            //this.getEspecialidadesbyServicioId(servicio.idServicio);
+            //servicio.arrayEspecialidad;
+            axios.get("/request/get-especialidad?idServicio="+servicio.idServicio).then(
+                function(Resultado) {
+                    servicio.arrayEspecialidad=Array.from( Resultado.data);
+                }.bind(this)
+            );
+            this.arrayServicio.push(servicio);
+              console.log(servicio);
+        }*/
+
         this.tabla();
-      }.bind(this));
+      }.bind(this)); //console.log(this.arrayServicio);
     },
     filtrarServicios: function filtrarServicios() {
       if (this.buscado == false) {
@@ -2728,6 +2754,7 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _newcomponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./newcomponent.vue */ "./resources/js/components/newcomponent.vue");
 //
 //
 //
@@ -2761,12 +2788,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    newcomponent: _newcomponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       nombre: '',
       descripcion: '',
       precio: 0,
+      precioTotal: 0,
       arrayServicio: [],
       listaservicios: [],
       carritoservicios: [],
@@ -2795,8 +2836,12 @@ __webpack_require__.r(__webpack_exports__);
         };
         servicio.idServicio = servicioid;
         servicio.precioFijado = precio;
-        me.carritoservicios.push(servicio);
-        console.log(this.carritoservicios);
+        console.log("Total " + me.precioTotal + " + Precio " + precio);
+        me.precioTotal += precio;
+        me.precioTotal = parseFloat(me.precioTotal.toPrecision());
+        console.log("Resultado" + me.precioTotal);
+        me.carritoservicios.push(servicio); //console.log(this.carritoservicios);
+
         document.getElementById("btnAgregar" + servicioid).style.display = "none";
         document.getElementById("btnQuitar" + servicioid).style.display = "inline-block";
         alert(" Se ha agregado");
@@ -2809,10 +2854,14 @@ __webpack_require__.r(__webpack_exports__);
       }); /////Busca si un elemento del carrito ya posee el idServicio
 
       if (posicion != -1) {
+        console.log("Total " + me.precioTotal + " + Precio " + me.carritoservicios[posicion].precioFijado);
+        me.precioTotal -= me.carritoservicios[posicion].precioFijado;
+        me.precioTotal = parseFloat(me.precioTotal.toPrecision());
+        console.log("Resultado" + me.precioTotal);
         me.carritoservicios.splice(posicion, 1);
         document.getElementById("btnAgregar" + servicioid).style.display = "inline-block";
-        document.getElementById("btnQuitar" + servicioid).style.display = "none";
-        console.log(this.carritoservicios);
+        document.getElementById("btnQuitar" + servicioid).style.display = "none"; //console.log(this.carritoservicios);
+
         alert('Servicio se elimino del carrito');
       }
     },
@@ -2944,6 +2993,40 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7505,10 +7588,10 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
-exports.i(__webpack_require__(/*! -!../../../node_modules/css-loader!../../../public/css/customcards.css */ "./node_modules/css-loader/index.js!./public/css/customcards.css"), "");
+exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800%7CRaleway:100,200,300,400,600,700,800,900%7CMontserrat:100,200,300,400,500,600,700,800,900);", ""]);
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".box-shadow {\n  box-shadow: 0px 0px 18px -3px rgba(143, 143, 143, 0.5);\n}\n.card:hover {\n  box-shadow: 0px 0px 20px -3px rgba(143, 143, 143, 0.75);\n}\n.box-shadow-dark {\n  box-shadow: 3px 3px 11px -3px rgba(0, 0, 0, 0.25);\n}\nbody {\n  background-color: yellow;\n  font-family: \"Open Sans\", Arial, Verdana;\n}\nsection {\n  padding-top: 2rem;\n  padding-bottom: 2rem;\n}\nh6 {\n  color: #000000;\n}\n.font-weight-bolder {\n  font-weight: 900;\n}\n.display-1, .display-2, .display-3, .display-4 {\n  font-weight: 900;\n}\n.heading-big {\n  font-weight: 800;\n  text-transform: uppercase;\n  color: red;\n  margin: 0;\n  padding: 0.15rem 0;\n  line-height: 1.2;\n  font-size: 2rem;\n  transition: color 0.5s ease-in, border-color 0.5s ease-in-out;\n}\n.heading-big-square {\n  padding: 1rem 1rem;\n  border: 10px solid red;\n  margin: 0.5rem auto 1rem auto;\n}\n.heading-big:hover {\n  color: #ff9900;\n  border-color: #ff9900;\n}\n.card {\n  transition: 0.5s ease;\n  border-radius: 0;\n}\n.card-header {\n  border-radius: 0;\n}\n.card-footer {\n  padding-top: 1rem;\n  padding-bottom: 1rem;\n}\n.card-header, .card-footer {\n  transition: 0.5s ease;\n}\n.card:hover {\n  border-color: #ffc107;\n  /*\n  .promotion-promo {\n    transform: scale(1.175) translateY(2.5px);\n    transform-origin: left center;\n  }\n  .promotion-price {\n    transform: translate(2.5px,17.5px) scale(1.15);\n    transform-origin: center right;\n  }*/\n}\n.card:hover .card-header, .card:hover .card-footer {\n  color: #ba8b00;\n  border-color: #ffc107;\n  background-color: #ffeeba;\n}\n.card-body {\n  position: relative;\n  z-index: 0;\n  overflow: hidden;\n  padding-top: 2rem;\n  padding-bottom: 2rem;\n}\n.card .btn {\n  font-weight: bold;\n  text-transform: uppercase;\n}\n\n/*\n.promotion {\n  &-promo {\n\t\tfont-weight: $font-weight-bold;\n\t\tfont-size: 1.15rem;\n\t\tcolor: $warning;\n\t\tfont-family: $font-family-lead-base;\n\t\ttext-decoration: line-through;\n\t\ttransition: .25s linear;\n\t}\n  &-price {\n\t\tposition: absolute;\n\t\tbottom: 0;\n\t\tright: 0;\n\t\tbackground: $warning;\n\t\twidth: 92px;\n\t\theight: 92px;\n\t\tpadding-bottom: 0rem;\n\t\tpadding-top: 1.25rem;\n\t\ttext-align: center;\n\t\tfont-weight: $font-weight-bold;\n\t\tfont-family: $font-family-lead-base;\n\t\tfont-size: 1.1rem;\n\t\tborder-radius: 5rem;\n\t\tcolor: $white;\n\t\tz-index: -1;\n\t\ttransform: translate(5px,27.5px) rotate(-9deg);\n      border: 1px dashed $white;\n      transition: .25s linear;\n      line-height: 1.15;\n    &-desc {\n      padding: 0;\n      margin: 0 auto;\n      text-transform: uppercase;\n      font-size: .9rem;\n      display: block;\n    }\n    &-text { \n      padding: 0;\n      margin: 0 auto;\n      font-weight: $font-weight-bolder;\n    }\n\t}\n}\n*/\n/*\n.card-animate {\n\tcounter-reset: section;\n\t.card-body {\n\t\t&:before {\n\t\t\ttransition: .5s ease;\n\t\t\tcounter-increment: section;\n\t\t\tcontent: \"\" counter(section) \"\";\n\t\t\tdisplay: block;\n\t\t\tfont-size: 15rem;\n\t\t\tfont-weight: 900;\n\t\t\tposition: absolute;\n\t\t\tbottom: 5rem;\n\t\t\tline-height: 0;\n\t\t\tleft: -.85rem;\n\t\t\tpadding: 0;\n\t\t\tmargin: 0;\n\t\t\tcolor: rgba(0,0,0,.10);\n\t\t\tz-index: 0;\n\t\t}\n\t}\n\t.card {\n\t\t&:hover {\n\t\t\t.card-body {\n\t\t\t\t&:before {\n\t\t\t\t\ttransform: translate(10px,-10px);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\t.card-text {\n\t\tmargin-top: 2rem;\n\t\tmargin-bottom: 2rem;\n\t}\n\t.card-title {\n\t\tfont-weight: 900;\n\t\ttext-transform: uppercase;\n\t}\n}\n*/", ""]);
 
 // exports
 
@@ -7524,29 +7607,10 @@ exports.push([module.i, "", ""]);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
-exports.i(__webpack_require__(/*! -!../../../node_modules/css-loader!../../../public/css/customcards.css */ "./node_modules/css-loader/index.js!./public/css/customcards.css"), "");
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./public/css/customcards.css":
-/*!**************************************************************!*\
-  !*** ./node_modules/css-loader!./public/css/customcards.css ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800%7CRaleway:100,200,300,400,600,700,800,900%7CMontserrat:100,200,300,400,500,600,700,800,900);", ""]);
 
 // module
-exports.push([module.i, ".box-shadow {\r\n  box-shadow: 0px 0px 18px -3px rgba(143, 143, 143, 0.5);\r\n}\r\n\r\n.card:hover {\r\n  box-shadow: 0px 0px 20px -3px rgba(143, 143, 143, 0.75);\r\n}\r\n\r\n.box-shadow-dark {\r\n  box-shadow: 3px 3px 11px -3px rgba(0, 0, 0, 0.25);\r\n}\r\n\r\nbody {\r\n  background-color: yellow;\r\n  font-family: \"Open Sans\", Arial, Verdana;\r\n}\r\n\r\nsection {\r\n  padding-top: 2rem;\r\n  padding-bottom: 2rem;\r\n}\r\n\r\nh6 {\r\n  color: #990000;\r\n}\r\n\r\n.font-weight-bolder {\r\n  font-weight: 900;\r\n}\r\n\r\n.display-1, .display-2, .display-3, .display-4 {\r\n  font-weight: 900;\r\n}\r\n\r\n.heading-big {\r\n  font-weight: 800;\r\n  text-transform: uppercase;\r\n  color: red;\r\n  margin: 0;\r\n  padding: 0.15rem 0;\r\n  line-height: 1.2;\r\n  font-size: 2rem;\r\n  transition: color 0.5s ease-in, border-color 0.5s ease-in-out;\r\n}\r\n.heading-big-square {\r\n  padding: 1rem 1rem;\r\n  border: 10px solid red;\r\n  margin: 0.5rem auto 1rem auto;\r\n}\r\n.heading-big:hover {\r\n  color: #ff9900;\r\n  border-color: #ff9900;\r\n}\r\n\r\n.card {\r\n  transition: 0.5s ease;\r\n  border-radius: 0;\r\n  transform: perspective(3em) rotateX(0deg) rotateY(-1.175deg) rotateZ(-1deg);\r\n}\r\n.card-header {\r\n  border-radius: 0;\r\n}\r\n.card-footer {\r\n  padding-top: 1rem;\r\n  padding-bottom: 1rem;\r\n}\r\n.card-header, .card-footer {\r\n  transition: 0.5s ease;\r\n}\r\n.card:hover {\r\n  border-color: #ffc107;\r\n  transform: perspective(0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);\r\n}\r\n.card:hover .card-header, .card:hover .card-footer {\r\n  color: #ba8b00;\r\n  border-color: #ffc107;\r\n  background-color: #ffeeba;\r\n}\r\n.card:hover .promotion-promo {\r\n  transform: scale(1.175) translateY(2.5px);\r\n  transform-origin: left center;\r\n}\r\n.card:hover .promotion-price {\r\n  transform: translate(2.5px, 17.5px) scale(1.15);\r\n  transform-origin: center right;\r\n}\r\n.card-body {\r\n  position: relative;\r\n  z-index: 0;\r\n  overflow: hidden;\r\n  padding-top: 2rem;\r\n  padding-bottom: 2rem;\r\n}\r\n.card .btn {\r\n  font-weight: bold;\r\n  text-transform: uppercase;\r\n}\r\n\r\n.promotion-promo {\r\n  font-weight: 700;\r\n  font-size: 1.15rem;\r\n  color: #ffc107;\r\n  font-family: \"Montserrat\", sans-serif;\r\n  text-decoration: line-through;\r\n  transition: 0.25s linear;\r\n}\r\n.promotion-price {\r\n  position: absolute;\r\n  bottom: 0;\r\n  right: 0;\r\n  background: #ffc107;\r\n  width: 92px;\r\n  height: 92px;\r\n  padding-bottom: 0rem;\r\n  padding-top: 1.25rem;\r\n  text-align: center;\r\n  font-weight: 700;\r\n  font-family: \"Montserrat\", sans-serif;\r\n  font-size: 1.1rem;\r\n  border-radius: 5rem;\r\n  color: #fff;\r\n  z-index: -1;\r\n  transform: translate(5px, 27.5px) rotate(-9deg);\r\n  border: 1px dashed #fff;\r\n  transition: 0.25s linear;\r\n  line-height: 1.15;\r\n}\r\n.promotion-price-desc {\r\n  padding: 0;\r\n  margin: 0 auto;\r\n  text-transform: uppercase;\r\n  font-size: 0.9rem;\r\n  display: block;\r\n}\r\n.promotion-price-text {\r\n  padding: 0;\r\n  margin: 0 auto;\r\n  font-weight: 900;\r\n}\r\n\r\n.card-animate {\r\n  counter-reset: section;\r\n}\r\n.card-animate .card-body:before {\r\n  transition: 0.5s ease;\r\n  counter-increment: section;\r\n  content: \"\" counter(section) \"\";\r\n  display: block;\r\n  font-size: 15rem;\r\n  font-weight: 900;\r\n  position: absolute;\r\n  bottom: 5rem;\r\n  line-height: 0;\r\n  left: -0.85rem;\r\n  padding: 0;\r\n  margin: 0;\r\n  color: rgba(0, 0, 0, 0.1);\r\n  z-index: 0;\r\n}\r\n.card-animate .card:hover .card-body:before {\r\n  transform: translate(10px, -10px);\r\n}\r\n.card-animate .card-text {\r\n  margin-top: 2rem;\r\n  margin-bottom: 2rem;\r\n}\r\n.card-animate .card-title {\r\n  font-weight: 900;\r\n  text-transform: uppercase;\r\n}", ""]);
+exports.push([module.i, ".box-shadow {\n  box-shadow: 0px 0px 18px -3px rgba(143, 143, 143, 0.5);\n}\n.card:hover {\n  box-shadow: 0px 0px 20px -3px rgba(143, 143, 143, 0.75);\n}\n.box-shadow-dark {\n  box-shadow: 3px 3px 11px -3px rgba(0, 0, 0, 0.25);\n}\nbody {\n  background-color: yellow;\n  font-family: \"Open Sans\", Arial, Verdana;\n}\nsection {\n  padding-top: 2rem;\n  padding-bottom: 2rem;\n}\nh6 {\n  color: #000000;\n}\n.font-weight-bolder {\n  font-weight: 900;\n}\n.display-1, .display-2, .display-3, .display-4 {\n  font-weight: 900;\n}\n.heading-big {\n  font-weight: 800;\n  text-transform: uppercase;\n  color: red;\n  margin: 0;\n  padding: 0.15rem 0;\n  line-height: 1.2;\n  font-size: 2rem;\n  transition: color 0.5s ease-in, border-color 0.5s ease-in-out;\n}\n.heading-big-square {\n  padding: 1rem 1rem;\n  border: 10px solid red;\n  margin: 0.5rem auto 1rem auto;\n}\n.heading-big:hover {\n  color: #ff9900;\n  border-color: #ff9900;\n}\n.card {\n  transition: 0.5s ease;\n  border-radius: 0;\n}\n.card-header {\n  border-radius: 0;\n}\n.card-footer {\n  padding-top: 1rem;\n  padding-bottom: 1rem;\n}\n.card-header, .card-footer {\n  transition: 0.5s ease;\n}\n.card:hover {\n  border-color: #ffc107;\n  /*\n  .promotion-promo {\n    transform: scale(1.175) translateY(2.5px);\n    transform-origin: left center;\n  }\n  .promotion-price {\n    transform: translate(2.5px,17.5px) scale(1.15);\n    transform-origin: center right;\n  }*/\n}\n.card:hover .card-header, .card:hover .card-footer {\n  color: #ba8b00;\n  border-color: #ffc107;\n  background-color: #ffeeba;\n}\n.card-body {\n  position: relative;\n  z-index: 0;\n  overflow: hidden;\n  padding-top: 2rem;\n  padding-bottom: 2rem;\n}\n.card .btn {\n  font-weight: bold;\n  text-transform: uppercase;\n}\n\n/*\n.promotion {\n  &-promo {\n\t\tfont-weight: $font-weight-bold;\n\t\tfont-size: 1.15rem;\n\t\tcolor: $warning;\n\t\tfont-family: $font-family-lead-base;\n\t\ttext-decoration: line-through;\n\t\ttransition: .25s linear;\n\t}\n  &-price {\n\t\tposition: absolute;\n\t\tbottom: 0;\n\t\tright: 0;\n\t\tbackground: $warning;\n\t\twidth: 92px;\n\t\theight: 92px;\n\t\tpadding-bottom: 0rem;\n\t\tpadding-top: 1.25rem;\n\t\ttext-align: center;\n\t\tfont-weight: $font-weight-bold;\n\t\tfont-family: $font-family-lead-base;\n\t\tfont-size: 1.1rem;\n\t\tborder-radius: 5rem;\n\t\tcolor: $white;\n\t\tz-index: -1;\n\t\ttransform: translate(5px,27.5px) rotate(-9deg);\n      border: 1px dashed $white;\n      transition: .25s linear;\n      line-height: 1.15;\n    &-desc {\n      padding: 0;\n      margin: 0 auto;\n      text-transform: uppercase;\n      font-size: .9rem;\n      display: block;\n    }\n    &-text { \n      padding: 0;\n      margin: 0 auto;\n      font-weight: $font-weight-bolder;\n    }\n\t}\n}\n*/\n/*\n.card-animate {\n\tcounter-reset: section;\n\t.card-body {\n\t\t&:before {\n\t\t\ttransition: .5s ease;\n\t\t\tcounter-increment: section;\n\t\t\tcontent: \"\" counter(section) \"\";\n\t\t\tdisplay: block;\n\t\t\tfont-size: 15rem;\n\t\t\tfont-weight: 900;\n\t\t\tposition: absolute;\n\t\t\tbottom: 5rem;\n\t\t\tline-height: 0;\n\t\t\tleft: -.85rem;\n\t\t\tpadding: 0;\n\t\t\tmargin: 0;\n\t\t\tcolor: rgba(0,0,0,.10);\n\t\t\tz-index: 0;\n\t\t}\n\t}\n\t.card {\n\t\t&:hover {\n\t\t\t.card-body {\n\t\t\t\t&:before {\n\t\t\t\t\ttransform: translate(10px,-10px);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\t.card-text {\n\t\tmargin-top: 2rem;\n\t\tmargin-bottom: 2rem;\n\t}\n\t.card-title {\n\t\tfont-weight: 900;\n\t\ttext-transform: uppercase;\n\t}\n}\n*/", ""]);
 
 // exports
 
@@ -56002,7 +56066,7 @@ var render = function() {
                 _c(
                   "ul",
                   _vm._l(servicio.arrayEspecialidades, function(especialidad) {
-                    return _c("div", { key: especialidad.id }, [
+                    return _c("div", { key: especialidad.idEspecialidad }, [
                       _c("dt", {
                         domProps: { textContent: _vm._s(especialidad.nombre) }
                       })
@@ -56104,13 +56168,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v(" Solicitud de Servicio")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "mx-auto" }, [
+        _c("div", { staticClass: "col-lg-12" }, [
+          _c("div", { staticClass: "text-center my-3" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("h5", { domProps: { textContent: _vm._s(this.precioTotal) } }),
+            _vm._v(" "),
             _c(
               "button",
               {
@@ -56137,77 +56201,101 @@ var render = function() {
               [_vm._v("Solicitar")]
             ),
             _vm._v(" "),
-            _c("table", { attrs: { border: "1" } }, [
-              _c(
-                "tbody",
-                _vm._l(_vm.listaservicios, function(servicio) {
-                  return _c("tr", { key: servicio.id }, [
-                    _c("td", [
-                      _c("input", {
-                        attrs: { type: "hidden" },
-                        domProps: { textContent: _vm._s(servicio.id) }
-                      }),
+            _c(
+              "div",
+              { staticClass: "card-deck no-gutters" },
+              _vm._l(_vm.listaservicios, function(servicio) {
+                return _c(
+                  "div",
+                  {
+                    key: servicio.id,
+                    staticClass: "col-12 col-sm-6 col-md-6 col-lg-3"
+                  },
+                  [
+                    _c("div", { staticClass: "card h-100 mb-4 " }, [
+                      _c("div", { staticClass: "card-header" }, [
+                        _c("h5", {
+                          staticClass:
+                            "card-title m-0 p-0 font-weight-bolder text-secondary",
+                          domProps: { textContent: _vm._s(servicio.nombre) }
+                        })
+                      ]),
                       _vm._v(" "),
-                      _c("h3", {
-                        domProps: { textContent: _vm._s(servicio.nombre) }
-                      }),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("label", {
-                        domProps: { textContent: _vm._s(servicio.descripcion) }
-                      }),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("h5", {
-                        domProps: { textContent: _vm._s(servicio.precio) }
-                      }),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          attrs: {
-                            id: "btnAgregar" + servicio.id,
-                            type: "button"
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.Agregar(servicio.id, servicio.precio)
-                            }
+                      _c("div", { staticClass: "card-body text-left" }, [
+                        _c("p", {
+                          staticClass: "card-text",
+                          domProps: {
+                            textContent: _vm._s(servicio.descripcion)
                           }
-                        },
-                        [_vm._v("Agregar")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticStyle: { display: "none" },
-                          attrs: {
-                            id: "btnQuitar" + servicio.id,
-                            type: "button"
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.Quitar(servicio.id, servicio.precio)
-                            }
+                        }),
+                        _vm._v(" "),
+                        _c("span", {
+                          staticClass:
+                            "font-lead-base font-weight-bold text-muted",
+                          domProps: {
+                            textContent: _vm._s(servicio.precio + " BOB")
                           }
-                        },
-                        [_vm._v("Quitar")]
-                      )
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-footer" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: {
+                              id: "btnAgregar" + servicio.id,
+                              type: "button"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.Agregar(servicio.id, servicio.precio)
+                              }
+                            }
+                          },
+                          [_vm._v("Agregar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger",
+                            staticStyle: { display: "none" },
+                            attrs: {
+                              id: "btnQuitar" + servicio.id,
+                              type: "button"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.Quitar(servicio.id, servicio.precio)
+                              }
+                            }
+                          },
+                          [_vm._v("Quitar")]
+                        )
+                      ])
                     ])
-                  ])
-                }),
-                0
-              )
-            ])
+                  ]
+                )
+              }),
+              0
+            )
           ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h6", { staticClass: "text-center my-5" }, [
+      _c("b", [_vm._v("Solicitud de Servicio")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -56689,6 +56777,128 @@ var staticRenderFns = [
                           _vm._v(" "),
                           _c("div", { staticClass: "promotion-price-text" }, [
                             _vm._v("$ 10.2")
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-footer" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-warning",
+                            attrs: { href: "#" }
+                          },
+                          [_vm._v("Order")]
+                        )
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-12 col-sm-6 col-md-6 col-lg-3" },
+                  [
+                    _c("div", { staticClass: "card h-100 mb-4" }, [
+                      _c("div", { staticClass: "card-header" }, [
+                        _c(
+                          "h5",
+                          {
+                            staticClass:
+                              "card-title m-0 p-0 font-weight-bolder text-secondary"
+                          },
+                          [_vm._v("Enterprise Edition Package")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body text-left" }, [
+                        _c("p", { staticClass: "card-text" }, [
+                          _vm._v(
+                            "All features with cloud storage and Full support."
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "font-lead-base font-weight-bold text-muted"
+                          },
+                          [_vm._v("20% Off!")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "promotion-promo" }, [
+                          _vm._v("$ 10")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "promotion-price" }, [
+                          _c("div", { staticClass: "promotion-price-desc" }, [
+                            _vm._v("Now")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "promotion-price-text" }, [
+                            _vm._v("$ 8")
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-footer" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-warning",
+                            attrs: { href: "#" }
+                          },
+                          [_vm._v("Order")]
+                        )
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-12 col-sm-6 col-md-6 col-lg-3" },
+                  [
+                    _c("div", { staticClass: "card h-100 mb-4" }, [
+                      _c("div", { staticClass: "card-header" }, [
+                        _c(
+                          "h5",
+                          {
+                            staticClass:
+                              "card-title m-0 p-0 font-weight-bolder text-secondary"
+                          },
+                          [_vm._v("Enterprise Edition Package")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body text-left" }, [
+                        _c("p", { staticClass: "card-text" }, [
+                          _vm._v(
+                            "All features with cloud storage and Full support."
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "font-lead-base font-weight-bold text-muted"
+                          },
+                          [_vm._v("20% Off!")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "promotion-promo" }, [
+                          _vm._v("$ 10")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "promotion-price" }, [
+                          _c("div", { staticClass: "promotion-price-desc" }, [
+                            _vm._v("Now")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "promotion-price-text" }, [
+                            _vm._v("$ 8")
                           ])
                         ])
                       ]),

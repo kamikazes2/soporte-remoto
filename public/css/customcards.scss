@@ -38,7 +38,7 @@ $font-weight-bolder:          900 !default;
 
 body { background-color: yellow; font-family: 'Open Sans', Arial, Verdana; }
 section { padding-top: 2rem; padding-bottom: 2rem; }
-h6 { color: #990000; }
+h6 { color: #000000; }
 // Adding font-weight-bolder
 .font-weight-bolder {
   font-weight: $font-weight-bolder;
@@ -68,7 +68,7 @@ h6 { color: #990000; }
 .card {
   transition: .5s ease;
   border-radius: 0;
-  transform: perspective(3em) rotateX(0deg) rotateY(-1.175deg) rotateZ(-1deg);
+  //transform: perspective(3em) rotateX(0deg) rotateY(-1.175deg) rotateZ(-1deg);
   &-header {
     border-radius: 0;
   }
@@ -82,12 +82,13 @@ h6 { color: #990000; }
   &:hover {
     @extend %box-shadow-hover;        
     border-color:darken($warning,0%);
-	 transform: perspective(0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	 //transform: perspective(0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
     .card-header, .card-footer {
       color: darken($warning,15%);
       border-color: darken($warning,0%);
       background-color: lighten($warning,35%);
     }
+    /*
     .promotion-promo {
       transform: scale(1.175) translateY(2.5px);
       transform-origin: left center;
@@ -95,7 +96,7 @@ h6 { color: #990000; }
     .promotion-price {
       transform: translate(2.5px,17.5px) scale(1.15);
       transform-origin: center right;
-    }
+    }*/
   }
   &-body {
     position: relative;
@@ -109,7 +110,7 @@ h6 { color: #990000; }
     text-transform: uppercase;
   }
 }
-
+/*
 .promotion {
   &-promo {
 		font-weight: $font-weight-bold;
@@ -153,7 +154,8 @@ h6 { color: #990000; }
     }
 	}
 }
-
+*/
+/*
 .card-animate {
 	counter-reset: section;
 	.card-body {
@@ -192,3 +194,4 @@ h6 { color: #990000; }
 		text-transform: uppercase;
 	}
 }
+*/

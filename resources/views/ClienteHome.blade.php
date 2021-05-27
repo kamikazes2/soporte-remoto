@@ -31,7 +31,6 @@
             <!-- Menu principal-->
             <template v-if="menu==0">
                 <b>Gestion de Sistemas - Soporte Remoto</b>
-                <newcomponent></newcomponent>
             </template>
             <template v-if="menu==1">
                 <frmsolicitudservicio></frmsolicitudservicio> 

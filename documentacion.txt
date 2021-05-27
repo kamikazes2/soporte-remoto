@@ -55,3 +55,7 @@ npm install --save datatables.net-buttons-bs4
 
 comando multiselect
 npm install vue-multiselect --save
+
+
+Ruta para los archivos CSS es
+	public/css

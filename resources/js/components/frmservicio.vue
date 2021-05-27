@@ -174,9 +174,9 @@
                         <td>{{ servicio.nombre }}</td>
                         <td>{{ servicio.descripcion }}</td>
                         <td>{{ servicio.precio }}</td>
-                        <td>
-                            <ul>
-                                <div v-for="especialidad in servicio.arrayEspecialidades" :key="especialidad.id">
+                        <td >
+                            <ul >
+                                <div  v-for="especialidad in servicio.arrayEspecialidades" :key="especialidad.idEspecialidad">
                                     <dt v-text="especialidad.nombre"></dt>
                                 </div>
                             </ul>
@@ -254,6 +254,7 @@ export default {
     mounted() {
         this.getServicios();
         this.getEspecialidades();
+        
         document
             .getElementById("bodyTabla")
             .setAttribute("style", "display: none");
@@ -273,11 +274,27 @@ export default {
                 $("#tablaServicio").DataTable();
             });
         },
+        getEspecialidadesbyServicioId(idServicio){
+            var arrayEspecialidades= [];
+            axios.get("/request/get-especialidad?idServicio="+idServicio).then(
+                function(res) {
+                    this.especialidades= res.data;
+                    console.log(res.data);
+                    
+                    arrayEspecialidades = Array.from(res.data);
+                    console.log(arrayEspecialidades);
+                    console.log("Fin AXIOS");
+                    //return res.data;
+                }.bind(this)
+            );
+            console.log("Antes de Return");
+            console.log(arrayEspecialidades);
+            return arrayEspecialidades;
+        },
         getEspecialidades() {
             axios.get("/request/lista-especialidad").then(
                 function(res) {
                     this.arrayEspecialidad = res.data;
-                    //this.values = this.arrayEspecialidad;
                     this.tabla();
                 }.bind(this)
             );
@@ -286,9 +303,24 @@ export default {
             axios.get("/listaServicios").then(
                 function(res) {
                     this.arrayServicio = res.data;
+                    /*
+                    for (var i=0; i<res.data.length;i++){
+                        var servicio = res.data[i];
+                        //this.getEspecialidadesbyServicioId(servicio.idServicio);
+                        //servicio.arrayEspecialidad;
+                        axios.get("/request/get-especialidad?idServicio="+servicio.idServicio).then(
+                            function(Resultado) {
+                                servicio.arrayEspecialidad=Array.from( Resultado.data);
+                            }.bind(this)
+                        );
+                        this.arrayServicio.push(servicio);
+
+                        console.log(servicio);
+                    }*/
                     this.tabla();
                 }.bind(this)
             );
+            //console.log(this.arrayServicio);
         },
         filtrarServicios() {
             if (this.buscado == false) {
