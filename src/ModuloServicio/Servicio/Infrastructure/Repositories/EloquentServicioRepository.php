@@ -27,7 +27,7 @@ class EloquentServicioRepository implements ServicioRepositoryContract
         $newServicio->descripcion = $servicio->getDescripcion();
 
         $newServicio->save();
-        return $newServicio->id;
+        return $newServicio;
     }
     
     public function getAll()
@@ -37,10 +37,10 @@ class EloquentServicioRepository implements ServicioRepositoryContract
 
     public function update(Servicio $servicio){
         $EloquentServicio = $this->eloquentServicioModel;
-        $EloquentServicio->id = $servicio->getId();
+        $EloquentServicio =  $EloquentServicio::find($servicio->getId());
         $EloquentServicio->nombre = $servicio->getNombre();
         $EloquentServicio->descripcion = $servicio->getDescripcion();
-        $EloquentServicio->actualizar();
+        $EloquentServicio->save();
         return $EloquentServicio;
     }
 

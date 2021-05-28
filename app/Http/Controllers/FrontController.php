@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use App\Models\UserPack\User;
+use Illuminate\Support\Facades\Hash;
 
 class FrontController extends Controller
 {
@@ -43,7 +45,40 @@ class FrontController extends Controller
     }
 
 
-
+    public function login(Request $request){
+        $usuario = $request['usuario'];
+        $password = $request['password'];
+        $user = new User;
+        $result = $user->getUsuario($usuario);
+        if($result != null){
+            if(Hash::check($password, $result->password)){
+                Session::put('idUsuario', $result->id);
+                Session::put('nombre', $result->usuario);
+                switch($result->tipoUsuario){
+                    case 'cliente':
+                        Session::put('tipoUsuario', 'cliente');
+                        break;
+                    case 'jefeTecnico':
+                        Session::put('tipoUsuario', 'jefeTecnico');
+                        break;
+                    case 'tecnico':
+                        Session::put('tipoUsuario', 'tecnico');
+                        break;
+                }
+                return response()->json(
+                    ['error'=> false, 'usuario'=>$result]
+                );
+            }else{
+                return response()->json(
+                    ['error'=> true, 'message'=>'password invalido']
+                );
+            }
+        }else{
+            return response()->json(
+                ['error'=> true, 'message'=>'no existe usuario']
+            );
+        }
+    }
 
 
 }

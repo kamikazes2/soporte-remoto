@@ -2751,7 +2751,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login() {
-      axios.post('request/buscar-usuario', {
+      axios.post('/request/login', {
         'usuario': this.usuario,
         'password': this.password
       }).then(function (response) {

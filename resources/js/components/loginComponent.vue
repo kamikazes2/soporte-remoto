@@ -37,7 +37,7 @@
         },
         methods:{
             login(){
-                axios.post('request/buscar-usuario',{
+                axios.post('/request/login',{
                     'usuario': this.usuario,
                     'password': this.password
                 }).then((response) => {
@@ -45,7 +45,6 @@
                     //this.idUsuario = response.data.userData.id;
                     //this.tipoUsuario = response.data.tipoUsuario;
                     window.location = '/';
-
                     }).catch(function(error){
                     console.log(error);
                 });

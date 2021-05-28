@@ -33,5 +33,10 @@ class EloquentPrecioServicioRepository implements PrecioServicioRepositoryContra
         $newPrecioServicio->create($data);
 
     }
+    public function delete($idServicio){
+        $newPrecioServicio = $this->eloquentPrecioServicioModel;
+        $newPrecioServicio->deleteByIdServicio($idServicio);
+        return true;
+    }
 
 }
