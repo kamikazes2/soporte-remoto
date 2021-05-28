@@ -72,6 +72,7 @@ use Src\ModuloServicio\Servicio\Infrastructure\ServicioController as SR;
 use Src\ModuloServicio\PrecioServicio\Infrastructure\PrecioServicioController as PSR;
 use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\SolicitudServicioController as SSC;
 use Src\ModuloUsuario\Usuario\Infrastructure\UsuarioController as UC;
+use Src\ModuloCliente\Cliente\Infrastructure\ClienteController as CC;
 
 
 //para el login
@@ -79,6 +80,8 @@ Route::post('/request/login', [FrontController::class, 'login']);
 
 //para usuarios
 Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
+//para cliente
+Route::post('/request/nuevo-cliente2',[CC::class, 'createCliente']);
 
 
 //para servicio
