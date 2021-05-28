@@ -3315,6 +3315,7 @@ __webpack_require__.r(__webpack_exports__);
       /////
       index: 0,
       showModal: false,
+      showServicios: false,
       /////
       precioTotal: 0,
       arrayServicio: [],
@@ -3328,7 +3329,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     listar: function listar() {
-      this.listaservicios = this.arrayServicio;
+      if (this.showServicios == false) {
+        this.listaservicios = this.arrayServicio;
+        this.showServicios = true;
+      } else {
+        this.listaservicios = [];
+        this.showServicios = false;
+      }
     },
     Agregar: function Agregar(servicioid, precio) {
       var me = this; /////Busca si un elemento del carrito ya posee el idServicio
@@ -3337,6 +3344,8 @@ __webpack_require__.r(__webpack_exports__);
         return servicio.idServicio === servicioid;
       }) != -1) {
         alert('Servicio ya esta en carrito');
+        document.getElementById("btnAgregar" + servicioid).style.display = "none";
+        document.getElementById("btnQuitar" + servicioid).style.display = "inline-block";
       } else {
         ///Se debe inicializar el objeto a quere usar
         var servicio = {
@@ -3376,17 +3385,23 @@ __webpack_require__.r(__webpack_exports__);
     },
     Solicitar: function Solicitar() {
       var me = this;
-      axios.post('request/nuevo-solicitud-servicio', {
-        /* 
-            Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
-        */
-        'arrayServicios': this.carritoservicios
-      }).then(function (error) {
-        alert("La solicitud fue registrada correctamente");
-        me.listaservicios = [];
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      console.log(this.carritoservicios.length);
+
+      if (this.carritoservicios.length > 0) {
+        axios.post('request/nuevo-solicitud-servicio', {
+          /* 
+              Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
+          */
+          'arrayServicios': this.carritoservicios
+        }).then(function (error) {
+          alert("La solicitud fue registrada correctamente");
+          me.listaservicios = [];
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      } else {
+        alert("Debe Anhadir al menos un servicio");
+      }
     },
     closeModal: function closeModal() {
       this.showModal = false;
@@ -56396,79 +56411,86 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c("td", { attrs: { id: solicitud.idSolicitud } }, [
-                      _c(
-                        "dl",
-                        _vm._l(solicitud.arrayServicios, function(servicio) {
-                          return _c(
-                            "div",
-                            { key: servicio.idServicioRealizar },
-                            [
-                              _c("dt", {
-                                domProps: {
-                                  textContent: _vm._s(
-                                    "Servicio:   " + servicio.nombreServicio
-                                  )
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("dd", {
-                                domProps: {
-                                  textContent: _vm._s(
-                                    "Descripcion:   " +
-                                      servicio.descripcionServicio
-                                  )
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("dd", {
-                                domProps: {
-                                  textContent: _vm._s(
-                                    "Precio:   " + servicio.precioFijado
-                                  )
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("dd", {
-                                domProps: {
-                                  textContent: _vm._s(
-                                    "Estado:   " + servicio.estado
-                                  )
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("dd", {
-                                domProps: {
-                                  textContent: _vm._s(
-                                    "Tecnico:   " + servicio.nombreTecnico
-                                  )
-                                }
-                              }),
-                              _vm._v(" "),
-                              servicio.estado === "ASIGNADO"
-                                ? _c(
-                                    "button",
-                                    {
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.Terminar(
-                                            servicio.idServicioRealizar
-                                          )
+                    _c(
+                      "td",
+                      {
+                        staticStyle: { display: "none" },
+                        attrs: { id: solicitud.idSolicitud }
+                      },
+                      [
+                        _c(
+                          "dl",
+                          _vm._l(solicitud.arrayServicios, function(servicio) {
+                            return _c(
+                              "div",
+                              { key: servicio.idServicioRealizar },
+                              [
+                                _c("dt", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      "Servicio:   " + servicio.nombreServicio
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("dd", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      "Descripcion:   " +
+                                        servicio.descripcionServicio
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("dd", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      "Precio:   " + servicio.precioFijado
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("dd", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      "Estado:   " + servicio.estado
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("dd", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      "Tecnico:   " + servicio.nombreTecnico
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                servicio.estado === "ASIGNADO"
+                                  ? _c(
+                                      "button",
+                                      {
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.Terminar(
+                                              servicio.idServicioRealizar
+                                            )
+                                          }
                                         }
-                                      }
-                                    },
-                                    [_vm._v("Finalizar Servicio")]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _c("dd")
-                            ]
-                          )
-                        }),
-                        0
-                      )
-                    ])
+                                      },
+                                      [_vm._v("Finalizar Servicio")]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("dd")
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ]
+                    )
                   ])
                 }),
                 0

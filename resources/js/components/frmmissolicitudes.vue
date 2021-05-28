@@ -19,7 +19,7 @@
                                         
                                         </td>
 
-                                        <td v-bind:id="solicitud.idSolicitud" >
+                                        <td v-bind:id="solicitud.idSolicitud" style="display:none">
 
                                             <dl>
                                                 <div v-for="servicio in solicitud.arrayServicios" :key="servicio.idServicioRealizar">

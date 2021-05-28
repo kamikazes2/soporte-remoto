@@ -184,7 +184,7 @@ import newcomponent from './newcomponent.vue';
                 /////
                 index: 0,
                 showModal: false,
-
+                showServicios: false,
 
                 /////
                 precioTotal: 0,
@@ -200,7 +200,14 @@ import newcomponent from './newcomponent.vue';
         },
         methods:{
             listar(){
-                this.listaservicios = this.arrayServicio;
+                if(this.showServicios==false){
+                    this.listaservicios = this.arrayServicio;
+                    this.showServicios=true;
+                }else{
+                    this.listaservicios=[];
+                    this.showServicios=false;
+                }
+                
             },
 
             Agregar(servicioid,precio){
@@ -212,7 +219,9 @@ import newcomponent from './newcomponent.vue';
                     ) != -1)
                 {
                 
-                alert('Servicio ya esta en carrito');
+                    alert('Servicio ya esta en carrito');
+                    document.getElementById("btnAgregar"+servicioid).style.display="none";
+                    document.getElementById("btnQuitar"+servicioid).style.display="inline-block";
                 }else
                 {
                     ///Se debe inicializar el objeto a quere usar
@@ -265,6 +274,8 @@ import newcomponent from './newcomponent.vue';
         
         Solicitar(){
                 let me = this;
+                console.log(this.carritoservicios.length);
+                if(this.carritoservicios.length>0){
                 axios.post('request/nuevo-solicitud-servicio',{
                     /* 
                         Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
@@ -277,6 +288,9 @@ import newcomponent from './newcomponent.vue';
                 }).catch(function(error){
                     console.log(error);
                 });
+                }else{
+                    alert("Debe Anhadir al menos un servicio");
+                }
             },
 
         closeModal() {
