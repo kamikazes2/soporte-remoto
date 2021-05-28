@@ -50,19 +50,20 @@ class CreateAsignacionServicioUseCase
         $fecha = $date->toDateTimeString();
         foreach($serviciosPendientes as $sp){
             $especialidad = $espSer->__invoke($sp->idServicio); //busco la especialidad
-
-            $tecnicos = $tec->__invoke($especialidad[0]->idEspecialidad); //busco los tecnicos            
-            if(count($tecnicos)> 0){
-                $idServicioRealizar = $sp->id;
-                $idTecnico = $tecnicos[0]->idPersonal;
-                $asignacionServicio = AsignacionServicio::create($idServicioRealizar, $idTecnico, $fecha);
-                $asignacionId = $this->repository->save($asignacionServicio);
-
-
-                $p = new Personal();
-                $p->deshabilitarPersonal($idTecnico);
-                $sr = new ServicioRealizar();
-                $sr->updateToAsignado($idServicioRealizar);
+            foreach($especialidad as $espe){
+                $tecnicos = $tec->__invoke($espe->idEspecialidad);
+                $asignado = false;
+                if(count($tecnicos)> 0 && $asignado == false){
+                    $idServicioRealizar = $sp->id;
+                    $idTecnico = $tecnicos[0]->idPersonal;
+                    $asignacionServicio = AsignacionServicio::create($idServicioRealizar, $idTecnico, $fecha);
+                    $asignacionId = $this->repository->save($asignacionServicio);
+                    $p = new Personal();
+                    $p->deshabilitarPersonal($idTecnico);
+                    $sr = new ServicioRealizar();
+                    $sr->updateToAsignado($idServicioRealizar);
+                    $asignado = true;
+                }
             }
         }
         return response()->json("creado correctamente");

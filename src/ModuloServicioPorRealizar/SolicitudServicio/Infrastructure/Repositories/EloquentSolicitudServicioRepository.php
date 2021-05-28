@@ -27,7 +27,7 @@ class EloquentSolicitudServicioRepository implements SolicitudServicioRepository
         $newSolicitudServicio->fechaSolicitud = $solicitudServicio->getFechaSolicitud();
 
         $newSolicitudServicio->save();
-        return $newSolicitudServicio->id;
+        return $newSolicitudServicio;
     }
     
 

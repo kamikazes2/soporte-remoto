@@ -19,8 +19,8 @@ class CreateCliente extends Migration
             $table->string("nombre");
             $table->string("apellido");
             $table->dateTime("fechaNacimiento");
-            $table->string("usuario");
-            $table->string("password");
+            $table->foreignId("idUsuario");
+            $table->foreign('idUsuario')->references('id')->on('users');
             $table->timestamps();
         });
     }

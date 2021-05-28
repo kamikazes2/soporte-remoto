@@ -65,3 +65,35 @@ Route::post('/request/update-cliente-password',[ClienteController::class,'change
 
 
 #fin clientes-----------------------------------
+
+
+
+use Src\ModuloServicio\Servicio\Infrastructure\ServicioController as SR;
+use Src\ModuloServicio\PrecioServicio\Infrastructure\PrecioServicioController as PSR;
+use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\SolicitudServicioController as SSC;
+use Src\ModuloUsuario\Usuario\Infrastructure\UsuarioController as UC;
+use Src\ModuloCliente\Cliente\Infrastructure\ClienteController as CC;
+
+
+//para el login
+Route::post('/request/login', [FrontController::class, 'login']);
+
+//para usuarios
+Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
+//para cliente
+Route::post('/request/nuevo-cliente2',[CC::class, 'createCliente']);
+
+
+//para servicio
+Route::post('/request/nuevo-servicio2', [SR::class, 'createServicio']);
+Route::get('/request/get-servicios2', [SR::class, 'getServicios']);
+Route::post('/request/update-servicio2', [SR::class, 'updateServicio']);
+//falta delete servicio
+
+//para precioServicio
+Route::post('/request/create-precio-servicio2', [PSR::class, 'createPrecioServicio']);
+Route::delete('/request/eliminar-precio-servicio2/{idServicio}',[PSR::class,'deletePrecioServicioByIdServicio']);
+
+//para la solicitud
+Route::post('/request/create-solicitud-servicio2', [SSC::class, 'createSolicitud']); //revisar asignacion
+

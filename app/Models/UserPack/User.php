@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\UserPack;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nombre', 'email', 'password', 'tipoUsuario',
     ];
 
     /**
@@ -36,4 +36,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function getUsuario($usuario){
+        $user = User::where('usuario',$usuario)->first();
+        return $user;
+    }
+    public function search($usuario, $email){
+        $user = User::where('usuario',$usuario)->orWhere('email', $email)->first();
+        return $user;
+    }
+
 }

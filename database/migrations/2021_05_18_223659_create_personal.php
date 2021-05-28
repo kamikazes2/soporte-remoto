@@ -15,13 +15,13 @@ class CreatePersonal extends Migration
     {
         Schema::create('personal', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("idUsuario");
+            $table->foreign('idUsuario')->references('id')->on('users');
             $table->string("dni");
             $table->string("nombre");
             $table->string("apellido");
             $table->dateTime("fechaNacimiento");
             $table->boolean("disponible");
-            $table->string("usuario");
-            $table->string("password");
             $table->timestamps();
         });
     }
