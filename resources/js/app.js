@@ -38,6 +38,7 @@ Vue.component('frmservicio', require('./components/frmservicio.vue').default);
 Vue.component('frmsolicitudservicio', require('./components/frmsolicitudservicio.vue').default);
 Vue.component('login-component', require('./components/loginComponent.vue').default);
 Vue.component('frmmissolicitudes', require('./components/frmmissolicitudes.vue').default);
+Vue.component('frmespecialidad', require('./components/frmespecialidad.vue').default);
 
 
 

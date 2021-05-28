@@ -45,76 +45,7 @@
 								</div>
 							</div>
 
-							<div class="col-12 col-sm-6 col-md-6 col-lg-3">
-								<div class="card h-100 mb-4">                    
-									<div class="card-header">                                
-										<h5 class="card-title m-0 p-0 font-weight-bolder text-secondary">Device Data Counter Status</h5>
-									</div>
-									<div class="card-body text-left">
-										<p class="card-text">Up to 500 registered devices, data analyzed per month.</p>
-										<span class="font-lead-base font-weight-bold text-muted">20% Off!</span>
-										<div class="promotion-promo">$ 12.2</div>
-										<div class="promotion-price">
-											<div class="promotion-price-desc">Now</div>
-											<div class="promotion-price-text">$ 10.2</div>                                    
-										</div>
-									</div>
-									<div class="card-footer"><a href="#" class="btn btn-warning">Order</a></div>
-								</div>
-							</div>
-
-							<div class="col-12 col-sm-6 col-md-6 col-lg-3">
-								<div class="card h-100 mb-4">                    
-									<div class="card-header">                                
-										<h5 class="card-title m-0 p-0 font-weight-bolder text-secondary">Enterprise Edition Package</h5>
-									</div>
-									<div class="card-body text-left">
-										<p class="card-text">All features with cloud storage and Full support.</p>
-										<span class="font-lead-base font-weight-bold text-muted">20% Off!</span>
-										<div class="promotion-promo">$ 10</div>
-										<div class="promotion-price">
-											<div class="promotion-price-desc">Now</div>
-											<div class="promotion-price-text">$ 8</div>                                    
-										</div>
-									</div>
-									<div class="card-footer"><a href="#" class="btn btn-warning">Order</a></div>
-								</div>
-							</div>
-
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-								<div class="card h-100 mb-4">                    
-									<div class="card-header">                                
-										<h5 class="card-title m-0 p-0 font-weight-bolder text-secondary">Enterprise Edition Package</h5>
-									</div>
-									<div class="card-body text-left">
-										<p class="card-text">All features with cloud storage and Full support.</p>
-										<span class="font-lead-base font-weight-bold text-muted">20% Off!</span>
-										<div class="promotion-promo">$ 10</div>
-										<div class="promotion-price">
-											<div class="promotion-price-desc">Now</div>
-											<div class="promotion-price-text">$ 8</div>                                    
-										</div>
-									</div>
-									<div class="card-footer"><a href="#" class="btn btn-warning">Order</a></div>
-								</div>
-							</div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-								<div class="card h-100 mb-4">                    
-									<div class="card-header">                                
-										<h5 class="card-title m-0 p-0 font-weight-bolder text-secondary">Enterprise Edition Package</h5>
-									</div>
-									<div class="card-body text-left">
-										<p class="card-text">All features with cloud storage and Full support.</p>
-										<span class="font-lead-base font-weight-bold text-muted">20% Off!</span>
-										<div class="promotion-promo">$ 10</div>
-										<div class="promotion-price">
-											<div class="promotion-price-desc">Now</div>
-											<div class="promotion-price-text">$ 8</div>                                    
-										</div>
-									</div>
-									<div class="card-footer"><a href="#" class="btn btn-warning">Order</a></div>
-								</div>
-							</div>
+							
                             
 						</div>
 					</div>
