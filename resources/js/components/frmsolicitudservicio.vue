@@ -247,8 +247,6 @@
                 axios.get('/request/verificar-cliente/'+this.dniCliente).then(function (res) {
                     if(res.data.existe == true){
                         var cli = res.data.cliente;
-                        console.log(cli);
-                        console.log(cli[0].nombre);
                         if(
                            cli[0].nombre != this.nombreCliente ||
                            cli[0].apellido != this.apellidoCliente
@@ -256,7 +254,7 @@
                             alert("se debe actualizar");
                         }
                     }else{
-                        alert("no existe");
+                        //se debe crear al nuevo cliente
                     }
                 }.bind(this));
                 return;
