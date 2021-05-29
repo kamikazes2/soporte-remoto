@@ -2770,9 +2770,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2797,8 +2794,7 @@ __webpack_require__.r(__webpack_exports__);
       numeroTarjeta: '',
       expTarjeta: '',
       yearExpTarjeta: '',
-      cvvTarjeta: '',
-      telefonoCliente: ''
+      cvvTarjeta: ''
     };
   },
   methods: {
@@ -2856,26 +2852,40 @@ __webpack_require__.r(__webpack_exports__);
           var cli = res.data.cliente;
 
           if (cli[0].nombre != this.nombreCliente || cli[0].apellido != this.apellidoCliente) {
-            alert("se debe actualizar");
+            //actualizar los datos del cliente
+            this.updateCliente(cli[0].id, this.nombreCliente, this.apellidoCliente, this.fechaNacimientoCliente);
+            preloader.style.display = "none";
+            alert("cliente actualizado");
           }
-        } else {//se debe crear al nuevo cliente
+        } else {
+          //crear un nuevo cliente
+          axios.post('/request/nuevo-cliente2', {
+            'dni': this.dniCliente,
+            'nombre': this.nombreCliente,
+            'apellido': this.apellidoCliente,
+            'fechaNacimiento': this.fechaNacimientoCliente
+          }).then(function (error) {
+            setTimeout(function () {
+              preloader.style.display = "none";
+            }, 2000);
+            alert("Se creo el nuevo cliente");
+          })["catch"](function (error) {
+            console.log(error);
+            preloader.style.display = "none";
+          });
         }
       }.bind(this));
-      return; //si no existe registrarlo
-
-      axios.post('/request/nuevo-cliente2', {
-        'dni': this.dniCliente,
-        'nombre': this.nombreCliente,
-        'apellido': this.apellidoCliente,
-        'fechaNacimiento': this.fechaNacimientoCliente
+    },
+    updateCliente: function updateCliente(id, nombre, apellido, fechaNacimiento) {
+      axios.post('/request/actualizar-cliente2', {
+        'idCliente': id,
+        'nombre': nombre,
+        'apellido': apellido,
+        'fechaNacimiento': fechaNacimiento
       }).then(function (error) {
-        setTimeout(function () {
-          preloader.style.display = "none";
-        }, 2000);
-        alert("La solicitud fue registrada correctamente");
+        return true;
       })["catch"](function (error) {
         console.log(error);
-        preloader.style.display = "none";
       });
     },
     Solicitar: function Solicitar() {
@@ -56243,37 +56253,6 @@ var render = function() {
                                     }
                                     _vm.fechaNacimientoCliente =
                                       $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "telefono" } }, [
-                                _vm._v("Telefono")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.telefonoCliente,
-                                    expression: "telefonoCliente"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "number",
-                                  id: "telefono",
-                                  name: "telefono"
-                                },
-                                domProps: { value: _vm.telefonoCliente },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.telefonoCliente = $event.target.value
                                   }
                                 }
                               })

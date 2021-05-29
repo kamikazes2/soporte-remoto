@@ -50,5 +50,15 @@ class EloquentClienteRepository implements ClienteRepositoryContract
         }
     }
 
+    public function update($id, $nombre, $apellido, $fechaNacimiento){
+        $cli = $this->eloquentClienteModel;
+        $cli = $cli->find($id);
+        $cli->nombre = $nombre;
+        $cli->apellido = $apellido;
+        $cli->fechaNacimiento = $fechaNacimiento;
+        $cli->save();
+        return $cli;
+    }
+
 
 }

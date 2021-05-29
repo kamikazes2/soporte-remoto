@@ -11,7 +11,7 @@ use Src\ModuloCliente\Cliente\Infrastructure\Repositories\EloquentClienteReposit
 
 use Src\ModuloCliente\Cliente\Application\CreateClienteUseCase;
 use Src\ModuloCliente\Cliente\Application\VerificarClienteUseCase;
-// use Src\ModuloCliente\Cliente\Application\UpdateClienteUseCase;
+use Src\ModuloCliente\Cliente\Application\UpdateClienteUseCase;
 // use Src\ModuloCliente\Cliente\Application\GetClienteUseCase;
 
 
@@ -58,7 +58,18 @@ class ClienteController
 
     public function updateCliente(Request $request)
     {
-        //
+        $updateUserUC = new UpdateClienteUseCase($this->clienteRepository);
+        $id = $request['idCliente'];
+        $nombre = $request['nombre'];
+        $apellido = $request['apellido'];
+        $fechaNacimiento = $request['fechaNacimiento'];
+        $clien = $updateUserUC->__invoke(
+            $id,
+            $nombre,
+            $apellido,
+            $fechaNacimiento
+        );
+        return $clien;
     }
 
     public function deleteCliente(Request $request){

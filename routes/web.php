@@ -83,6 +83,7 @@ use Src\ModuloServicio\PrecioServicio\Infrastructure\PrecioServicioController as
 use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\SolicitudServicioController as SSC;
 use Src\ModuloUsuario\Usuario\Infrastructure\UsuarioController as UC;
 use Src\ModuloCliente\Cliente\Infrastructure\ClienteController as CC;
+use Src\ModuloTarjeta\Tarjeta\Infrastructure\TarjetaController as TC;
 
 
 //para el login
@@ -95,6 +96,11 @@ Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
 //para cliente
 Route::post('/request/nuevo-cliente2',[CC::class, 'createCliente']);
 Route::get('/request/verificar-cliente/{dni}',[CC::class, 'verificarCliente']);
+Route::post('/request/actualizar-cliente2',[CC::class, 'updateCliente']);
+
+//para tarjeta de cliente
+Route::post('/request/nueva-tarjeta',[TC::class, 'createTarjeta']);
+Route::get('/request/buscar-tarjeta-cliente/{idCliente}',[TC::class, 'buscarTarjetaCliente']);
 
 
 //para servicio

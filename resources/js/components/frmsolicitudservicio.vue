@@ -88,9 +88,6 @@
                                                 <input class="form-control" v-model="apellidoCliente" required type="text" id="apellido" name="apellido" >
                                                 <label for="fechaNacimiento">Fecha de nacimiento</label>
                                                 <input v-model="fechaNacimientoCliente" required class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento">
-                                                <label for="telefono">Telefono</label>
-                                                <input class="form-control" v-model="telefonoCliente" required type="number" id="telefono" name="telefono" >
-                                                
                                             </div>
 
                                             <div class="col-50">
@@ -189,8 +186,7 @@
                 numeroTarjeta:'',
                 expTarjeta :'',
                 yearExpTarjeta : '',
-                cvvTarjeta : '',    
-                telefonoCliente: ''
+                cvvTarjeta : ''
             }
         },
         methods:{
@@ -251,30 +247,43 @@
                            cli[0].nombre != this.nombreCliente ||
                            cli[0].apellido != this.apellidoCliente
                         ){
-                            alert("se debe actualizar");
+                            //actualizar los datos del cliente
+                            this.updateCliente(cli[0].id, this.nombreCliente, this.apellidoCliente, this.fechaNacimientoCliente);
+                            preloader.style.display="none";
+                            alert("cliente actualizado");
                         }
+
                     }else{
-                        //se debe crear al nuevo cliente
+                        //crear un nuevo cliente
+                        axios.post('/request/nuevo-cliente2',{
+                            'dni' : this.dniCliente,
+                            'nombre': this.nombreCliente,
+                            'apellido': this.apellidoCliente,
+                            'fechaNacimiento': this.fechaNacimientoCliente 
+                        }).then(function(error){
+                            setTimeout(function() {
+                                preloader.style.display="none";
+                            }, 2000);
+                            alert("Se creo el nuevo cliente");
+                        }).catch(function(error){
+                                console.log(error);
+                                preloader.style.display="none";
+                        });
                     }
                 }.bind(this));
-                return;
-                    
-                //si no existe registrarlo
-                axios.post('/request/nuevo-cliente2',{
-                    'dni' : this.dniCliente,
-                    'nombre': this.nombreCliente,
-                    'apellido': this.apellidoCliente,
-                    'fechaNacimiento': this.fechaNacimientoCliente 
+
+            },
+            updateCliente(id, nombre, apellido, fechaNacimiento){
+                axios.post('/request/actualizar-cliente2',{
+                    'idCliente' : id,
+                    'nombre': nombre,
+                    'apellido': apellido,
+                    'fechaNacimiento': fechaNacimiento 
                 }).then(function(error){
-                    setTimeout(function() {
-                        preloader.style.display="none";
-                    }, 2000);
-                    alert("La solicitud fue registrada correctamente");
+                    return true;
                 }).catch(function(error){
                         console.log(error);
-                        preloader.style.display="none";
                 });
-
             },
             Solicitar(){
                     let me = this;
