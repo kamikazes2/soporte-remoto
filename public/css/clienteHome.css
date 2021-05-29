@@ -1,0 +1,14 @@
+
+#nombreUsuario{
+    display: block;
+    position: absolute;
+    right: 20px;
+}
+
+#nombreUsuario label{
+    display: contents;
+}
+
+.CenteredDivContent{
+    text-align: center;
+}

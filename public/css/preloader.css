@@ -1,0 +1,41 @@
+.preloader {
+    margin: 0 auto;
+    width: 70px;
+    height: 70px;
+    border: 10px solid #eee;
+    border-top: 10px solid lightblue;
+    border-radius: 50%;
+    animation-name: girar;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  @keyframes girar {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .preloaderContainer{
+    padding-top: 20%;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+  }
+  .preloaderBackground{
+      background-color: black;
+      position: fixed;
+      z-index: 99;
+      width: 100%;
+      left: 0px;
+      top: 0px;
+      height: 100%;
+      width: 100%;
+      opacity: 30%;
+  }

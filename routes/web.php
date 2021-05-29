@@ -68,6 +68,16 @@ Route::post('/request/update-cliente-password',[ClienteController::class,'change
 
 
 
+
+
+
+
+
+
+
+
+//nuevos---------------------------------------------------------------------------------------------
+
 use Src\ModuloServicio\Servicio\Infrastructure\ServicioController as SR;
 use Src\ModuloServicio\PrecioServicio\Infrastructure\PrecioServicioController as PSR;
 use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\SolicitudServicioController as SSC;
@@ -77,17 +87,22 @@ use Src\ModuloCliente\Cliente\Infrastructure\ClienteController as CC;
 
 //para el login
 Route::post('/request/login', [FrontController::class, 'login']);
+Route::get('/request/get-logged-user', [FrontController::class, 'getLoggedUser']);
+
 
 //para usuarios
 Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
 //para cliente
 Route::post('/request/nuevo-cliente2',[CC::class, 'createCliente']);
+Route::get('/request/verificar-cliente/{dni}',[CC::class, 'verificarCliente']);
 
 
 //para servicio
 Route::post('/request/nuevo-servicio2', [SR::class, 'createServicio']);
 Route::get('/request/get-servicios2', [SR::class, 'getServicios']);
 Route::post('/request/update-servicio2', [SR::class, 'updateServicio']);
+Route::get('/request/get-servicio-with-especialidades/{idServicio}', [SR::class, 'getServiciosWithEspecialides']);
+
 //falta delete servicio
 
 //para precioServicio

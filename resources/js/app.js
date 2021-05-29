@@ -10,6 +10,7 @@
 
 
 
+
 window.Vue = require('vue');
 
 
@@ -20,6 +21,9 @@ Vue.use( VuejsDatatableFactory );
 Vue.component('modal', {
     template: '#modal-template'
 })
+
+// global variable
+Vue.prototype.$usuarioLogueado = '';
 
 /**
  * The following block of code may be used to automatically register your
@@ -37,6 +41,7 @@ Vue.component('frmservicio', require('./components/frmservicio.vue').default);
 Vue.component('frmsolicitudservicio', require('./components/frmsolicitudservicio.vue').default);
 Vue.component('login-component', require('./components/loginComponent.vue').default);
 Vue.component('frmmissolicitudes', require('./components/frmmissolicitudes.vue').default);
+Vue.component('nombreusuariologueado', require('./components/nombreUsuarioLogueadoComponent.vue').default);
 
 
 
@@ -52,6 +57,7 @@ const app = new Vue({
         menu:0
     }
 });
+
 
 
 

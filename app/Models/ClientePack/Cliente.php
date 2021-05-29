@@ -24,5 +24,10 @@ class Cliente extends Model
         }
     }
 
+    public function verificarCliente($dni){
+        $cliente = DB::table('cliente')->where('dni', $dni)->get();
+        return $cliente;
+    }
+
 
 }

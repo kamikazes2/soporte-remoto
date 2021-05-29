@@ -10,7 +10,7 @@ use Src\ModuloCliente\Cliente\Infrastructure\Repositories\EloquentClienteReposit
 
 
 use Src\ModuloCliente\Cliente\Application\CreateClienteUseCase;
-use Src\ModuloCliente\Cliente\Application\BuscarClienteUseCase;
+use Src\ModuloCliente\Cliente\Application\VerificarClienteUseCase;
 // use Src\ModuloCliente\Cliente\Application\UpdateClienteUseCase;
 // use Src\ModuloCliente\Cliente\Application\GetClienteUseCase;
 
@@ -44,8 +44,13 @@ class ClienteController
         return $cl;
     }
 
-    public function getClientes(){
-        //
+    public function verificarCliente(Request $request){
+        $dni = $request['dni'];
+        $verificarClienteUseCase = new VerificarClienteUseCase($this->clienteRepository);
+        $cliente = $verificarClienteUseCase->__invoke(
+            $dni
+        );
+        return $cliente;
     }
 
     public function updateCliente(Request $request)
