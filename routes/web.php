@@ -84,6 +84,9 @@ use Src\ModuloServicioPorRealizar\SolicitudServicio\Infrastructure\SolicitudServ
 use Src\ModuloUsuario\Usuario\Infrastructure\UsuarioController as UC;
 use Src\ModuloCliente\Cliente\Infrastructure\ClienteController as CC;
 use Src\ModuloTarjeta\Tarjeta\Infrastructure\TarjetaController as TC;
+use Src\ModuloPagos\NitTributario\Infrastructure\NitTributarioController as NTC;
+use Src\ModuloPagos\Factura\Infrastructure\FacturaController as FC;
+use Src\ModuloPagos\DetalleFactura\Infrastructure\DetalleFacturaController as DFC;
 
 
 //para el login
@@ -102,6 +105,14 @@ Route::get('/request/buscar-ultimo-cliente-usuario-logueado',[CC::class, 'buscar
 //para tarjeta de cliente
 Route::post('/request/nueva-tarjeta',[TC::class, 'createTarjeta']);
 Route::get('/request/buscar-tarjeta-cliente/{idCliente}',[TC::class, 'buscarTarjetaCliente']);
+
+//para nit del cliente
+Route::post('/request/nuevo-nit',[NTC::class, 'createNitTributario']);
+Route::get('/request/buscar-nit-cliente/{idCliente}',[NTC::class, 'buscarNitTributarioCliente']);
+//para factura del cliente
+Route::post('/request/nueva-factura',[FC::class, 'createFactura']);
+//para el detalle de la factura
+Route::post('/request/nuevo-detalle-factura',[DFC::class, 'createDetalleFactura']);
 
 
 //para servicio

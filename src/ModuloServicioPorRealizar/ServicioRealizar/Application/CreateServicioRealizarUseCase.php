@@ -22,7 +22,7 @@ class CreateServicioRealizarUseCase
     )
     {
         $ServicioRealizar = ServicioRealizar::create($idServicio, $idSolicitud, $precioFijado, $completado, $estado);
-        $this->repository->save($ServicioRealizar);
+        return $this->repository->save($ServicioRealizar);
     }
 
 }

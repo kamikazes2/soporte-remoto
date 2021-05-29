@@ -2624,12 +2624,69 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2815,10 +2872,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       numeroTarjeta: '',
       expTarjeta: '',
       yearExpTarjeta: '',
-      cvvTarjeta: ''
+      cvvTarjeta: '',
+      nitNombreCliente: '',
+      nitCliente: '',
+      idNit: 0,
+      idFact: 0,
+      arrayServiciosRealizar: []
     };
   },
-  methods: {
+  methods: (_methods = {
     Agregar: function Agregar(nombre, idServicio, precio, event) {
       var btn = event.target; // btn.disabled = true;
 
@@ -2858,10 +2920,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     irPaso2: function irPaso2() {
       document.getElementById("paso1").style.display = "none";
       document.getElementById("paso2").style.display = "block";
+      document.getElementById("paso3").style.display = "none";
     },
     irPaso1: function irPaso1() {
       document.getElementById("paso2").style.display = "none";
       document.getElementById("paso1").style.display = "flex";
+      document.getElementById("paso3").style.display = "none";
+    },
+    irPaso3: function irPaso3() {
+      document.getElementById("paso1").style.display = "none";
+      document.getElementById("paso2").style.display = "none";
+      document.getElementById("paso3").style.display = "block";
     },
     verificar: function verificar() {
       var _this = this;
@@ -2943,6 +3012,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 setTimeout(function () {
                   preloader.style.display = "none";
                   console.log("enviar al ultimo paso");
+                  document.getElementById("paso1").style.display = "none";
+                  document.getElementById("paso2").style.display = "none";
+                  document.getElementById("paso3").style.display = "block";
                 }, 3000);
 
               case 29:
@@ -3024,14 +3096,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    updateCliente: function updateCliente(id, nombre, apellido, fechaNacimiento) {
+    verificarSiClienteTieneNit: function verificarSiClienteTieneNit(idCliente) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                if (!(idCliente != 0 && idCliente != null)) {
+                  _context4.next = 3;
+                  break;
+                }
+
+                _context4.next = 3;
+                return axios.get('/request/buscar-nit-cliente/' + idCliente).then(function (res) {
+                  if (res.data.tiene) {
+                    r = res.data;
+                  } else {
+                    r = null;
+                  }
+                });
+
+              case 3:
+                return _context4.abrupt("return", r);
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    updateCliente: function updateCliente(id, nombre, apellido, fechaNacimiento) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var r;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                console.log(id + nombre + apellido + fechaNacimiento);
+                _context5.next = 3;
                 return axios.post('/request/actualizar-cliente2', {
                   'idCliente': id,
                   'nombre': nombre,
@@ -3043,27 +3148,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(error);
                 });
 
-              case 2:
-                return _context4.abrupt("return", r);
-
               case 3:
+                return _context5.abrupt("return", r);
+
+              case 4:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     createCliente: function createCliente() {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var id;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return axios.post('/request/nuevo-cliente2', {
                   'dni': _this3.dniCliente,
                   'nombre': _this3.nombreCliente,
@@ -3077,26 +3182,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                return _context5.abrupt("return", id);
+                return _context6.abrupt("return", id);
 
               case 3:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6);
       }))();
     },
     createTarjeta: function createTarjeta() {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
         var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context6.next = 2;
+                _context7.next = 2;
                 return axios.post('/request/nueva-tarjeta', {
                   'idCliente': _this4.idCliente,
                   'nombre': _this4.nombreTarjeta,
@@ -3110,27 +3215,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                return _context6.abrupt("return", data);
+                return _context7.abrupt("return", data);
 
               case 3:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     },
     findCliente: function findCliente() {
       var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
         var i;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 i = false;
-                _context7.next = 3;
+                _context8.next = 3;
                 return axios.get('/request/buscar-ultimo-cliente-usuario-logueado').then(function (response) {
                   if (response.data != false) {
                     var data = response.data;
@@ -3149,72 +3254,291 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }.bind(_this5));
 
               case 3:
-                return _context7.abrupt("return", i);
+                return _context8.abrupt("return", i);
 
               case 4:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7);
+        }, _callee8);
       }))();
     },
-    Solicitar: function Solicitar() {
-      var me = this;
-      axios.post('request/nuevo-solicitud-servicio', {
-        /* 
-            Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
-        */
-        'arrayServicios': this.carritoservicios
-      }).then(function (error) {
-        alert("La solicitud fue registrada correctamente");
-        me.listaservicios = [];
-      })["catch"](function (error) {
-        console.log(error);
-      });
+    pagar: function pagar() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+        var nit, iguales, nuevoNit, servRealizar, fact, r;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                preloader.style.display = "block";
+                _context9.next = 3;
+                return _this6.verificarSiClienteTieneNit(_this6.idCliente);
+
+              case 3:
+                nit = _context9.sent;
+                console.log(nit.nitTributario);
+
+                if (!(nit != null && nit.tiene)) {
+                  _context9.next = 18;
+                  break;
+                }
+
+                nit = nit.nitTributario[0];
+                iguales = _this6.verificarDatosIgualesConBD(nit);
+
+                if (iguales) {
+                  _context9.next = 15;
+                  break;
+                }
+
+                _context9.next = 11;
+                return _this6.createNit();
+
+              case 11:
+                nuevoNit = _context9.sent;
+                _this6.idNit = nuevoNit.id;
+                _context9.next = 16;
+                break;
+
+              case 15:
+                _this6.idNit = nit.id;
+
+              case 16:
+                _context9.next = 22;
+                break;
+
+              case 18:
+                _context9.next = 20;
+                return _this6.createNit();
+
+              case 20:
+                nuevoNit = _context9.sent;
+                _this6.idNit = nuevoNit.id;
+
+              case 22:
+                _context9.next = 24;
+                return _this6.solicitar();
+
+              case 24:
+                servRealizar = _context9.sent;
+                _context9.next = 27;
+                return _this6.createFactura();
+
+              case 27:
+                fact = _context9.sent;
+                _this6.idFact = fact.id; //obtengo el id de la factura creada
+                //por cada servicioRealizar crear un detalle de factura asignado a 1 factura
+
+                servRealizar.forEach(function (sr) {
+                  var k = {
+                    'id': sr.id
+                  };
+
+                  _this6.arrayServiciosRealizar.push(k);
+                });
+                _context9.next = 32;
+                return _this6.createDetalleFactura();
+
+              case 32:
+                r = _context9.sent;
+                setTimeout(function () {
+                  preloader.style.display = "none";
+                  console.log("finalizar y mostrar la factura");
+                }, 3000);
+
+              case 34:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    createFactura: function createFactura() {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return axios.post('/request/nueva-factura', {
+                  'idNit': _this7.idNit
+                }).then(function (res) {
+                  data = res.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+                return _context10.abrupt("return", data);
+
+              case 3:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    createDetalleFactura: function createDetalleFactura() {
+      var _this8 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                _context11.next = 2;
+                return axios.post('/request/nuevo-detalle-factura', {
+                  'idFactura': _this8.idFact,
+                  'arrayIdServiciosRealizar': _this8.arrayServiciosRealizar
+                }).then(function (res) {
+                  data = res.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+                return _context11.abrupt("return", data);
+
+              case 3:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
+      }))();
+    },
+    createNit: function createNit() {
+      var _this9 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                _context12.next = 2;
+                return axios.post('/request/nuevo-nit', {
+                  'idCliente': _this9.idCliente,
+                  'nombre': _this9.nitNombreCliente,
+                  'nit': _this9.nitCliente,
+                  'tipo': 'nit'
+                }).then(function (res) {
+                  data = res.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+                return _context12.abrupt("return", data);
+
+              case 3:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
     }
-  },
-  mounted: function mounted() {
-    var _this6 = this;
+  }, _defineProperty(_methods, "verificarDatosIgualesConBD", function verificarDatosIgualesConBD(db) {
+    if (db.nit != this.nitCliente || db.nombre != this.nitNombreCliente) {
+      return false;
+    } else {
+      return true;
+    }
+  }), _defineProperty(_methods, "solicitar", function solicitar() {
+    var _this10 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-      var tarjeta;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+      var a, me;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
         while (1) {
-          switch (_context8.prev = _context8.next) {
+          switch (_context13.prev = _context13.next) {
             case 0:
-              _context8.next = 2;
-              return axios.get('/request/get-servicios2').then(function (response) {
-                this.arrayServicio = response.data;
-              }.bind(_this6));
+              me = _this10;
+              _context13.next = 3;
+              return axios.post('/request/create-solicitud-servicio2', {
+                /* 
+                    Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
+                */
+                'arrayServicios': _this10.carritoservicios
+              }).then(function (res) {
+                //alert("La solicitud fue registrada correctamente");
+                a = res.data;
+              })["catch"](function (error) {
+                console.log(error);
+              });
 
-            case 2:
-              _context8.next = 4;
-              return _this6.findCliente();
+            case 3:
+              return _context13.abrupt("return", a);
 
             case 4:
-              _context8.next = 6;
-              return _this6.verificarSiClienteTieneTarjeta(_this6.idCliente);
+            case "end":
+              return _context13.stop();
+          }
+        }
+      }, _callee13);
+    }))();
+  }), _methods),
+  mounted: function mounted() {
+    var _this11 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
+      var tarjeta, nit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+        while (1) {
+          switch (_context14.prev = _context14.next) {
+            case 0:
+              _context14.next = 2;
+              return axios.get('/request/get-servicios2').then(function (response) {
+                this.arrayServicio = response.data;
+              }.bind(_this11));
+
+            case 2:
+              _context14.next = 4;
+              return _this11.findCliente();
+
+            case 4:
+              _context14.next = 6;
+              return _this11.verificarSiClienteTieneTarjeta(_this11.idCliente);
 
             case 6:
-              tarjeta = _context8.sent;
-              console.log(_this6.idCliente);
-              console.log(tarjeta);
+              tarjeta = _context14.sent;
 
               if (tarjeta != null && tarjeta.tiene) {
                 tarjeta = tarjeta.tarjeta[0];
-                _this6.nombreTarjeta = tarjeta.nombre;
-                _this6.numeroTarjeta = tarjeta.numero;
-                _this6.expTarjeta = tarjeta.mes;
-                _this6.yearExpTarjeta = tarjeta.anio;
+                _this11.nombreTarjeta = tarjeta.nombre;
+                _this11.numeroTarjeta = tarjeta.numero;
+                _this11.expTarjeta = tarjeta.mes;
+                _this11.yearExpTarjeta = tarjeta.anio;
               }
 
+              _context14.next = 10;
+              return _this11.verificarSiClienteTieneNit(_this11.idCliente);
+
             case 10:
+              nit = _context14.sent;
+
+              if (nit != null && nit.tiene) {
+                nit = nit.nitTributario[0];
+                _this11.nitNombreCliente = nit.nombre;
+                _this11.nitCliente = nit.nit;
+              }
+
+            case 12:
             case "end":
-              return _context8.stop();
+              return _context14.stop();
           }
         }
-      }, _callee8);
+      }, _callee14);
     }))();
   }
 });
@@ -57555,6 +57879,186 @@ var render = function() {
                           on: { click: _vm.irPaso1 }
                         },
                         [_vm._v("Volver")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "container",
+        staticStyle: { display: "none" },
+        attrs: { id: "paso3" }
+      },
+      [
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              staticStyle: { width: "20%" },
+              on: {
+                click: function($event) {
+                  return _vm.irPaso2()
+                }
+              }
+            },
+            [_vm._v("Cancelar")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", { staticClass: "row justify-content-center" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(" Ultimo paso")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-75" }, [
+                    _c("div", { staticClass: "container" }, [
+                      _c("div", { staticClass: "col-50" }, [
+                        _c("h3", [_vm._v("Datos de facturacion")]),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "nit" } }, [_vm._v("Nit")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nitCliente,
+                              expression: "nitCliente"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.nitCliente },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nitCliente = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "fname" } }, [
+                          _vm._v("Nombre completo")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nitNombreCliente,
+                              expression: "nitNombreCliente"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.nitNombreCliente },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nitNombreCliente = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-12 carrito1" }, [
+                      _c(
+                        "div",
+                        { staticClass: "container" },
+                        [
+                          _c("h4", [
+                            _vm._v(
+                              "Detalles de la compra\n                                                "
+                            ),
+                            _c(
+                              "span",
+                              {
+                                staticClass: "price",
+                                staticStyle: { color: "black" }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fa-shopping-cart" }),
+                                _vm._v(" "),
+                                _c("b", [_vm._v(_vm._s(_vm.cantCarrito))])
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.carritoservicios, function(carrito) {
+                            return _c("div", { key: carrito.idServicio }, [
+                              _c("div", { staticClass: "carritoNombre" }, [
+                                _c("a", { attrs: { href: "#" } }, [
+                                  _vm._v(_vm._s(carrito.nombre))
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "carritoPrecio2" }, [
+                                _c("span", { staticClass: "price" }, [
+                                  _vm._v(_vm._s(carrito.precioFijado))
+                                ])
+                              ])
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("Total "),
+                            _c(
+                              "span",
+                              {
+                                staticClass: "price",
+                                staticStyle: { color: "black" }
+                              },
+                              [_c("b", [_vm._v(_vm._s(_vm.total))])]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "CenteredDivContent" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success",
+                                staticStyle: { width: "20%" },
+                                attrs: { id: "btnPagar" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.pagar()
+                                  }
+                                }
+                              },
+                              [_vm._v("Pagar Total")]
+                            )
+                          ])
+                        ],
+                        2
                       )
                     ])
                   ])

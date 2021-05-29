@@ -27,7 +27,7 @@ class EloquentServicioRealizarRepository implements ServicioRealizarRepositoryCo
         $newServicioRealizar->estado = $servicioRealizar->getEstado();
 
         $newServicioRealizar->save();
-        return $newServicioRealizar->id;
+        return $newServicioRealizar;
     }
     
     public function getServicioPendiente()

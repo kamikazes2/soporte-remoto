@@ -47,7 +47,7 @@ class SolicitudServicioController
         );
 
         //creamos el servicio por realizar
-        
+        $arraySol = array();
         foreach($request['arrayServicios'] as $array){
             if($array['idServicio']!='' && $array['precioFijado']!=''){
                 $idSolicitud = $sol->id;
@@ -63,11 +63,12 @@ class SolicitudServicioController
                     $completado,
                     $estado
                 );
+                array_push($arraySol, $serv);
             }
         }
         $createAsignacionServicioUseCase = new CreateAsignacionServicioUseCase($this->aRepository);
         $a = $createAsignacionServicioUseCase->__invoke();
-        return response()->json($a);
+        return response()->json($arraySol);
     }
 
 

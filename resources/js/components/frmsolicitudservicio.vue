@@ -155,6 +155,59 @@
                 </div>
             </div>
         </div>
+        <br>
+
+        <div class="container" id="paso3" style="display:none">
+            <div><button style="width: 20%" @click="irPaso2()"  class="btn btn-danger">Cancelar</button></div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-md-12" >
+                    <div class="card">
+                        <div class="card-header"> Ultimo paso</div>
+                            <div class="card-body">
+                                 <div class="row">
+                                    <div class="col-75">
+                                        <div class="container">
+                                            <div class="col-50">
+                                                <h3>Datos de facturacion</h3>
+                                                <label for="nit">Nit</label>
+                                                <input class="form-control" v-model="nitCliente"  type="text">
+                                                <label for="fname">Nombre completo</label>
+                                                <input class="form-control" v-model="nitNombreCliente"  type="text">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col-12 carrito1">
+                                                <div class="container">
+                                                <h4>Detalles de la compra
+                                                    <span class="price" style="color:black">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    <b>{{cantCarrito}}</b>
+                                                    </span>
+                                                </h4>
+                                                <div v-for="carrito in carritoservicios" :key="carrito.idServicio">
+                                                    <div class="carritoNombre">
+                                                        <a href="#">{{carrito.nombre}}</a> 
+                                                    </div>
+                                                    <div class="carritoPrecio2">
+                                                    <span class="price">{{carrito.precioFijado}}</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <p>Total <span class="price" style="color:black"><b>{{total}}</b></span></p>
+                                                    <div class="CenteredDivContent">
+                                                        <button style="width: 20%" @click="pagar()"  id="btnPagar" class="btn btn-success">Pagar Total</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                 </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -187,7 +240,12 @@
                 numeroTarjeta:'',
                 expTarjeta :'',
                 yearExpTarjeta : '',
-                cvvTarjeta : ''
+                cvvTarjeta : '',
+                nitNombreCliente: '',
+                nitCliente: '',
+                idNit: 0,
+                idFact: 0,
+                arrayServiciosRealizar: []
             }
         },
         methods:{
@@ -231,10 +289,17 @@
             irPaso2(){
                 document.getElementById("paso1").style.display = "none";
                 document.getElementById("paso2").style.display = "block";
+                document.getElementById("paso3").style.display = "none";
             },
             irPaso1(){
                 document.getElementById("paso2").style.display = "none";
                 document.getElementById("paso1").style.display = "flex";
+                document.getElementById("paso3").style.display = "none";
+            },
+            irPaso3(){
+                document.getElementById("paso1").style.display = "none";
+                document.getElementById("paso2").style.display = "none";
+                document.getElementById("paso3").style.display = "block";
             },
 
             async verificar(){
@@ -269,8 +334,10 @@
                 setTimeout(function() {
                     preloader.style.display="none";
                     console.log("enviar al ultimo paso");
+                    document.getElementById("paso1").style.display = "none";
+                    document.getElementById("paso2").style.display = "none";
+                    document.getElementById("paso3").style.display = "block";
                 }, 3000);
-
             },
             async verificarSiExisteCliente(){
                 var re;
@@ -299,8 +366,22 @@
                 }
                 return r;
             },
+            async verificarSiClienteTieneNit(idCliente){
+                var r;
+                if(idCliente != 0 && idCliente!= null){
+                    await axios.get('/request/buscar-nit-cliente/'+idCliente).then(function (res) {
+                    if(res.data.tiene){
+                        r =  res.data;
+                    }else{
+                        r = null;
+                    }
+                });
+                }
+                return r;
+            },
             async updateCliente(id, nombre, apellido, fechaNacimiento){
                 var r;
+                console.log(id + nombre + apellido + fechaNacimiento);
                 await axios.post('/request/actualizar-cliente2',{
                     'idCliente' : id,
                     'nombre': nombre,
@@ -364,22 +445,97 @@
                 }.bind(this));
                 return i;
             },
-            Solicitar(){
-                    let me = this;
-                    axios.post('request/nuevo-solicitud-servicio',{
+            async pagar(){
+                preloader.style.display="block";
+                var nit = await this.verificarSiClienteTieneNit(this.idCliente);
+                console.log(nit.nitTributario);
+                if(nit != null && nit.tiene){
+                    nit = nit.nitTributario[0];
+                    var iguales = this.verificarDatosIgualesConBD(nit);
+                    if(!iguales){
+                        var nuevoNit = await this.createNit();
+                        this.idNit = nuevoNit.id;
+                    }else{
+                        this.idNit = nit.id;
+                    }
+                }else{
+                    var nuevoNit = await this.createNit();
+                    this.idNit = nuevoNit.id;
+                }
+                //realizamos la solicitud y generamos la factura
+                var servRealizar = await this.solicitar();
+                //crear una factura con el nit
+                var fact = await this.createFactura();
+                this.idFact = fact.id; //obtengo el id de la factura creada
+                //por cada servicioRealizar crear un detalle de factura asignado a 1 factura
+                servRealizar.forEach(sr => {
+                    var k = {'id':sr.id}
+                    this.arrayServiciosRealizar.push(k);
+                });
+                var r = await this.createDetalleFactura();
+                setTimeout(function() {
+                    preloader.style.display="none";
+                    console.log("finalizar y mostrar la factura");
+                }, 3000);
+            },
+            async createFactura(){
+                var data;
+                await axios.post('/request/nueva-factura',{
+                    'idNit' : this.idNit
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
+            async createDetalleFactura(){
+                var data;
+                await axios.post('/request/nuevo-detalle-factura',{
+                    'idFactura' : this.idFact,
+                    'arrayIdServiciosRealizar': this.arrayServiciosRealizar
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
+            async createNit(){
+                var data;
+                await axios.post('/request/nuevo-nit',{
+                    'idCliente' : this.idCliente,
+                    'nombre': this.nitNombreCliente,
+                    'nit': this.nitCliente,
+                    'tipo': 'nit'
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
+            verificarDatosIgualesConBD(db){
+                if(db.nit != this.nitCliente || db.nombre != this.nitNombreCliente){return false;}else{return true;}
+            },
+            async solicitar(){
+                var a;
+                let me = this;
+                await axios.post('/request/create-solicitud-servicio2',{
                         /* 
                             Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
                         */
                         'arrayServicios' : this.carritoservicios,
                         
-                    }).then(function(error){
-                        alert("La solicitud fue registrada correctamente");
-                        me.listaservicios=[];
-                    }).catch(function(error){
+                }).then(function(res){
+                        //alert("La solicitud fue registrada correctamente");
+                        a = res.data;
+                }).catch(function(error){
                         console.log(error);
-                    });
-                },
+                });
+                return a;
             },
+        },
             async mounted() {
                 await axios.get('/request/get-servicios2').then(function(response){
                         this.arrayServicio = response.data;
@@ -387,14 +543,18 @@
                 
                 await this.findCliente();
                 var tarjeta = await this.verificarSiClienteTieneTarjeta(this.idCliente);
-                console.log(this.idCliente);
-                console.log(tarjeta);
                 if(tarjeta != null && tarjeta.tiene){
                     tarjeta = tarjeta.tarjeta[0];
                     this.nombreTarjeta = tarjeta.nombre;
                     this.numeroTarjeta = tarjeta.numero;
                     this.expTarjeta = tarjeta.mes;
                     this.yearExpTarjeta = tarjeta.anio;
+                }
+                var nit = await this.verificarSiClienteTieneNit(this.idCliente);
+                if(nit != null && nit.tiene){
+                    nit = nit.nitTributario[0];
+                    this.nitNombreCliente = nit.nombre;
+                    this.nitCliente = nit.nit;
                 }
             },
     }
