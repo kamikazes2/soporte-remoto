@@ -14,10 +14,11 @@ class VerificarClienteUseCase
     }
 
     public function __invoke(
-        $dni
+        $dni,
+        $idUsuario
     )
     {
-        return $this->repository->verificarCliente($dni);
+        return $this->repository->verificarCliente($dni, $idUsuario);
     }
 
 }

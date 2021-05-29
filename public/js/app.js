@@ -2850,7 +2850,21 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       var preloader = document.getElementById("preloader");
       preloader.style.display = "block"; //verificar si existe el cliente
-      //si no existe registrarlo
+
+      axios.get('/request/verificar-cliente/' + this.dniCliente).then(function (res) {
+        if (res.data.existe == true) {
+          var cli = res.data.cliente;
+          console.log(cli);
+          console.log(cli[0].nombre);
+
+          if (cli[0].nombre != this.nombreCliente || cli[0].apellido != this.apellidoCliente) {
+            alert("se debe actualizar");
+          }
+        } else {
+          alert("no existe");
+        }
+      }.bind(this));
+      return; //si no existe registrarlo
 
       axios.post('/request/nuevo-cliente2', {
         'dni': this.dniCliente,

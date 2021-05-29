@@ -24,8 +24,8 @@ class Cliente extends Model
         }
     }
 
-    public function verificarCliente($dni){
-        $cliente = DB::table('cliente')->where('dni', $dni)->get();
+    public function verificarCliente($dni, $idUsuario){
+        $cliente = DB::table('cliente')->where('dni', $dni)->where('idUsuario', $idUsuario)->get();
         return $cliente;
     }
 

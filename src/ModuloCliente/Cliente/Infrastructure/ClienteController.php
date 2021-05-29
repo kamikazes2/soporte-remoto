@@ -45,10 +45,13 @@ class ClienteController
     }
 
     public function verificarCliente(Request $request){
+
         $dni = $request['dni'];
+        $idUsuario = Session::get('idUsuario');
         $verificarClienteUseCase = new VerificarClienteUseCase($this->clienteRepository);
         $cliente = $verificarClienteUseCase->__invoke(
-            $dni
+            $dni,
+            $idUsuario
         );
         return $cliente;
     }
