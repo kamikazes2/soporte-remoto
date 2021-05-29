@@ -97,6 +97,7 @@ Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
 Route::post('/request/nuevo-cliente2',[CC::class, 'createCliente']);
 Route::get('/request/verificar-cliente/{dni}',[CC::class, 'verificarCliente']);
 Route::post('/request/actualizar-cliente2',[CC::class, 'updateCliente']);
+Route::get('/request/buscar-ultimo-cliente-usuario-logueado',[CC::class, 'buscarUltimoClienteDeUsuarioLogueado']);
 
 //para tarjeta de cliente
 Route::post('/request/nueva-tarjeta',[TC::class, 'createTarjeta']);

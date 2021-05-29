@@ -81,13 +81,13 @@
                                             <div class="col-50">
                                                 <h3>Datos del cliente</h3>
                                                 <label for="dni">DNI</label>
-                                                <input class="form-control" v-model="dniCliente" required type="text" id="dni" name="dni">
+                                                <input class="form-control" v-model="dniCliente"  type="text" id="dni" name="dni">
                                                 <label for="fname">Nombre</label>
-                                                <input class="form-control" v-model="nombreCliente" required type="text" id="nombre" name="firstname" >
+                                                <input class="form-control" v-model="nombreCliente"  type="text" id="nombre" name="firstname" >
                                                 <label for="apellido">Apellido</label>
-                                                <input class="form-control" v-model="apellidoCliente" required type="text" id="apellido" name="apellido" >
+                                                <input class="form-control" v-model="apellidoCliente"  type="text" id="apellido" name="apellido" >
                                                 <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                                <input v-model="fechaNacimientoCliente" required class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento">
+                                                <input v-model="fechaNacimientoCliente"  class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento">
                                             </div>
 
                                             <div class="col-50">
@@ -100,20 +100,20 @@
                                                 <i class="fa fa-cc-discover" style="color:orange;"></i>
                                                 </div>
                                                 <label for="cname">Nombre en la tarjeta</label>
-                                                <input class="form-control" v-model="nombreTarjeta" required type="text" id="cname" name="cardname">
+                                                <input class="form-control" v-model="nombreTarjeta"  type="text" id="cname" name="cardname">
                                                 <label for="ccnum">Numero de la tarjeta</label>
-                                                <input class="form-control" v-model="numeroTarjeta" required type="number" id="ccnum" name="cardnumber">
+                                                <input class="form-control" v-model="numeroTarjeta"  type="number" id="ccnum" name="cardnumber">
                                                 <label for="expmonth">Mes Exp</label>
-                                                <input class="form-control" v-model="expTarjeta" required type="number" id="expmonth" name="expmonth">
+                                                <input class="form-control" v-model="expTarjeta"  type="number" id="expmonth" name="expmonth">
 
                                                 <div class="row">
                                                 <div class="col-50">
                                                     <label for="expyear">Año Exp</label>
-                                                    <input class="form-control" v-model="yearExpTarjeta" required type="number" id="expyear" name="expyear">
+                                                    <input class="form-control" v-model="yearExpTarjeta"  type="number" id="expyear" name="expyear">
                                                 </div>
                                                 <div class="col-50">
                                                     <label for="cvv">CVV</label>
-                                                    <input class="form-control" v-model="cvvTarjeta" required type="number" id="cvv" name="cvv">
+                                                    <input class="form-control" v-model="cvvTarjeta"  type="number" id="cvv" name="cvv">
                                                 </div>
                                                 </div>
                                             </div>
@@ -178,6 +178,7 @@
                 cantCarrito:0,
 
                 //para el cliente
+                idCliente: '',
                 nombreCliente:'',
                 apellidoCliente:'',
                 dniCliente:'',
@@ -235,55 +236,133 @@
                 document.getElementById("paso2").style.display = "none";
                 document.getElementById("paso1").style.display = "flex";
             },
-            verificar(){
-                let me = this;
+
+            async verificar(){
                 var preloader = document.getElementById("preloader");
                 preloader.style.display="block";
-                //verificar si existe el cliente
-                axios.get('/request/verificar-cliente/'+this.dniCliente).then(function (res) {
-                    if(res.data.existe == true){
-                        var cli = res.data.cliente;
-                        if(
-                           cli[0].nombre != this.nombreCliente ||
-                           cli[0].apellido != this.apellidoCliente
-                        ){
-                            //actualizar los datos del cliente
-                            this.updateCliente(cli[0].id, this.nombreCliente, this.apellidoCliente, this.fechaNacimientoCliente);
-                            preloader.style.display="none";
-                            alert("cliente actualizado");
-                        }
-
-                    }else{
-                        //crear un nuevo cliente
-                        axios.post('/request/nuevo-cliente2',{
-                            'dni' : this.dniCliente,
-                            'nombre': this.nombreCliente,
-                            'apellido': this.apellidoCliente,
-                            'fechaNacimiento': this.fechaNacimientoCliente 
-                        }).then(function(error){
-                            setTimeout(function() {
-                                preloader.style.display="none";
-                            }, 2000);
-                            alert("Se creo el nuevo cliente");
-                        }).catch(function(error){
-                                console.log(error);
-                                preloader.style.display="none";
-                        });
+                var cliente = await this.verificarSiExisteCliente();
+                if(cliente.existe){
+                    this.idCliente = cliente.cliente[0].id;
+                    var datosIguales = this.verificarDatosIgualesConBD(cliente.cliente[0]);
+                    if(!datosIguales){
+                        //pasar a actualizar
+                        await this.updateCliente(cliente.cliente[0].id, this.nombreCliente, this.apellidoCliente, this.fechaNacimientoCliente);
                     }
-                }.bind(this));
+                }else{
+                    //crear el nuevo cliente
+                    this.idCliente = await this.createCliente();
+                }
+                //verificar tarjeta
+                var tieneTarjeta = await this.verificarSiClienteTieneTarjeta(this.idCliente);
+                if(tieneTarjeta!=null){
+                    //verificar que los datos sean iguales
+                    var iguales = this.verificarTarjetaIgualConBD(tieneTarjeta.tarjeta[0]);
+                    ////crear la nueva tarjeta si es diferente
+                    if(!iguales){
+                        await this.createTarjeta();
+                    }
+                }else{
+                    //crear la nueva tarjeta
+                    await this.createTarjeta();
+                }
+                //enviar al ultimo paso de compra
+                setTimeout(function() {
+                    preloader.style.display="none";
+                    console.log("enviar al ultimo paso");
+                }, 3000);
 
             },
-            updateCliente(id, nombre, apellido, fechaNacimiento){
-                axios.post('/request/actualizar-cliente2',{
+            async verificarSiExisteCliente(){
+                var re;
+                await axios.get('/request/verificar-cliente/'+this.dniCliente).then(function (res) {
+                    re =  res;
+                }).catch(error => {
+                })
+                return re.data;
+            },
+            verificarDatosIgualesConBD(db){
+                if(db.nombre != this.nombreCliente||db.apellido != this.apellidoCliente){return false;}else{return true;}
+            },
+            verificarTarjetaIgualConBD(db){
+                if(db.nombre != this.nombreTarjeta || db.numero != this.numeroTarjeta || db.mes != this.expTarjeta || db.anio != this.yearExpTarjeta){return false;}else{return true;}
+            },
+            async verificarSiClienteTieneTarjeta(idCliente){
+                var r;
+                if(idCliente != 0 && idCliente!= null){
+                    await axios.get('/request/buscar-tarjeta-cliente/'+idCliente).then(function (res) {
+                    if(res.data.tiene){
+                        r =  res.data;
+                    }else{
+                        r = null;
+                    }
+                });
+                }
+                return r;
+            },
+            async updateCliente(id, nombre, apellido, fechaNacimiento){
+                var r;
+                await axios.post('/request/actualizar-cliente2',{
                     'idCliente' : id,
                     'nombre': nombre,
                     'apellido': apellido,
                     'fechaNacimiento': fechaNacimiento 
-                }).then(function(error){
-                    return true;
+                }).then(function(res){
+                    r = res;
                 }).catch(function(error){
                         console.log(error);
                 });
+                return r;
+            },
+            async createCliente(){
+                var id;
+                await axios.post('/request/nuevo-cliente2',{
+                    'dni' : this.dniCliente,
+                    'nombre': this.nombreCliente,
+                    'apellido': this.apellidoCliente,
+                    'fechaNacimiento': this.fechaNacimientoCliente 
+                }).then(function(res){
+                    id = res.data.id;
+                }).catch(function(error){
+                    console.log(error);
+                    preloader.style.display="none";
+                });
+                return id;
+            },
+            async createTarjeta(){
+                var data;
+                await axios.post('/request/nueva-tarjeta',{
+                    'idCliente' : this.idCliente,
+                    'nombre': this.nombreTarjeta,
+                    'numero': this.numeroTarjeta,
+                    'mes': this.expTarjeta,
+                    'anio': this.yearExpTarjeta
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
+            async findCliente(){
+                var i = false;
+                await axios.get('/request/buscar-ultimo-cliente-usuario-logueado').then(function(response){
+                        if(response.data!=false){
+                            var data = response.data;
+                            var MyDate = new Date(data.fechaNacimiento.replace(/-/g,"/"));
+                            var MyDateString;
+                            MyDate.setDate(MyDate.getDate() + 20);
+                            MyDateString = MyDate.getFullYear() + '-' +('0' + MyDate.getDate()).slice(-2) + '-'
+                                        + ('0' + (MyDate.getMonth()+1)).slice(-2);
+                            this.nombreCliente = data.nombre;
+                            this.apellidoCliente = data.apellido;
+                            this.dniCliente = data.dni;
+                            this.fechaNacimientoCliente = MyDateString;
+                            this.idCliente = data.id;
+                        }else{
+                            i = false;
+                        }
+                }.bind(this));
+                return i;
             },
             Solicitar(){
                     let me = this;
@@ -301,10 +380,22 @@
                     });
                 },
             },
-            mounted() {
-                axios.get('/request/get-servicios2').then(function(response){
+            async mounted() {
+                await axios.get('/request/get-servicios2').then(function(response){
                         this.arrayServicio = response.data;
-                    }.bind(this));
-                },
+                }.bind(this));
+                
+                await this.findCliente();
+                var tarjeta = await this.verificarSiClienteTieneTarjeta(this.idCliente);
+                console.log(this.idCliente);
+                console.log(tarjeta);
+                if(tarjeta != null && tarjeta.tiene){
+                    tarjeta = tarjeta.tarjeta[0];
+                    this.nombreTarjeta = tarjeta.nombre;
+                    this.numeroTarjeta = tarjeta.numero;
+                    this.expTarjeta = tarjeta.mes;
+                    this.yearExpTarjeta = tarjeta.anio;
+                }
+            },
     }
 </script>

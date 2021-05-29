@@ -28,6 +28,10 @@ class Cliente extends Model
         $cliente = DB::table('cliente')->where('dni', $dni)->where('idUsuario', $idUsuario)->get();
         return $cliente;
     }
+    public function buscarUltimoCliente($idUsuario){
+        $cliente = DB::table('cliente')->where('idUsuario', $idUsuario)->orderBy('updated_at','desc')->get();
+        return $cliente;
+    }
 
 
 }

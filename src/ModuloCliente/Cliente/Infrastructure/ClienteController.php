@@ -12,6 +12,7 @@ use Src\ModuloCliente\Cliente\Infrastructure\Repositories\EloquentClienteReposit
 use Src\ModuloCliente\Cliente\Application\CreateClienteUseCase;
 use Src\ModuloCliente\Cliente\Application\VerificarClienteUseCase;
 use Src\ModuloCliente\Cliente\Application\UpdateClienteUseCase;
+use Src\ModuloCliente\Cliente\Application\BuscarClienteUsuarioLogueadoUseCase;
 // use Src\ModuloCliente\Cliente\Application\GetClienteUseCase;
 
 
@@ -70,6 +71,13 @@ class ClienteController
             $fechaNacimiento
         );
         return $clien;
+    }
+
+    public function buscarUltimoClienteDeUsuarioLogueado(){
+        $idUsuario = Session::get('idUsuario');
+        $bcul = new BuscarClienteUsuarioLogueadoUseCase($this->clienteRepository);
+        $res = $bcul->__invoke($idUsuario);
+        return $res;
     }
 
     public function deleteCliente(Request $request){

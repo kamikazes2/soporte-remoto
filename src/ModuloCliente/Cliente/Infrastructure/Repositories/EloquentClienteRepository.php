@@ -60,5 +60,15 @@ class EloquentClienteRepository implements ClienteRepositoryContract
         return $cli;
     }
 
+    public function buscarUltimoCliente($idUsuario){
+        $cli = $this->eloquentClienteModel;
+        $res = $cli->buscarUltimoCliente($idUsuario);
+        if(count($res)>0){
+            return response()->json($res[0]);
+        }else{
+            return false;
+        }
+    }
+
 
 }
