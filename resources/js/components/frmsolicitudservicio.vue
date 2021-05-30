@@ -171,9 +171,9 @@
                                             <div class="col-50">
                                                 <h3>Datos de facturacion</h3>
                                                 <label for="nit">Nit</label>
-                                                <input class="form-control" v-model="nitCliente"  type="text">
+                                                <input required class="form-control" v-model="nitCliente"  type="text">
                                                 <label for="fname">Nombre completo</label>
-                                                <input class="form-control" v-model="nitNombreCliente"  type="text">
+                                                <input required class="form-control" v-model="nitNombreCliente"  type="text">
                                             </div>
                                         </div>
                                         <br>
@@ -591,6 +591,12 @@
             },
             async createNit(){
                 var data;
+                if(this.nitNombreCliente==''){
+                    this.nitNombreCliente = "s/n";
+                }
+                if(this.nitCliente == ''){
+                    this.nitCliente = 0;
+                }
                 await axios.post('/request/nuevo-nit',{
                     'idCliente' : this.idCliente,
                     'nombre': this.nitNombreCliente,
