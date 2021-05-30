@@ -13,6 +13,7 @@
     <link href="../css/checkout.css" rel="stylesheet">
     <link href="../css/preloader.css" rel="stylesheet">
     <link href="../css/factura.css" rel="stylesheet">
+    <link href="../css/frmMisSolicitudes.css" rel="stylesheet">
     <link href="{{asset("template/css/main.css")}}" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>

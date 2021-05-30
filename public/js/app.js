@@ -2255,8 +2255,36 @@ new Vue({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var datatables_net_bs4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js");
-/* harmony import */ var datatables_net_bs4__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(datatables_net_bs4__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var datatables_net_bs4__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js");
+/* harmony import */ var datatables_net_bs4__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(datatables_net_bs4__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2288,7 +2316,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      arrarySolicitudes: []
+      arrarySolicitudes: [],
+      btnDetalleActual: null
     };
   },
   methods: {
@@ -2296,10 +2325,79 @@ __webpack_require__.r(__webpack_exports__);
       this.$nextTick(function () {
         $('#tablaServicio').DataTable();
       });
+    },
+    getSolicitudes: function getSolicitudes() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                i = false;
+                _context.next = 3;
+                return axios.get('/request/get-solicitud-servicio-usuario').then(function (response) {
+                  if (response.data != false) {
+                    this.arrarySolicitudes = response.data;
+                  } else {
+                    i = false;
+                  }
+                }.bind(_this));
+
+              case 3:
+                return _context.abrupt("return", i);
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    verDetalle: function verDetalle(event) {
+      if (this.btnDetalleActual != null) {
+        this.btnDetalleActual.previousElementSibling.style.display = "none";
+        this.btnDetalleActual.style.display = "block";
+        this.btnDetalleActual.nextElementSibling.style.display = "none";
+      }
+
+      this.btnDetalleActual = event.target;
+      this.btnDetalleActual.previousElementSibling.style.display = "block";
+      this.btnDetalleActual.nextElementSibling.style.display = "block";
+      this.btnDetalleActual.style.display = "none";
+    },
+    cerrarDetalle: function cerrarDetalle(event) {
+      event.target.style.display = "none";
+      this.btnDetalleActual.style.display = "block";
+      this.btnDetalleActual.nextElementSibling.style.display = "none";
+    },
+    finalizar: function finalizar(idServicioRealizar) {
+      console.log(idServicioRealizar);
     }
   },
   mounted: function mounted() {
-    this.createTable();
+    var _this2 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _this2.getSolicitudes();
+
+            case 2:
+              _this2.createTable();
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   }
 });
 
@@ -59301,15 +59399,89 @@ var render = function() {
       _c(
         "tbody",
         { attrs: { id: "bodyTabla" } },
-        _vm._l(_vm.arrarySolicitudes, function(solicitud) {
-          return _c("tr", { key: solicitud.id }, [
-            _c("td", [_vm._v(_vm._s(solicitud.nombre))]),
+        _vm._l(_vm.arrarySolicitudes, function(solicitud, index) {
+          return _c("tr", { key: index }, [
+            _c("td", [_vm._v(_vm._s(solicitud.idSolicitud))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(solicitud.descripcion))]),
+            _c("td", [_vm._v(_vm._s(solicitud.nombreCliente))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(solicitud.precio))]),
+            _c("td", [_vm._v(_vm._s(solicitud.fechaSolicitud))]),
             _vm._v(" "),
-            _c("td")
+            _c("td", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger custom_button",
+                  staticStyle: { display: "none" },
+                  on: {
+                    click: function($event) {
+                      return _vm.cerrarDetalle($event)
+                    }
+                  }
+                },
+                [_vm._v("Cerrar")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success custom_button",
+                  on: {
+                    click: function($event) {
+                      return _vm.verDetalle($event)
+                    }
+                  }
+                },
+                [_vm._v("Detalle")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticStyle: { display: "none" } }, [
+                _c("table", [
+                  _vm._m(1, true),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.arrarySolicitudes[index].detalle, function(
+                      detalle
+                    ) {
+                      return _c(
+                        "tr",
+                        {
+                          key: detalle.idServicioRealizar,
+                          staticClass: "detalleFactura"
+                        },
+                        [
+                          _c("td", [_vm._v(_vm._s(detalle.nombreServicio))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(detalle.estado))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            detalle.estado == "PENDIENTE"
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-success custom_button",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.finalizar(
+                                          detalle.idServicioRealizar
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("APROBAR")]
+                                )
+                              : _vm._e()
+                          ])
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ])
+              ])
+            ])
           ])
         }),
         0
@@ -59324,13 +59496,27 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Nombre")]),
+        _c("th", [_vm._v("Codigo")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Descripcion")]),
+        _c("th", [_vm._v("Nombre Cliente")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Precio")]),
+        _c("th", [_vm._v("Fecha Solicitud")]),
         _vm._v(" "),
         _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Servicio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Accion")])
       ])
     ])
   }

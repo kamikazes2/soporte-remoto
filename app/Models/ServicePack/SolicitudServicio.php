@@ -20,7 +20,7 @@ class SolicitudServicio extends Model
     }
 
     public function getSolicitudByIdUsuario($idUsuario){   
-        $sql = "SELECT ss.id as idSolicitud, s.nombre as nombreServicio, c.nombre as nombreCliente, sr.estado, ss.fechaSolicitud, df.idFactura
+        $sql = "SELECT ss.id as idSolicitud, s.nombre as nombreServicio, sr.id as idServicioRealizar, c.nombre as nombreCliente, sr.estado, ss.fechaSolicitud, df.idFactura
         FROM solicitudservicio as ss
         INNER JOIN serviciorealizar as sr on ss.id = sr.idSolicitud
         INNER JOIN servicio as s on s.id = sr.idServicio

@@ -86,6 +86,7 @@ class SolicitudServicioController
              if($idAnt == $res->idSolicitud){
                 $d['nombreServicio'] = $res->nombreServicio;
                 $d['estado'] = $res->estado;
+                $d['idServicioRealizar'] = $res->idServicioRealizar;
                 array_push($arrayAux[$count]['detalle'], $d);
              }else{
                 $count++;
@@ -96,6 +97,7 @@ class SolicitudServicioController
                 $a['idFactura'] = $res->idFactura;
                 $d['nombreServicio'] = $res->nombreServicio;
                 $d['estado'] = $res->estado;
+                $d['idServicioRealizar'] = $res->idServicioRealizar;
                 $ar = array(
                     $d
                 );
