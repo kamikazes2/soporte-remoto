@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>zona tecnico</title>
+    <title>desarrollo</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="../css/app.css" rel="stylesheet">
     <link href="../css/custom_login.css" rel="stylesheet">
@@ -22,12 +22,6 @@
                     <li @click="menu=1">
                         <a class="nav-link" href="#">Servicio</a>
                     </li>
-                    <li @click="menu=2">
-                        <a class="nav-link" href="#">Especialidad</a>
-                    </li>
-                    <li @click="menu=3">
-                        <a class="nav-link" href="#">Tenicos</a>
-                    </li>
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
                     </li> 
@@ -39,31 +33,17 @@
                 <b>Gestion de Sistemas - Soporte Remoto</b>
             </template>
             <template v-if="menu==1">
-                <b>Servicios</b>
-                <!-- Menu principal-->
-                <frmservicio></frmservicio>
-                <!--Fin menu principal-->
-            </template>
-            <template v-if="menu==2">
-                <b>Especialidades</b>
-                <!-- Menu principal-->
-                <frmespecialidad></frmespecialidad>
-                <!--Fin menu principal-->
-            </template>
-            <template v-if="menu==3">
-                <b>Personal</b>
-                <!-- Menu principal-->
-                <frmpersonal></frmpersonal>
-                <!--Fin menu principal-->
+                <frmservicio></frmservicio> 
             </template>
 
             <!--Fin menu principal-->
-            
         </div>
     </div>
 
     <script src="../js/app.js"></script>
     <script src="../template/js/bootstrap.min.js"></script>
     <script src="{{asset("template/js/main.js")}}"></script>
+    {{-- <script src="../template/js/main.js"></script> --}}
+    {{-- <script src="../template/js/popper.min.js"></script> --}}
 </body>
 </html>
