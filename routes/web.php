@@ -111,6 +111,8 @@ Route::post('/request/nuevo-nit',[NTC::class, 'createNitTributario']);
 Route::get('/request/buscar-nit-cliente/{idCliente}',[NTC::class, 'buscarNitTributarioCliente']);
 //para factura del cliente
 Route::post('/request/nueva-factura',[FC::class, 'createFactura']);
+Route::get('/request/get-factura-completa/{idFactura}',[FC::class, 'getFacturaCompleta']);
+
 //para el detalle de la factura
 Route::post('/request/nuevo-detalle-factura',[DFC::class, 'createDetalleFactura']);
 

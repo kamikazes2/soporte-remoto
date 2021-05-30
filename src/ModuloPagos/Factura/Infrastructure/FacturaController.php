@@ -9,7 +9,7 @@ use Src\ModuloPagos\Factura\Infrastructure\Repositories\EloquentFacturaRepositor
 
 
 use Src\ModuloPagos\Factura\Application\CreateFacturaUseCase;
-use Src\ModuloPagos\Factura\Application\BuscarFacturaClienteUseCase;
+use Src\ModuloPagos\Factura\Application\GetFacturaCompletaUseCase;
 
 
 
@@ -36,6 +36,29 @@ class FacturaController
         );
 
         return $fa;
+    }
+
+    public function getFacturaCompleta(Request $request){
+        $idFactura = $request['idFactura'];
+        $getFacUC = new GetFacturaCompletaUseCase($this->facturaRepository);
+        $factura = $getFacUC->__invoke($idFactura);
+
+        $res = array();
+        $res['fecha'] = $factura[0]->fecha;
+        $res['nombreCliente'] = $factura[0]->nombreCliente;
+        $res['nit'] = $factura[0]->nit;
+
+        $arrayServ = array();
+        foreach($factura as $fac){
+            $array['nombreServicio'] = $fac->nombreServicio;
+            $array['precio'] = $fac->precio;
+            $array['id'] = $fac->id;
+            array_push($arrayServ, $array);
+        }
+        $res['detalleFactura'] = $arrayServ;
+
+
+        return response()->json($res);
     }
 
 

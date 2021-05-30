@@ -26,6 +26,7 @@
     "dependencies": {
         "datatables.net-bs4": "^1.10.24",
         "datatables.net-buttons-bs4": "^1.7.0",
+        "jspdf": "^2.3.1",
         "jszip": "^3.6.0",
         "pdfmake": "^0.1.71",
         "vue-multiselect": "^2.1.6",

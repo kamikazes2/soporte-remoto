@@ -1,0 +1,53 @@
+.contenedor-factura{
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 700px;
+    margin: 0 auto;
+}
+
+.contenedor-interior{
+    padding: 20px;
+}
+.factura-title{
+    text-align: center;
+}
+
+.table-header-factura{
+    width: 100%;
+}
+
+.table-body-factura{
+    width: 100%;
+
+}
+
+.informacion-factura{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+.detalle-factura{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.table-detalle-factura{
+    margin-top: 5px;
+    width: 100%;
+}
+.alignRight{
+    text-align: right;
+}
+
+.total-factura{
+    background-color: gray;
+}
+.negrilla{
+    font-weight: bold;
+}
+
+.btn-descargar-factura{
+    width: 100px;
+}

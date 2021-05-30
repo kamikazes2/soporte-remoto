@@ -81,13 +81,13 @@
                                             <div class="col-50">
                                                 <h3>Datos del cliente</h3>
                                                 <label for="dni">DNI</label>
-                                                <input class="form-control" v-model="dniCliente"  type="text" id="dni" name="dni">
+                                                <input required class="form-control" v-model="dniCliente"  type="text" id="dni" name="dni">
                                                 <label for="fname">Nombre</label>
-                                                <input class="form-control" v-model="nombreCliente"  type="text" id="nombre" name="firstname" >
+                                                <input required class="form-control" v-model="nombreCliente"  type="text" id="nombre" name="firstname" >
                                                 <label for="apellido">Apellido</label>
-                                                <input class="form-control" v-model="apellidoCliente"  type="text" id="apellido" name="apellido" >
+                                                <input required class="form-control" v-model="apellidoCliente"  type="text" id="apellido" name="apellido" >
                                                 <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                                <input v-model="fechaNacimientoCliente"  class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento">
+                                                <input required v-model="fechaNacimientoCliente"  class="form-control" type="date" id="fechaNacimiento" name="fechaNacimiento">
                                             </div>
 
                                             <div class="col-50">
@@ -100,20 +100,20 @@
                                                 <i class="fa fa-cc-discover" style="color:orange;"></i>
                                                 </div>
                                                 <label for="cname">Nombre en la tarjeta</label>
-                                                <input class="form-control" v-model="nombreTarjeta"  type="text" id="cname" name="cardname">
+                                                <input required class="form-control" v-model="nombreTarjeta"  type="text" id="cname" name="cardname">
                                                 <label for="ccnum">Numero de la tarjeta</label>
-                                                <input class="form-control" v-model="numeroTarjeta"  type="number" id="ccnum" name="cardnumber">
+                                                <input required class="form-control" v-model="numeroTarjeta"  type="number" id="ccnum" name="cardnumber">
                                                 <label for="expmonth">Mes Exp</label>
-                                                <input class="form-control" v-model="expTarjeta"  type="number" id="expmonth" name="expmonth">
+                                                <input required class="form-control" v-model="expTarjeta"  type="number" id="expmonth" name="expmonth">
 
                                                 <div class="row">
                                                 <div class="col-50">
                                                     <label for="expyear">Año Exp</label>
-                                                    <input class="form-control" v-model="yearExpTarjeta"  type="number" id="expyear" name="expyear">
+                                                    <input required class="form-control" v-model="yearExpTarjeta"  type="number" id="expyear" name="expyear">
                                                 </div>
                                                 <div class="col-50">
                                                     <label for="cvv">CVV</label>
-                                                    <input class="form-control" v-model="cvvTarjeta"  type="number" id="cvv" name="cvv">
+                                                    <input required class="form-control" v-model="cvvTarjeta"  type="number" id="cvv" name="cvv">
                                                 </div>
                                                 </div>
                                             </div>
@@ -208,10 +208,85 @@
                 </div>
             </div>
         </div>
+        <div id="paso4" style="display: none">
+            <div class="alignRight">
+                <button @click="downloadPDFWithjsPDF()" class="btn btn-success btn-descargar-factura">Descargar</button>
+                <button @click="salir()" class="btn btn-danger btn-descargar-factura">Salir</button>
+            </div>
+            <br>
+            <br>
+            <div id="facturaHTML" class="contenedor-factura">
+                <div class="contenedor-interior">
+                    <div class="factura-header">
+                        <table class="table-header-factura">
+                            <tr>
+                                <td>Soporte Remoto SRL.</td>
+                            </tr>
+                            <tr>
+                                <td>Av. Paragua 4to anillo</td>
+                            </tr>
+                            <tr>
+                                <td>Santa Cruz - Bolivia</td>
+                            </tr>
+                        </table>
+                        <h1 class="factura-title">FACTURA</h1>
+                    </div>
+                    <div class="factura-body">
+                        <div class="informacion-factura">
+                            <table class="table-body-factura">
+                                <tr>
+                                    <td><strong>Fecha:</strong> {{facturaFecha}}</td>
+                                    <td class="alignRight"><strong>Nit:</strong> {{facturaNit}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Señor(es):</strong> {{facturaNombre}}</td>
+                                    <td></td>
+                                </tr>
+                            </table>          
+                        </div>
+                        <div class="detalle-factura">
+                            <table class="table-detalle-factura">
+                                <thead>
+                                    <tr>
+                                    <th>Cant</th>
+                                    <th>Descripcion</th>
+                                    <th>P/U</th>
+                                    <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="detalle in arrayDetalleFactura" :key="detalle.id" >
+                                        <td>1</td>
+                                        <td>{{detalle.nombreServicio}}</td>
+                                        <td>{{detalle.precio}}</td>
+                                        <td>{{detalle.precio}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total-factura"><strong>TOTAL</strong></td>
+                                        <td class="negrilla">{{totalDetalle}} Bs.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
     </div>
 </template>
 
 <script>
+    import { jsPDF } from "jspdf";
+
     export default {
         data(){
             return{
@@ -245,7 +320,15 @@
                 nitCliente: '',
                 idNit: 0,
                 idFact: 0,
-                arrayServiciosRealizar: []
+                arrayServiciosRealizar: [],
+
+                //para crear la vista de la factura
+                facturaFecha: '',
+                facturaNombre: '',
+                facturaNit: '',
+                arrayDetalleFactura: '',
+                totalDetalle: 0
+
             }
         },
         methods:{
@@ -445,10 +528,12 @@
                 }.bind(this));
                 return i;
             },
+            salir(){
+                window.location = '/';
+            },
             async pagar(){
                 preloader.style.display="block";
                 var nit = await this.verificarSiClienteTieneNit(this.idCliente);
-                console.log(nit.nitTributario);
                 if(nit != null && nit.tiene){
                     nit = nit.nitTributario[0];
                     var iguales = this.verificarDatosIgualesConBD(nit);
@@ -473,9 +558,12 @@
                     this.arrayServiciosRealizar.push(k);
                 });
                 var r = await this.createDetalleFactura();
-                setTimeout(function() {
+                await this.generarFactura();
+                setTimeout(async function() {        
                     preloader.style.display="none";
                     console.log("finalizar y mostrar la factura");
+                    document.getElementById("paso3").style.display = "none";
+                    document.getElementById("paso4").style.display = "block";
                 }, 3000);
             },
             async createFactura(){
@@ -518,6 +606,19 @@
             verificarDatosIgualesConBD(db){
                 if(db.nit != this.nitCliente || db.nombre != this.nitNombreCliente){return false;}else{return true;}
             },
+            async generarFactura(){
+                var re;
+                await axios.get('/request/get-factura-completa/'+this.idFact).then(function (res) {
+                    re = res.data;
+                }).catch(error => {});
+                this.facturaFecha = re.fecha;
+                this.facturaNombre = re.nombreCliente;
+                this.facturaNit = re.nit;
+                this.arrayDetalleFactura = re.detalleFactura;
+                re.detalleFactura.forEach(df => {
+                    this.totalDetalle = parseFloat(this.totalDetalle) + parseFloat(df.precio);
+                });
+            },
             async solicitar(){
                 var a;
                 let me = this;
@@ -534,6 +635,18 @@
                         console.log(error);
                 });
                 return a;
+            },
+            downloadPDFWithjsPDF() {
+                var doc = new jsPDF('l', 'mm', [800, 450]);
+                doc.html(document.querySelector('#facturaHTML'), {
+                    callback: function (doc) {
+                    doc.save('factura.pdf');
+                    },
+                    margin: [10, 10, 10, 10],
+                    x: 32,
+                    y: 32,
+                });
+
             },
         },
             async mounted() {

@@ -27,5 +27,10 @@ class EloquentFacturaRepository implements FacturaRepositoryContract
         return $factura;
     }
 
+    public function getFacturaCompleta($idFactura){
+        $factura = $this->eloquentFacturaModel;
+        return $factura->getFacturaTotalByIdFactura($idFactura);
+    }
+
 
 }
