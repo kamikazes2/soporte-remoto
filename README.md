@@ -154,7 +154,7 @@ CRUD personales
 post > /request/nuevo-personal      -->     idUsuario, dni, nombre, apellido, fechaNacimiento
 get  > /request/get-all-personales  -->
 post > /request/update-personal     -->     idPersonal, idUsuario, dni, nombre, apellido, fechaNacimiento
-
+get  > /request/get-all-personales-with-especialidades
 
 CRUD TECNICOS
 POST    >   /request/nuevo-tecnico2                 --> idPersonal

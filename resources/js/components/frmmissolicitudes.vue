@@ -31,7 +31,7 @@
                                         <td>{{detalle.nombreServicio}}</td>
                                         <td>{{detalle.estado}}</td>
                                         <td>
-                                            <button @click="finalizar(detalle.idServicioRealizar)" v-if="detalle.estado == 'PENDIENTE'" class="btn btn-success custom_button">APROBAR</button>
+                                            <button @click="finalizar(detalle.idServicioRealizar)" v-if="detalle.estado == 'ESPERA A SER FINALIZADO'" class="btn btn-success custom_button">APROBAR</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -87,8 +87,15 @@ export default {
             this.btnDetalleActual.style.display = "block";
             this.btnDetalleActual.nextElementSibling.style.display = "none";
         },
-        finalizar(idServicioRealizar){
-            console.log(idServicioRealizar);
+        async finalizar(idServicioRealizar){
+                let me = this;
+                await axios.post('/request/aceptar-finalizacion-servicio-realizar',{
+                    'idServicioRealizar' : idServicioRealizar,
+                }).then(async function(error){
+                    await me.getSolicitudes(); 
+                }).catch(function(error){
+                    console.log(error);
+                });   
         }
     },
     async mounted(){

@@ -42,4 +42,33 @@ class ServicioRealizar extends Model
         }
     }
 
+    public function aceptar($id){
+        $affected = DB::table('serviciorealizar')
+         ->where('id', $id)
+         ->update(['estado' => 'ACEPTADO']);
+         return 1;
+    }
+
+    public function SolicitarfinalizacionServicio($id){
+        $affected = DB::table('serviciorealizar')
+        ->where('id', $id)
+        ->update(['estado' => 'ESPERA A SER FINALIZADO']);
+        return 1;
+    }
+
+    public function aceptarFinalizacionServicio($id){
+        $affected = DB::table('serviciorealizar')
+        ->where('id', $id)
+        ->update(['estado' => 'FINALIZADO']);
+        $affected = DB::table('serviciorealizar')
+        ->where('id', $id)
+        ->update(['completado' => 1]);
+        $asignacion = DB::table('asignacionServicio')->where("idServicioRealizar", $id)->get();
+        $tecnico = DB::table('tecnico')->where("id", $asignacion[0]->idTecnico)->get();
+        $personal = DB::table('personal')->where("id", $tecnico[0]->idPersonal)->get();
+        $affected = DB::table('personal')
+        ->where('id', $personal[0]->id)
+        ->update(['disponible' => 1]);
+    }
+
 }
