@@ -121,8 +121,8 @@ Route::post('/request/nuevo-detalle-factura',[DFC::class, 'createDetalleFactura'
 Route::post('/request/nuevo-servicio2', [SR::class, 'createServicio']);
 Route::get('/request/get-servicios2', [SR::class, 'getServicios']);
 Route::post('/request/update-servicio2', [SR::class, 'updateServicio']);
+Route::get('/request/get-all-servicios-with-especialidades', [SR::class, 'getAllServiciosWithEspecialides']);
 Route::get('/request/get-servicio-with-especialidades/{idServicio}', [SR::class, 'getServiciosWithEspecialides']);
-
 //falta delete servicio
 
 //para precioServicio

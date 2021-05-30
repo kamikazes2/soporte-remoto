@@ -215,6 +215,7 @@ class ServicioController extends Controller
         $idServicio = $request['idServicio'];
         $espServicio = new EspecialidadServicio;
         $listaEsp = $espServicio->getEspecialidadByIdServicio($idServicio);
+        $existe = false;
         foreach($listaEsp as $le){
             //eliminar lo que no envio
             $existe = false;
