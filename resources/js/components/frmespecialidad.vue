@@ -96,18 +96,20 @@
         <!-- Tabla de la lista de servicios-->
         <div id="servicio-table-main-content">
             <div>
-                Buscar:
+                 <!-- 
+                     Buscar:
                 <input
                     id="busquedaServicio"
                     v-model="search"
                     class="form-control"
                     width="50px"
-                />
-                <button class="btn btn-success" @click="filtrarServicios()">
-                    Buscar
+                />-->
+                <button class="btn btn-success" @click="showhide()">
+                    Mostrar/Ocultar Tabla
                 </button>
+                 
                 <button class="btn btn-success" @click="refresh()">
-                    Refresh
+                    Actualizar Tabla
                 </button>
                 <br />
                 <br />
@@ -169,6 +171,7 @@ export default {
             search: "",
             rows: [],
             buscado: false,
+            showtable: false,
             classBtnGuardar: "btn btn-primary",
             classBtnModificar: "displayNone",
             
@@ -181,6 +184,15 @@ export default {
             .setAttribute("style", "display: none");
     },
     methods: {
+        showhide(){
+            if(this.showtable){
+                this.showtable=false;
+                document.getElementById("bodyTabla").setAttribute("style","display: none");
+            }else{
+                this.showtable=true;
+                document.getElementById("bodyTabla").removeAttribute("style");
+            }
+        },
         refresh(){
             this.getEspecialidades();
         },
@@ -201,7 +213,10 @@ export default {
                     this.tabla();
                 }.bind(this)
             );
+            document.getElementById("bodyTabla").removeAttribute("style");
+            
         },
+        /*
         filtrarServicios() {
             if (this.buscado == false) {
                 this.getEspecialidades();
@@ -228,6 +243,7 @@ export default {
             }
             this.arrayEspecialidad = this.rows;
         },
+        */
         modificar(id, nombre, descripcion) {
             this.idEspecialidad = id;
             this.nombre = nombre;

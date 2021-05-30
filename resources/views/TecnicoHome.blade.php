@@ -22,6 +22,9 @@
                     <li @click="menu=2">
                         <a class="nav-link" href="#">Especialidad</a>
                     </li>
+                    <li @click="menu=3">
+                        <a class="nav-link" href="#">Tenicos</a>
+                    </li>
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
                     </li> 
@@ -43,6 +46,12 @@
                 <b>Especialidades</b>
                 <!-- Menu principal-->
                 <frmespecialidad></frmespecialidad>
+                <!--Fin menu principal-->
+            </template>
+            <template v-if="menu==3">
+                <b>Personal</b>
+                <!-- Menu principal-->
+                <frmpersonal></frmpersonal>
                 <!--Fin menu principal-->
             </template>
 
