@@ -175,3 +175,8 @@ post    >   /request/create-or-update-especialidad-personal
         }
     ]
 }
+
+CRUD JEFE TECNICOS
+POST    >  /request/nuevo-jefe-tecnico2             --> idPersonal
+GET     >  /request/get-all-jefe-tecnicos
+DELETE  >  /request/delete-jefe-tecnico

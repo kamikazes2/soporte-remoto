@@ -11,6 +11,10 @@ use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\Repositories\E
 use Src\ModuloEspecialidad\EspecialidadServicio\Infrastructure\Repositories\EloquentEspecialidadServicioRepository;
 use Src\ModuloEspecialidad\EspecialidadServicio\Application\GetEspecialidadServicioByServicioIdUseCase;
 
+use Src\ModuloPersonal\Tecnico\Infrastructure\Repositories\EloquentTecnicoRepository;
+use Src\ModuloPersonal\Tecnico\Application\GetTecnicoByIdEspecialidadUseCase;
+
+
 use Src\ModuloEspecialidad\EspecialidadPersonal\Application\GetPersonalByIdEspecialidadUseCase;
 use Src\ModuloEspecialidad\EspecialidadPersonal\Infrastructure\Repositories\EloquentEspecialidadPersonalRepository;
 use Carbon\Carbon;
@@ -44,22 +48,24 @@ class CreateAsignacionServicioUseCase
         $serviciosPendientes = $serv->__invoke();
 
         $espSer = new GetEspecialidadServicioByServicioIdUseCase(new EloquentEspecialidadServicioRepository);
-        $tec = new GetPersonalByIdEspecialidadUseCase(new EloquentEspecialidadPersonalRepository);
+        $tec = new GetTecnicoByIdEspecialidadUseCase(new EloquentTecnicoRepository);
         
+
         $date = Carbon::now();
         $fecha = $date->toDateTimeString();
         foreach($serviciosPendientes as $sp){
             $especialidad = $espSer->__invoke($sp->idServicio); //busco la especialidad
             foreach($especialidad as $espe){
-                $tecnicos = $tec->__invoke($espe->idEspecialidad);
+                $tecnicos = $tec->__invoke($espe->idEspecialidad); //getTecnicosDisponiblesConEsaEspecialidad
                 $asignado = false;
                 if(count($tecnicos)> 0 && $asignado == false){
                     $idServicioRealizar = $sp->id;
-                    $idTecnico = $tecnicos[0]->idPersonal;
+                    $idTecnico = $tecnicos[0]->idTecnico;
+                    $idpersonal = $tecnicos[0]->idPersonal;
                     $asignacionServicio = AsignacionServicio::create($idServicioRealizar, $idTecnico, $fecha);
                     $asignacionId = $this->repository->save($asignacionServicio);
                     $p = new Personal();
-                    $p->deshabilitarPersonal($idTecnico);
+                    $p->deshabilitarPersonal($idpersonal);
                     $sr = new ServicioRealizar();
                     $sr->updateToAsignado($idServicioRealizar);
                     $asignado = true;

@@ -11,4 +11,8 @@ class JefeTecnico extends Model
     public function isJefeTecnico($idPersonal){
         return $tecnico = DB::table('jefetecnico')->where('idPersonal', $idPersonal)->get();
     }
+    public function deleteByIdPersonal($idPersonal){
+        $especialidadServicio = DB::table('jefetecnico')->where('idPersonal', $idPersonal)->delete();
+        return true;
+    }
 }

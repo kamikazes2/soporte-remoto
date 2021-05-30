@@ -90,6 +90,8 @@ use Src\ModuloPagos\DetalleFactura\Infrastructure\DetalleFacturaController as DF
 use Src\ModuloPersonal\Personal\Infrastructure\PersonalController as PC;
 use Src\ModuloPersonal\Tecnico\Infrastructure\TecnicoController as PTC;
 use Src\ModuloEspecialidad\EspecialidadPersonal\Infrastructure\EspecialidadPersonalController as EPC;
+use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\AsignacionServicioController as ASC;
+use Src\ModuloPersonal\JefeTecnico\Infrastructure\JefeTecnicoController as PJTC;
 
 
 //para el login
@@ -110,6 +112,10 @@ Route::delete('/request/delete-tecnico/{idPersonal}', [PTC::class, 'deleteTecnic
 //para especialidad personal
 Route::post('/request/create-or-update-especialidad-personal',[EPC::class, 'createOrUpdateEspecialidadPersonal']);
 
+//para los jefe tecnicos
+Route::post('/request/nuevo-jefe-tecnico2',[PJTC::class, 'createJefeTecnico']);
+Route::get('/request/get-all-jefe-tecnicos', [PJTC::class, 'getJefeTecnicos']);
+Route::delete('/request/delete-jefe-tecnico/{idPersonal}', [PJTC::class, 'deleteJefeTecnico']);
 
 
 //para cliente
@@ -148,3 +154,7 @@ Route::delete('/request/eliminar-precio-servicio2/{idServicio}',[PSR::class,'del
 //para la solicitud
 Route::post('/request/create-solicitud-servicio2', [SSC::class, 'createSolicitud']); //revisar asignacion
 Route::get('/request/get-solicitud-servicio-usuario', [SSC::class, 'getSolicitudesDeUsuario']);
+
+//solo para probar la asignacion
+
+Route::post('/request/asignar-servicios-solicitados', [ASC::class, 'AsignarServicio']);

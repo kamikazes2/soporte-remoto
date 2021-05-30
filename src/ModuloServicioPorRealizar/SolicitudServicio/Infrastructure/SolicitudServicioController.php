@@ -73,7 +73,7 @@ class SolicitudServicioController
     }
 
     public function getSolicitudesDeUsuario(){
-        $idUsuario = 4;//Session::get('idUsuario');
+        $idUsuario = Session::get('idUsuario');
         $solUC = new GetSolicitudesDeUsuarioUseCase($this->ssRepository);
         $result = $solUC->__invoke($idUsuario);
         if(count($result)==0){
