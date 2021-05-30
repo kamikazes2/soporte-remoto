@@ -44,10 +44,5 @@ class EloquentServicioRepository implements ServicioRepositoryContract
         return $EloquentServicio;
     }
 
-    public function buscarServicio($idServicio){
-        $EloquentServicio = $this->eloquentServicioModel;
-        $servicio = $EloquentServicio->getByIdServicio($idServicio);
-        return $servicio;
-    }
 
 }

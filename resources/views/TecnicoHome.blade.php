@@ -16,12 +16,19 @@
                 <a @click="menu=0" class="navbar-brand" href="#">Inicio</a>
                 <div>
                   <ul class="navbar-nav mr-auto">
-                    <li @click="menu=1">
-                        <a class="nav-link" href="#">Trabajos Asignados</a>
+                  <li @click="menu=1">
+                        <a class="nav-link" href="#">Servicio</a>
+                    </li>
+                    <li @click="menu=2">
+                        <a class="nav-link" href="#">Especialidad</a>
+                    </li>
+                    <li @click="menu=3">
+                        <a class="nav-link" href="#">Tenicos</a>
                     </li>
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
                     </li> 
+                    
                   </ul>
                 </div>
             </nav>
@@ -30,9 +37,21 @@
                 <b>Gestion de Sistemas - Soporte Remoto</b>
             </template>
             <template v-if="menu==1">
-                <b>Trabajos asignados</b>
+                <b>Servicios</b>
                 <!-- Menu principal-->
                 <frmservicio></frmservicio>
+                <!--Fin menu principal-->
+            </template>
+            <template v-if="menu==2">
+                <b>Especialidades</b>
+                <!-- Menu principal-->
+                <frmespecialidad></frmespecialidad>
+                <!--Fin menu principal-->
+            </template>
+            <template v-if="menu==3">
+                <b>Personal</b>
+                <!-- Menu principal-->
+                <frmpersonal></frmpersonal>
                 <!--Fin menu principal-->
             </template>
 
