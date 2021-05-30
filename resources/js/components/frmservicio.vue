@@ -302,7 +302,7 @@ export default {
             );
         },
         getServicios() {
-            axios.get("/listaServicios").then(
+            axios.get("/request/get-all-servicios-with-especialidades").then(
                 function(res) {
                     this.arrayServicio = res.data;
                     /*
