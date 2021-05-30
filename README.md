@@ -126,19 +126,3 @@ post -> /request/update-cliente-password            idCliente, oldPassword, newP
 
 
 #clientes fin ----------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#get array servicio with price and especialidades
-/request/get-servicio-with-especialidades/{idServicio}
