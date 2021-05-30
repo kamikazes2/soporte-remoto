@@ -51,6 +51,21 @@
                     <input type="date" v-model="fechaNacimiento" placeholder="Fecha de Nacimiento" class="form-control"/> <br />
                     <input type="text" v-model="usuario" placeholder="usuario" class="form-control"/> <br />
                     <input type="password" v-model="password" placeholder="Contraseña" class="form-control"/> <br />
+                    
+                    <label for="Cargo" class="grey-text"
+                            >Cargo</label
+                        >
+                        <multiselect
+                            v-model="cargo" 
+                            :options="arrayCargo" 
+                            :searchable="false" 
+                            :close-on-select="false" 
+                            :show-labels="false" 
+                            placeholder="Escoja un Cargo"
+                        >
+                            
+                        </multiselect> <br />
+                    
                     <label for="especialidad" class="grey-text"
                             >Especialidad</label
                         >
@@ -190,14 +205,26 @@
                 idUsuario : '',
                 tipoUsuario:'',
                 password: '',
+                cargo: '',
+                
+                user: {
+                    nombre: "",
+                    usuario: "",
+                    email: "",
+                    tipoUsuario: "",
+                    id: 0
+                },
                 ///Tenico
                 idTecnico: 0,
+                idJefeTecnico: 0,
+
                 /////
                 ////Lista Especialidades
                 arrayEspecialidad: [],
                 especialidades: [],
                 ////
                 ////Variables Globales, Tabla
+                arrayCargo: [ 'tecnico', 'jefeTecnico'],
                 arrayPersonal: [],
                 showModal: false,
                 buscado: false,
@@ -269,15 +296,56 @@
             },
 
             getPersonal() {
-            /*
+            
             axios.get("/request/lista-especialidad").then(
                 function(res) {
                     this.arrayPersonal = res.data;
                     this.tabla();
                 }.bind(this)
             );
-            */
+            
             },
+
+            signUp(){
+                axios.post('/request/nuevo-usuario',{
+                    'nombre': this.nombre,
+                    'usuario': this.usuario,
+                    'email': this.email,
+                    'password': this.password,
+                    'tipoUsuario': this.cargo
+                }).then((response) => {
+                    console.log(response.data);
+                        if(response.data.error == true){
+                            alert(response.data.message);
+                        }else{
+                            alert("Usuario creado correctamente");
+                            this.user=response.data.user;
+                        }
+                    }).catch(function(error){
+                    console.log(error);
+                });
+                
+            },
+            SavePersonal(){
+                axios.post('/request/nuevo-usuario',{
+                    'nombre': this.nombre,
+                    'usuario': this.usuario,
+                    'email': this.email,
+                    'password': this.password,
+                    'tipoUsuario': this.cargo
+                }).then((response) => {
+                    console.log(response.data);
+                        if(response.data.error == true){
+                            alert(response.data.message);
+                        }else{
+                            alert("Usuario creado correctamente");
+                            this.user=response.data.user;
+                        }
+                    }).catch(function(error){
+                    console.log(error);
+                });
+                
+            }
         
         }
     }   

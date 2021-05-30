@@ -2978,6 +2978,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -2994,7 +3009,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       ////Usuario
       idUsuario: 0,
       usuario: ''
-    }, _defineProperty(_ref, "idUsuario", ''), _defineProperty(_ref, "tipoUsuario", ''), _defineProperty(_ref, "password", ''), _defineProperty(_ref, "idTecnico", 0), _defineProperty(_ref, "arrayEspecialidad", []), _defineProperty(_ref, "especialidades", []), _defineProperty(_ref, "arrayPersonal", []), _defineProperty(_ref, "showModal", false), _defineProperty(_ref, "buscado", false), _defineProperty(_ref, "showtable", false), _defineProperty(_ref, "search", ''), _ref;
+    }, _defineProperty(_ref, "idUsuario", ''), _defineProperty(_ref, "tipoUsuario", ''), _defineProperty(_ref, "password", ''), _defineProperty(_ref, "cargo", ''), _defineProperty(_ref, "user", {
+      nombre: "",
+      usuario: "",
+      email: "",
+      tipoUsuario: "",
+      id: 0
+    }), _defineProperty(_ref, "idTecnico", 0), _defineProperty(_ref, "idJefeTecnico", 0), _defineProperty(_ref, "arrayEspecialidad", []), _defineProperty(_ref, "especialidades", []), _defineProperty(_ref, "arrayCargo", ['tecnico', 'jefeTecnico']), _defineProperty(_ref, "arrayPersonal", []), _defineProperty(_ref, "showModal", false), _defineProperty(_ref, "buscado", false), _defineProperty(_ref, "showtable", false), _defineProperty(_ref, "search", ''), _ref;
   },
   mounted: function mounted() {
     this.getEspecialidades();
@@ -3049,14 +3070,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }.bind(this));
     },
     getPersonal: function getPersonal() {
-      /*
-      axios.get("/request/lista-especialidad").then(
-          function(res) {
-              this.arrayPersonal = res.data;
-              this.tabla();
-          }.bind(this)
-      );
-      */
+      axios.get("/request/lista-especialidad").then(function (res) {
+        this.arrayPersonal = res.data;
+        this.tabla();
+      }.bind(this));
+    },
+    signUp: function signUp() {
+      var _this = this;
+
+      axios.post('/request/nuevo-usuario', {
+        'nombre': this.nombre,
+        'usuario': this.usuario,
+        'email': this.email,
+        'password': this.password,
+        'tipoUsuario': this.cargo
+      }).then(function (response) {
+        console.log(response.data);
+
+        if (response.data.error == true) {
+          alert(response.data.message);
+        } else {
+          alert("Usuario creado correctamente");
+          _this.user = response.data.user;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    SavePersonal: function SavePersonal() {
+      var _this2 = this;
+
+      axios.post('/request/nuevo-usuario', {
+        'nombre': this.nombre,
+        'usuario': this.usuario,
+        'email': this.email,
+        'password': this.password,
+        'tipoUsuario': this.cargo
+      }).then(function (response) {
+        console.log(response.data);
+
+        if (response.data.error == true) {
+          alert(response.data.message);
+        } else {
+          alert("Usuario creado correctamente");
+          _this2.user = response.data.user;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -3284,13 +3345,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -3310,6 +3364,7 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       */
       index: 0,
       showModal: false,
+      showtable: false,
       arrayServicio: [],
       arrayEspecialidad: [],
       idServicio: 0,
@@ -3584,6 +3639,15 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    showhide: function showhide() {
+      if (this.showtable) {
+        this.showtable = false;
+        document.getElementById("bodyTabla").setAttribute("style", "display: none");
+      } else {
+        this.showtable = true;
+        document.getElementById("bodyTabla").removeAttribute("style");
+      }
     },
     vaciarModal: function vaciarModal() {
       this.id = 0;
@@ -60907,6 +60971,31 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "label",
+                        { staticClass: "grey-text", attrs: { for: "Cargo" } },
+                        [_vm._v("Cargo")]
+                      ),
+                      _vm._v(" "),
+                      _c("multiselect", {
+                        attrs: {
+                          options: _vm.arrayCargo,
+                          searchable: false,
+                          "close-on-select": false,
+                          "show-labels": false,
+                          placeholder: "Escoja un Cargo"
+                        },
+                        model: {
+                          value: _vm.cargo,
+                          callback: function($$v) {
+                            _vm.cargo = $$v
+                          },
+                          expression: "cargo"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "label",
                         {
                           staticClass: "grey-text",
                           attrs: { for: "especialidad" }
@@ -61499,40 +61588,17 @@ var render = function() {
       _c("div"),
       _vm._v(" "),
       _c("div", [
-        _vm._v("\n            Buscar:\n            "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { id: "busquedaServicio", width: "50px" },
-          domProps: { value: _vm.search },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.search = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
         _c(
           "button",
           {
             staticClass: "btn btn-success",
             on: {
               click: function($event) {
-                return _vm.filtrarServicios()
+                return _vm.showhide()
               }
             }
           },
-          [_vm._v("\n                Buscar\n            ")]
+          [_vm._v("\n                Mostrar/Ocultar Tabla\n            ")]
         ),
         _vm._v(" "),
         _c(
@@ -76442,8 +76508,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
