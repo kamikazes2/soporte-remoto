@@ -45,7 +45,8 @@ Vue.component('frmsolicitudservicio', require('./components/frmsolicitudservicio
 Vue.component('login-component', require('./components/loginComponent.vue').default);
 Vue.component('frmmissolicitudes', require('./components/frmmissolicitudes.vue').default);
 Vue.component('nombreusuariologueado', require('./components/nombreUsuarioLogueadoComponent.vue').default);
-
+Vue.component('frmespecialidad', require('./components/frmespecialidad.vue').default);
+Vue.component('frmpersonal', require('./components/frmpersonal.vue').default);
 
 
 /**
