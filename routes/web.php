@@ -106,12 +106,17 @@ Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
 Route::post('/request/nuevo-personal',[PC::class, 'createPersonal']);
 Route::get('/request/get-all-personales', [PC::class, 'getPersonales']);
 Route::post('/request/update-personal',[PC::class, 'updatePersonal']);
+Route::get('/request/get-all-personales-with-especialidades',[PC::class, 'getAllPersonalesWithEspecialides']);
+
+
 //para los tecnicos
 Route::post('/request/nuevo-tecnico2',[PTC::class, 'createTecnico']);
 Route::get('/request/get-all-tecnicos', [PTC::class, 'getTecnicos']);
 Route::delete('/request/delete-tecnico/{idPersonal}', [PTC::class, 'deleteTecnico']);
 //para especialidad personal
 Route::post('/request/create-or-update-especialidad-personal',[EPC::class, 'createOrUpdateEspecialidadPersonal']);
+
+
 
 //para los jefe tecnicos
 Route::post('/request/nuevo-jefe-tecnico2',[PJTC::class, 'createJefeTecnico']);

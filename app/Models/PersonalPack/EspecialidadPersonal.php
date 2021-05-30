@@ -45,4 +45,11 @@ class EspecialidadPersonal extends Model
         return $esp = DB::table('especialidadpersonal')->where('idPersonal', $idPersonal)->get();
     }
 
+    public function GetEspecialidadesWithNombreByIdPersonal($idPersonal){
+        return $esp = DB::table('especialidadpersonal')
+        ->join('especialidad', 'especialidad.id', '=', 'especialidadpersonal.idEspecialidad')
+        ->where('especialidadpersonal.idPersonal', '=' , $idPersonal)
+        ->get();
+    }
+
 }

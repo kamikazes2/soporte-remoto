@@ -13,6 +13,10 @@ use Src\ModuloPersonal\Personal\Application\GetPersonalesUseCase;
 use Src\ModuloPersonal\Personal\Application\UpdatePersonalUseCase;
 
 
+use Src\ModuloEspecialidad\EspecialidadPersonal\Infrastructure\Repositories\EloquentEspecialidadPersonalRepository;
+use Src\ModuloEspecialidad\EspecialidadPersonal\Application\GetEspecialidadesWithNombreByIdPersonalUseCase;
+
+
 
 
 
@@ -70,6 +74,38 @@ class PersonalController
             $disponible
         );
         return $usu;
+    }
+
+    public function getAllPersonalesWithEspecialides(Request $request){
+        $gpUC = new GetPersonalesUseCase($this->personalRepository);
+        $personales = $gpUC->__invoke();
+
+       $arrayTodoLosPersonales = array();
+       $arrayPersonales = array();
+       $espeArray = array();
+       foreach($personales as $espe){
+            $getEspecialidadPersonal = new GetEspecialidadesWithNombreByIdPersonalUseCase(new EloquentEspecialidadPersonalRepository);
+            $esp = $getEspecialidadPersonal->__invoke($espe->id);
+            $arrayPersonales = array(
+                'id' => $espe->id,
+                'idUsuario' => $espe->idUsuario,
+                'dni'=>$espe->dni,
+                'nombre'=>$espe->nombre,
+                'apellido'=>$espe->apellido,
+                'fechaNacimiento'=>$espe->fechaNacimiento
+            );
+            $eArray = array();
+            foreach($esp as $e){
+                $aux['idEspecialidad'] = $e->idEspecialidad;
+                $aux['nombre'] = $e->nombre;
+                $aux['descripcion'] = $e->descripcion;
+                array_push($eArray, $aux); 
+            }
+            $arrayPersonales['arrayEspecialidades'] = $eArray;
+            array_push($arrayTodoLosPersonales, $arrayPersonales);
+        }
+
+        return $arrayTodoLosPersonales;
     }
 
 

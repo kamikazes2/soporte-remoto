@@ -44,6 +44,11 @@ class EloquentEspecialidadPersonalRepository implements EspecialidadPersonalRepo
         $res = $es->GetEspecialidadesByIdPersonal($idEspecialidad);
         return $res;
     }
+    public function GetEspecialidadesWithNombreByIdPersonal($idEspecialidad){
+        $es = $this->eloquentEspecialidadPersonalModel;
+        $res = $es->GetEspecialidadesWithNombreByIdPersonal($idEspecialidad);
+        return $res;
+    }
 
 
 }
