@@ -92,7 +92,8 @@ class PersonalController
                 'dni'=>$espe->dni,
                 'nombre'=>$espe->nombre,
                 'apellido'=>$espe->apellido,
-                'fechaNacimiento'=>$espe->fechaNacimiento
+                'fechaNacimiento'=>$espe->fechaNacimiento,
+                'disponible' => $espe->disponible
             );
             $eArray = array();
             foreach($esp as $e){
