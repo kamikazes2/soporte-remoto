@@ -88,8 +88,10 @@
                                 </span>
                             </template>
                         </multiselect>
-
+                        <!--
                         <pre class="language-json"><code>{{ especialidades  }}</code></pre>
+                        -->
+                        
                         <!--
                         <select id="especialidad" v-for="especialidad in arrayEspecialidad" :key="especialidad.id">
                             <option  v-text="especialidad.nombre"   ></option>
@@ -440,17 +442,32 @@ export default {
             if (this.verificarTabla(local, this.servicio, posicion)) {
                 if (this.VerificarBaseDatos()) {
                     axios
-                        .post("request/actualizar-servicio", {
+                        .post("request/update-servicio2", {
                             id: this.servicio.id,
                             nombre: this.servicio.nombre,
                             descripcion: this.servicio.descripcion
                         })
-                        .then(function(error) {})
+                        .then(function(error) {
+                            
+                        })
                         .catch(function(error) {
                             console.log(error);
                         });
 
                     //console.log("Antes del if para actualizar el precio");
+                    console.log(this.especialidades);
+                    console.log(this.servicio.id);
+                    axios
+                            .post("request/update-especialidad-servicio", {
+                                idServicio: this.servicio.id,
+                                idEspecialidades: this.especialidades
+                            })
+                            .then(function(error) {
+                                 alert("Se modifico realcion de especialidad");
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
                     if (this.servicio.precio != local[posicion].precio) {
                         //console.log("Entro al if");
                         axios
@@ -459,7 +476,7 @@ export default {
                                 precio: this.servicio.precio
                             })
                             .then(function(error) {
-                                alert("Se modifico correctamente");
+                                alert("Se modifico el precio");
                             })
                             .catch(function(error) {
                                 console.log(error);
@@ -507,8 +524,10 @@ export default {
             if (me.nombre == "" || me.descripcion == "" || me.precio == "")
                 alert("Debe Llenar el formulario");
             else if (this.VerificarBaseDatos() && this.verificarTabla(this.arrayServicio, this.servicio, -1))
+                console.log(this.servicio);
+                
                 axios
-                    .post("request/nuevo-servicio", {
+                    .post("request/nuevo-servicio2", {
                         nombre: this.nombre,
                         descripcion: this.descripcion,
                         precio: this.precio
@@ -522,6 +541,7 @@ export default {
                     .catch(function(error) {
                         console.log(error);
                     });
+                    
             this.closeModal();
         },
         RelacionarEspecialidad(id, listaespecialidades) {
@@ -544,6 +564,7 @@ export default {
             this.descripcion = "";
             this.precio = "";
             this.classBtnGuardar = "btn btn-primary";
+            this.especialidades=[];
             //this.classBtnModificar = "display: none";
             setTimeout(function(){
                 document.getElementById("BtnGuardar").style.display =
