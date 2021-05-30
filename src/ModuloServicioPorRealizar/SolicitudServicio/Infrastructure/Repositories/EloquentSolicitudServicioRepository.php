@@ -20,16 +20,18 @@ class EloquentSolicitudServicioRepository implements SolicitudServicioRepository
 
     public function save(SolicitudServicio $solicitudServicio)
     {
-
         $newSolicitudServicio = $this->eloquentSolicitudServicioModel;
-
         $newSolicitudServicio->idCliente = $solicitudServicio->getIdCliente();
         $newSolicitudServicio->fechaSolicitud = $solicitudServicio->getFechaSolicitud();
 
         $newSolicitudServicio->save();
         return $newSolicitudServicio;
     }
-    
+    public function getByIdUsuario($idUsuario){
+        $sol = $this->eloquentSolicitudServicioModel;
+        $res = $sol->getSolicitudByIdUsuario($idUsuario);
+        return $res;
+    }
 
 
 }

@@ -131,4 +131,4 @@ Route::delete('/request/eliminar-precio-servicio2/{idServicio}',[PSR::class,'del
 
 //para la solicitud
 Route::post('/request/create-solicitud-servicio2', [SSC::class, 'createSolicitud']); //revisar asignacion
-
+Route::get('/request/get-solicitud-servicio-usuario', [SSC::class, 'getSolicitudesDeUsuario']);

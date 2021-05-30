@@ -2255,6 +2255,8 @@ new Vue({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var datatables_net_bs4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js");
+/* harmony import */ var datatables_net_bs4__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(datatables_net_bs4__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2264,7 +2266,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      arrarySolicitudes: []
+    };
+  },
+  methods: {
+    createTable: function createTable() {
+      this.$nextTick(function () {
+        $('#tablaServicio').DataTable();
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.createTable();
+  }
+});
 
 /***/ }),
 
@@ -59257,9 +59294,47 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "container" }, [
+    _c("table", { staticClass: "table", attrs: { id: "tablaServicio" } }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        { attrs: { id: "bodyTabla" } },
+        _vm._l(_vm.arrarySolicitudes, function(solicitud) {
+          return _c("tr", { key: solicitud.id }, [
+            _c("td", [_vm._v(_vm._s(solicitud.nombre))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(solicitud.descripcion))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(solicitud.precio))]),
+            _vm._v(" "),
+            _c("td")
+          ])
+        }),
+        0
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Descripcion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

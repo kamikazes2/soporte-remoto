@@ -14,6 +14,7 @@ use Src\ModuloServicioPorRealizar\ServicioRealizar\Application\CreateServicioRea
 
 use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\Repositories\EloquentAsignacionServicioRepository;
 use Src\ModuloAsignacion\AsignacionServicio\Application\CreateAsignacionServicioUseCase;
+use Src\ModuloServicioPorRealizar\SolicitudServicio\Application\GetSolicitudesDeUsuarioUseCase;
 
 
 
@@ -69,6 +70,40 @@ class SolicitudServicioController
         $createAsignacionServicioUseCase = new CreateAsignacionServicioUseCase($this->aRepository);
         $a = $createAsignacionServicioUseCase->__invoke();
         return response()->json($arraySol);
+    }
+
+    public function getSolicitudesDeUsuario(){
+        $idUsuario = 4;//Session::get('idUsuario');
+        $solUC = new GetSolicitudesDeUsuarioUseCase($this->ssRepository);
+        $result = $solUC->__invoke($idUsuario);
+        if(count($result)==0){
+            return response()->json(false);
+        }
+        $idAnt = 0;
+        $arrayAux = array();
+        $count = -1;
+        foreach($result as $res){
+             if($idAnt == $res->idSolicitud){
+                $d['nombreServicio'] = $res->nombreServicio;
+                $d['estado'] = $res->estado;
+                array_push($arrayAux[$count]['detalle'], $d);
+             }else{
+                $count++;
+                $idAnt = $res->idSolicitud;
+                $a['idSolicitud'] = $res->idSolicitud;
+                $a['nombreCliente'] = $res->nombreCliente;
+                $a['fechaSolicitud'] = $res->fechaSolicitud;
+                $a['idFactura'] = $res->idFactura;
+                $d['nombreServicio'] = $res->nombreServicio;
+                $d['estado'] = $res->estado;
+                $ar = array(
+                    $d
+                );
+                $a['detalle'] = $ar;
+                array_push($arrayAux, $a);
+             }
+        }
+        return $arrayAux;
     }
 
 
