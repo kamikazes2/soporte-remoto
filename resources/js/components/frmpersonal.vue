@@ -138,7 +138,7 @@
                         <th>Apellido</th>
                         <th>FechaNacimiento</th>
                         <th>Especialidad(es)</th>
-                        <th>Disponibilidad</th>
+                       <th>Disponibilidad</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -155,8 +155,10 @@
                                 </div>
                             </ul>
                         </td>
+                        
                         <td v-if="personal.disponible==1"> Disponible</td>
                         <td v-else> No Disponible</td>
+                        
                         <td>
                             <button
                                 class="btn btn-success btn-sm"
@@ -272,6 +274,7 @@
             },
             vaciarModal() {
             this.idPersonal = 0;
+            this.dni="";
             this.nombre = "";
             this.apellido = "";
             this.fechaNacimiento = "";
@@ -281,6 +284,8 @@
             this.tipoUsuario = "";
             this.password = "";
             this.idTecnico = 0;
+            this.especialidades=[];
+
 
             setTimeout(function(){
                 document.getElementById("BtnGuardar").style.display =
@@ -301,7 +306,7 @@
 
             getPersonal() {
             
-            axios.get("/request/get-all-personales").then(
+            axios.get("/request/get-all-personales-with-especialidades").then(
                 function(res) {
                     this.arrayPersonal = res.data;
                     this.tabla();
@@ -461,7 +466,7 @@
                     this.SaveEspecialidades(this.idPersonal);
                     
                 }
-            
+            this.vaciarModal();
             this.refresh();
         },
             ////Eliminar
