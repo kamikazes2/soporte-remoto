@@ -53,7 +53,7 @@ class FrontController extends Controller
         if($result != null){
             if(Hash::check($password, $result->password)){
                 Session::put('idUsuario', $result->id);
-                Session::put('nombre', $result->nombre);
+                Session::put('nombre', $result->usuario);
                 switch($result->tipoUsuario){
                     case 'cliente':
                         Session::put('tipoUsuario', 'cliente');
@@ -78,10 +78,6 @@ class FrontController extends Controller
                 ['error'=> true, 'message'=>'no existe usuario']
             );
         }
-    }
-
-    public function getLoggedUser(){
-        return Session::get('nombre');
     }
 
 

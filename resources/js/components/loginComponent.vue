@@ -2,9 +2,11 @@
     <div class="login-login-page">
             <div class="login-form">
                 <form @submit.prevent="loginCorrecto()" class="login-register-form" id="nuevaCuentaForm">
+                    <input type="text" v-model="dni" placeholder="DNI"/>
                     <input type="text" v-model="nombre" placeholder="Nombre"/>
-                    <input type="text" v-model="usuario" placeholder="Nombre de usuario"/>
-                    <input type="email" v-model="email" placeholder="correo"/>
+                    <input type="text" v-model="apellido" placeholder="Apellido"/>
+                    <input type="date" v-model="fechaNacimiento" placeholder="Fecha de Nacimiento"/>
+                    <input type="text" v-model="usuario" placeholder="usuario"/>
                     <input type="password" v-model="password" placeholder="Contraseña"/>
                     <button @click="signUp()" >crear</button>
                     <p class="message">Ya tienes una cuenta? <a href="#" @click="tengoCuenta()">Ingresar</a></p>
@@ -23,9 +25,11 @@
     export default {
         data(){
             return{
+                dni: '',
                 nombre: '',
-                usuario: '',
-                email: '',
+                apellido: '',
+                fechaNacimiento: '',
+                usuario :'',
                 idUsuario : '',
                 tipoUsuario:'',
                 password: ''
@@ -38,6 +42,8 @@
                     'password': this.password
                 }).then((response) => {
                     console.log(response.data);
+                    //this.idUsuario = response.data.userData.id;
+                    //this.tipoUsuario = response.data.tipoUsuario;
                     window.location = '/';
                     }).catch(function(error){
                     console.log(error);
@@ -55,12 +61,13 @@
                 document.getElementById("ingresarForm").style.display = "block";
             },
             signUp(){
-                axios.post('/request/nuevo-usuario',{
+                axios.post('/request/new-cliente',{
+                    'dni': this.dni,
                     'nombre': this.nombre,
+                    'apellido': this.apellido,
+                    'fechaNacimiento': this.fechaNacimiento,
                     'usuario': this.usuario,
-                    'email': this.email,
-                    'password': this.password,
-                    'tipoUsuario': 'cliente'
+                    'password': this.password
                 }).then((response) => {
                     console.log(response.data);
                         if(response.data.error == true){

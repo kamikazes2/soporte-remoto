@@ -33,14 +33,6 @@ class Servicio extends Model
         return $s;
     }
 
-    public function getByIdServicio($id){
-        $a = DB::table('servicio AS t1')
-        ->leftJoin(DB::raw('(SELECT idServicio, precio from precioservicio A where fecha >= (Select max(fecha) from precioservicio B  WHERE A.idServicio=B.idServicio )) AS t2'), function($join) {
-           $join->on('t1.id', '=', 't2.idServicio');
-        })->where("id", $id)->get();
-        return $a;
-    }
-
 
 
 }
