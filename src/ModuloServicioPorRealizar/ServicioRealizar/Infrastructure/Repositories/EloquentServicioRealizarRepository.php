@@ -39,4 +39,15 @@ class EloquentServicioRealizarRepository implements ServicioRealizarRepositoryCo
         return $this->eloquentServicioRealizarModel->updateToComplete($idServicioRealizar);
     }
 
+    public function aceptar($idServicioRealizar){
+        return $this->eloquentServicioRealizarModel->aceptar($idServicioRealizar);
+    }
+    public function finalizar($idServicioRealizar){
+        return $this->eloquentServicioRealizarModel->SolicitarfinalizacionServicio($idServicioRealizar);
+    }
+
+    public function aceptarFinalizacion($idServicioRealizar){
+        return $this->eloquentServicioRealizarModel->aceptarFinalizacionServicio($idServicioRealizar);
+    }
+
 }

@@ -20,7 +20,7 @@
                 <div>
                   <ul class="navbar-nav mr-auto">
                     <li @click="menu=1">
-                        <a class="nav-link" href="#">Servicio</a>
+                        <a class="nav-link" href="#">Servicio Asignados</a>
                     </li>
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
@@ -33,8 +33,9 @@
                 <b>Gestion de Sistemas - Soporte Remoto</b>
             </template>
             <template v-if="menu==1">
-                <frmservicio></frmservicio> 
+                <serviciosasignados></serviciosasignados> 
             </template>
+            
 
             <!--Fin menu principal-->
         </div>
