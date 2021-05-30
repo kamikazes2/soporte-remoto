@@ -50,6 +50,7 @@
                     <input type="text" v-model="apellido" placeholder="Apellido" class="form-control"/> <br />
                     <input type="date" v-model="fechaNacimiento" placeholder="Fecha de Nacimiento" class="form-control"/> <br />
                     <input type="text" v-model="usuario" placeholder="usuario" class="form-control"/> <br />
+                    <input type="text" v-model="email" placeholder="Correo Electronico" class="form-control"/> <br />
                     <input type="password" v-model="password" placeholder="Contraseña" class="form-control"/> <br />
                     
                     <label for="Cargo" class="grey-text"
@@ -91,14 +92,14 @@
                         <!--
                         <pre class="language-json"><code>{{ especialidades  }}</code></pre>
                         -->
-                    <button @click="signUp()" >crear</button>
+                    
                 </form>
                 </div>
                 <div slot="footer">
                     <button
                         v-bind:id="'BtnGuardar'"
                         v-bind:class="'btn btn-primary'"
-                        @click="guardar()"
+                        @click="signUp()"
                     >
                         Añadir
                     </button>
@@ -154,18 +155,20 @@
                                 </div>
                             </ul>
                         </td>
-                        <td>{{ personal.disponibilidad }}</td>
+                        <td v-if="personal.disponible==1"> Disponible</td>
+                        <td v-else> No Disponible</td>
                         <td>
                             <button
                                 class="btn btn-success btn-sm"
                                 @click="
                                     modificar(
-                                        personal.idPersonal,
+                                        personal.id,
+                                        personal.idUsuario,
                                         personal.dni,
                                         personal.nombre,
                                         personal.apellido,
                                         personal.fechaNacimiento,
-                                        personal.arrayEspecialidades,
+                                        personal.arrayEspecialidades
                                     )
                                 "
                             >
@@ -198,7 +201,7 @@
                 nombre: '',
                 apellido: '',
                 fechaNacimiento: '',
-                disponibilidad: '',
+                disponible: '',
                 ////Usuario
                 idUsuario: 0,
                 usuario :'',
@@ -206,7 +209,7 @@
                 tipoUsuario:'',
                 password: '',
                 cargo: '',
-                
+                email: '',
                 user: {
                     nombre: "",
                     usuario: "",
@@ -234,6 +237,7 @@
             }
         },
         mounted() {
+            this.getPersonal();
             this.getEspecialidades();
             document
                 .getElementById("bodyTabla")
@@ -271,7 +275,7 @@
             this.nombre = "";
             this.apellido = "";
             this.fechaNacimiento = "";
-            this.disponibilidad = "";
+            this.disponible = "";
             this.idUsuario = 0;
             this.usuario = "";
             this.tipoUsuario = "";
@@ -297,7 +301,7 @@
 
             getPersonal() {
             
-            axios.get("/request/lista-especialidad").then(
+            axios.get("/request/get-all-personales").then(
                 function(res) {
                     this.arrayPersonal = res.data;
                     this.tabla();
@@ -306,47 +310,191 @@
             
             },
 
+            ///Guardar////
             signUp(){
-                axios.post('/request/nuevo-usuario',{
-                    'nombre': this.nombre,
-                    'usuario': this.usuario,
-                    'email': this.email,
-                    'password': this.password,
-                    'tipoUsuario': this.cargo
+                console.log(this);
+                axios.post("request/nuevo-usuario",{
+                    nombre: this.nombre,
+                    usuario: this.usuario,
+                    email: this.email,
+                    password: this.password,
+                    tipoUsuario: this.cargo
+                }).then((response) => {
+                    console.log("Entrando al then");
+                    console.log(response.data);
+                        if(response.data.error == true){
+                            console.log("error =true");
+                            alert(response.data.message);
+                        }else{
+                            alert("Usuario creado correctamente");
+                            this.SavePersonal(response.data.user);
+                            //this.user=response.data.user;
+                        }
+                    })
+                    .catch(function(error){
+                    console.log(error);
+                });
+                
+                console.log("thisUsera");
+                console.log(this.user);
+            },
+            SavePersonal(user){
+                axios.post('/request/nuevo-personal',{
+                    'idUsuario': user.id,
+                    'dni': this.dni,
+                    'nombre': user.nombre,
+                    'apellido': this.apellido,
+                    'fechaNacimiento': this.fechaNacimiento
                 }).then((response) => {
                     console.log(response.data);
                         if(response.data.error == true){
                             alert(response.data.message);
                         }else{
-                            alert("Usuario creado correctamente");
-                            this.user=response.data.user;
+                            alert("PErsonal creado correctamente");
+                            this.SaveNuevaRelacion(response.data.id);
+                            this.SaveEspecialidades(response.data.id);
                         }
                     }).catch(function(error){
                     console.log(error);
                 });
                 
             },
-            SavePersonal(){
-                axios.post('/request/nuevo-usuario',{
-                    'nombre': this.nombre,
-                    'usuario': this.usuario,
-                    'email': this.email,
-                    'password': this.password,
-                    'tipoUsuario': this.cargo
+            SaveNuevaRelacion(id){
+                var url = "";
+                if(this.cargo=="tecnico"){
+                    url = "request/nuevo-tecnico2";
+                }
+                if(this.cargo=="jefeTecnico"){
+                    url = "request/nuevo-jefe-tecnico2";
+                }
+                axios.post(url,{
+                    'idPersonal': id,
                 }).then((response) => {
                     console.log(response.data);
                         if(response.data.error == true){
                             alert(response.data.message);
                         }else{
-                            alert("Usuario creado correctamente");
-                            this.user=response.data.user;
+                            alert("Relacion creado correctamente");
+
                         }
                     }).catch(function(error){
                     console.log(error);
                 });
                 
+            },
+            SaveEspecialidades(id){
+                
+                axios.post("request/create-or-update-especialidad-personal",{
+                    'idPersonal': id,
+                    'idEspecialidades': this.especialidades,
+                }).then((response) => {
+                    console.log(response.data);
+                        if(response.data.error == true){
+                            alert(response.data.message);
+                        }else{
+                            alert("Relacion Especialidades creado correctamente");
+
+                        }
+                    }).catch(function(error){
+                    console.log(error);
+                });
+                
+            },
+            //////////
+            /////Modificar
+            modificar(id, idUsuario, dni,nombre, apellido, fechaNacimiento, especialidad) {
+            this.idPersonal = id;
+            this.idUsuario= idUsuario;
+            this.dni = dni;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.fechaNacimiento = fechaNacimiento;
+            this.especialidades= especialidad;
+            this.showModal = true;
+            setTimeout(function(){
+                document.getElementById("BtnGuardar").style.display = "none";
+                document.getElementById("BtnModificar").style.display =
+                "inline-block";
+            },1);
+            
+            },
+
+            VerificarBaseDatos() {
+            ///Verifica que los datos locales y la BD sean Iguales
+
+            //var local = [...this.arrayServicio];
+            var localPersonales = Array.from(this.arrayPersonal);
+            this.refresh();
+
+         
+
+            if (JSON.stringify(localPersonales) == JSON.stringify(this.arrayPersonal)) {
+                console.log("Tablas Integras");
+                return true;
             }
-        
+
+            //this.arrayEspecialidad= Array.from(localEspecialidades);
+            console.log("Tablas Distintas");
+            alert("Posiblemente necesite actualizar su tabla con la BD");
+            return false;
+            },
+
+            modificarTabla() {
+            // console.log("primera vez q menciona servicio");
+
+            let local = this.arrayEspecialidad;
+
+                if (this.VerificarBaseDatos()) {
+                    axios
+                        .post("request/update-personal", {
+                            idPersonal: this.idPersonal,
+                            idUsuario: this.idUsuario,
+                            dni: this.dni,
+                            nombre: this.nombre,
+                            apellido: this.apellido,
+                            fechaNacimiento: this.fechaNacimiento
+                        })
+                        .then(function(error) {})
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                    this.SaveEspecialidades(this.idPersonal);
+                    
+                }
+            
+            this.refresh();
+        },
+            ////Eliminar
+            eliminar(idPersonal, index) {
+                    alert("En construccion");
+                    /*
+                if (confirm("Estas seguro de eliminar?")) {
+                    axios
+                        .post("/request/eliminar-especialidad/" + idEsp, {
+                            _method: "delete"
+                        })
+                        .then(
+                            response => {
+                                if (response.data == "ExisteTransaccion") {
+                                    alert(
+                                        "No se puede eliminar, Existe una transaccion"
+                                    );
+                                } else {
+                                    ("Se elimino correctamente");
+                                    this.refresh();
+                                }
+                            },
+                            error => {
+                                console.log(
+                                    "Puede que el servicio haya sido utilizado previamente"
+                                );
+                                console.log(response);
+                                // error callback
+                            }
+                        );
+                }
+                */
+            },
         }
     }   
 </script>
