@@ -12,7 +12,6 @@ class EspecialidadServicio extends Model
 
     public function getEspecialidadByIdServicio($id){
         //return $especialidadServicio = DB::table('especialidadservicio, especialidad')->where('idServicio', $id)->where('especialidad.id = especialidadservicio.idEspecialidad')->get();
-        
         return $esp = DB::table('especialidadservicio')
         ->join('especialidad', 'especialidad.id', '=', 'especialidadservicio.idEspecialidad')
         ->where('especialidadservicio.idServicio', '=' , $id)

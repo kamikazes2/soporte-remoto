@@ -10,6 +10,7 @@
 
 
 
+
 window.Vue = require('vue');
 
 
@@ -24,6 +25,9 @@ Vue.component('modal', {
     template: '#modal-template'
 })
 
+// global variable
+Vue.prototype.$usuarioLogueado = '';
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -35,15 +39,12 @@ Vue.component('modal', {
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('newcomponent', require('./components/newcomponent.vue').default);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('frmservicio', require('./components/frmservicio.vue').default);
 Vue.component('frmsolicitudservicio', require('./components/frmsolicitudservicio.vue').default);
 Vue.component('login-component', require('./components/loginComponent.vue').default);
 Vue.component('frmmissolicitudes', require('./components/frmmissolicitudes.vue').default);
-Vue.component('frmespecialidad', require('./components/frmespecialidad.vue').default);
-Vue.component('frmpersonal', require('./components/frmpersonal.vue').default);
-
+Vue.component('nombreusuariologueado', require('./components/nombreUsuarioLogueadoComponent.vue').default);
 
 
 
@@ -59,6 +60,7 @@ const app = new Vue({
         menu:0
     }
 });
+
 
 
 

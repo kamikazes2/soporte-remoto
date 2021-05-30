@@ -1,0 +1,474 @@
+.nombreEmpresa{
+    font-size: 25px;
+    font-weight: bold;
+}
+.apertura{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.iconoBack{
+    width: 25px;
+    height: 25px;
+}
+
+.portada img{
+    margin-top: 52px;
+    width: 100%;
+}
+
+.tituloCategorias{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.btnCategorias{
+    text-align: center;
+}
+
+.btn{
+    width: 90%;
+    margin-top: 10px;
+}
+
+.menuContent{/*contenedor de la lista de menus*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.menuItem{
+    position: relative;
+    width: 285px;
+    height: 220px;
+    background-color:  rgb(221, 221, 221);
+    margin: 5px;    
+    border-radius: 2%;
+}
+
+.menuImagen{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.menuImagen img{
+    width: 250px;
+    height: 250px;
+    border-radius: 5%;
+}
+
+.menuTitulo{
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.menuDescripcion{
+    padding-left: 5px;
+    font-size: 14px;
+    line-height: 1.5em;
+    height: 3em;
+    /* overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; */
+    width: 100%;
+}
+
+.menuPrecio{
+    position: absolute;
+    text-align: right;
+    bottom: 1px;
+    right: 3px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menuBtn {
+    text-align: center;
+    height: 30px;
+    margin-top: -15px;
+    position: absolute;
+    bottom: 55px;
+    width: 100%;
+}
+
+.modal-footer .btnModal{
+    text-align: center;
+    width: 100px;
+}
+
+.menuAreaDescripcion{
+    text-align: center;
+}
+
+.menuOferta {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    position: absolute;
+}
+.menuOferta::before,
+.menuOferta::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  
+  border: 5px solid red;
+}
+.menuOferta span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  background-color: red;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  color: #fff;
+  font: 700 18px/1 'Lato', sans-serif;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+/* top right*/
+.menuOferta-top-right {
+    top: -5px;
+    right: -5px;
+}
+.menuOferta-top-right::before,
+.menuOferta-top-right::after {
+    border-top-color: transparent;
+    border-right-color: transparent;
+}
+.menuOferta-top-right::before {
+    top: 0;
+    left: 35px;
+}
+.menuOferta-top-right::after {
+    bottom: 35px;
+    right: 0;
+}
+.menuOferta-top-right span {
+    left: -25px;
+    top: 30px;
+    transform: rotate(45deg);
+}
+
+
+@media (min-width: 1281px) { /*Para PC*/
+
+    
+}
+
+
+@media (min-width: 1025px) and (max-width: 1280px) {/*para laptops*/
+  
+    
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {/*para tablets horizontal portrait*/
+  
+
+    
+}
+
+@media (min-width: 481px) and (max-width: 767px) {/*para tablets vertical landscape*/
+
+
+}
+
+@media (min-width: 400px) and (max-width: 480px) {/*para telefonos*/
+
+
+.nombreEmpresa{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.iconoBack{
+    width: 25px;
+    height: 25px;
+}
+
+.portada img{
+    margin-top: 52px;
+    width: 100%;
+}
+
+.tituloCategorias{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.btnCategorias{
+    text-align: center;
+}
+
+.btn{
+    width: 90%;
+    margin-top: 10px;
+}
+
+.menuContent{/*contenedor de la lista de menus*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.menuItem{
+    position: relative;
+    width: 185px;
+    height: 300px;
+    background-color:  rgb(221, 221, 221);
+    margin: 5px;    
+    border-radius: 2%;
+}
+
+.menuImagen{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.menuImagen img{
+    width: 150px;
+    height: 150px;
+    border-radius: 5%;
+}
+
+.menuTitulo{
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.menuDescripcion{
+    padding-left: 5px;
+    font-size: 14px;
+    line-height: 1.5em;
+    height: 3em;
+    /* overflow: hidden; */
+    /* white-space: nowrap; */
+    /* text-overflow: ellipsis; */
+    width: 100%;
+}
+
+.menuPrecio{
+    position: absolute;
+    text-align: right;
+    bottom: 1px;
+    right: 3px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menuBtn {
+    text-align: center;
+    height: 30px;
+    margin-top: -15px;
+    position: absolute;
+    bottom: 55px;
+    width: 100%;
+}
+.menuOferta {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    position: absolute;
+}
+.menuOferta::before,
+.menuOferta::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  
+  border: 5px solid red;
+}
+.menuOferta span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  background-color: red;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  color: #fff;
+  font: 700 18px/1 'Lato', sans-serif;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+/* top right*/
+.menuOferta-top-right {
+    top: -5px;
+    right: -5px;
+}
+.menuOferta-top-right::before,
+.menuOferta-top-right::after {
+    border-top-color: transparent;
+    border-right-color: transparent;
+}
+.menuOferta-top-right::before {
+    top: 0;
+    left: 35px;
+}
+.menuOferta-top-right::after {
+    bottom: 35px;
+    right: 0;
+}
+.menuOferta-top-right span {
+    left: -25px;
+    top: 30px;
+    transform: rotate(45deg);
+}
+
+
+
+}
+  
+
+@media (min-width: 150px) and (max-width: 399px) {/*para telefonos mas pequeños*/
+    .nombreEmpresa{
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .iconoBack{
+        width: 20px;
+        height: 20px;
+    }
+    
+    .portada img{
+        margin-top: 45px;
+        width: 100%;
+    }
+    
+    .tituloCategorias{
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+    }
+    
+    .btnCategorias{
+        text-align: center;
+    }
+    
+    .btn{
+        width: 90%;
+        margin-top: 10px;
+    }
+    
+    .menuContent{/*contenedor de la lista de menus*/
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .menuItem{
+        position: relative;
+        width: 160px;
+        height: 280px;
+        background-color:  rgb(221, 221, 221);
+        margin: 5px;    
+        border-radius: 2%;
+    }
+    
+    .menuImagen{
+        text-align: center;
+        margin-top: 10px;
+    }
+    
+    .menuImagen img{
+        width: 130px;
+        height: 130px;
+        border-radius: 5%;
+    }
+    
+    .menuTitulo{
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    .menuDescripcion{
+        padding-left: 5px;
+        font-size: 14px;
+        line-height: 1.5em;
+        height: 3em;
+        /* overflow: hidden; */
+        /* white-space: nowrap; */
+        /* text-overflow: ellipsis; */
+        width: 100%;
+    }
+    
+    .menuPrecio{
+        position: absolute;
+        text-align: right;
+        bottom: 1px;
+        right: 3px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .menuBtn {
+        text-align: center;
+        height: 30px;
+        margin-top: -15px;
+        position: absolute;
+        bottom: 55px;
+        width: 100%;
+    }
+
+
+
+    .menuOferta {
+        width: 120px;
+        height: 120px;
+        overflow: hidden;
+        position: absolute;
+    }
+    .menuOferta::before,
+    .menuOferta::after {
+      position: absolute;
+      z-index: -1;
+      content: '';
+      display: block;
+      
+      border: 5px solid red;
+    }
+    .menuOferta span {
+      position: absolute;
+      display: block;
+      width: 225px;
+      background-color: red;
+      box-shadow: 0 5px 10px rgba(0,0,0,.1);
+      color: #fff;
+      font: 700 18px/1 'Lato', sans-serif;
+      text-shadow: 0 1px 1px rgba(0,0,0,.2);
+      text-transform: uppercase;
+      text-align: center;
+    }
+    /* top right*/
+    .menuOferta-top-right {
+        top: -5px;
+        right: -5px;
+    }
+    .menuOferta-top-right::before,
+    .menuOferta-top-right::after {
+        border-top-color: transparent;
+        border-right-color: transparent;
+    }
+    .menuOferta-top-right::before {
+        top: 0;
+        left: 35px;
+    }
+    .menuOferta-top-right::after {
+        bottom: 35px;
+        right: 0;
+    }
+    .menuOferta-top-right span {
+        left: -25px;
+        top: 30px;
+        transform: rotate(45deg);
+    }
+
+
+}

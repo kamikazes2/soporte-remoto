@@ -37,6 +37,7 @@
                     </li>  
                   </ul>
                 </div>
+                <nombreusuariologueado></nombreusuariologueado>
             </nav>
             <!-- Menu principal-->
             <template v-if="menu==0">
