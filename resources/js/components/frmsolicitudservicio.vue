@@ -633,6 +633,7 @@
                             Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
                         */
                         'arrayServicios' : this.carritoservicios,
+                        'idCliente': this.idCliente
                         
                 }).then(function(res){
                         //alert("La solicitud fue registrada correctamente");

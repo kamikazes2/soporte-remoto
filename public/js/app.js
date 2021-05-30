@@ -3722,7 +3722,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 /* 
                     Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
                 */
-                'arrayServicios': _this11.carritoservicios
+                'arrayServicios': _this11.carritoservicios,
+                'idCliente': _this11.idCliente
               }).then(function (res) {
                 //alert("La solicitud fue registrada correctamente");
                 a = res.data;
