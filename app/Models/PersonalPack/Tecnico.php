@@ -22,4 +22,14 @@ class Tecnico extends Model
         $especialidadServicio = DB::table('tecnico')->where('idPersonal', $idPersonal)->delete();
         return true;
     }
+
+    public function getTecnicoByEspecialidad($idEspecialidad){
+        $sql = "SELECT t.id as idTecnico, p.nombre, p.id as idPersonal FROM personal as p 
+        INNER JOIN tecnico as t ON t.idPersonal = p.id AND 	P.disponible = 1
+        INNER JOIN especialidadpersonal as ep ON ep.idPersonal = p.id AND ep.idEspecialidad = ".$idEspecialidad."
+        INNER JOIN especialidad as e ON e.id = ep.idEspecialidad";    
+        $res = DB::select($sql);
+        return $res;
+    }
+
 }

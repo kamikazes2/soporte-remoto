@@ -39,5 +39,11 @@ class EloquentTecnicoRepository implements TecnicoRepositoryContract
         return $res;
     }
 
+    public function getTecnicoByIdEspecialidad($idEspecialidad){
+        $per = $this->eloquentTecnicoModel;
+        $res = $per->getTecnicoByEspecialidad($idEspecialidad);
+        return $res;
+    }
+
 
 }
