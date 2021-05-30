@@ -142,3 +142,36 @@ post -> /request/update-cliente-password            idCliente, oldPassword, newP
 
 #get array servicio with price and especialidades
 /request/get-servicio-with-especialidades/{idServicio}
+
+
+
+
+
+
+nuevos--------------------------------------------------------
+
+CRUD personales
+post > /request/nuevo-personal      -->     idUsuario, dni, nombre, apellido, fechaNacimiento
+get  > /request/get-all-personales  -->
+post > /request/update-personal     -->     idPersonal, idUsuario, dni, nombre, apellido, fechaNacimiento
+
+
+CRUD TECNICOS
+POST    >   /request/nuevo-tecnico2                 --> idPersonal
+GET     >   /request/get-all-tecnicos
+DELETE  >   /request/delete-tecnico/{idPersonal}    
+
+
+CRUD ESPECIALIDAD PERSONAL
+post    >   /request/create-or-update-especialidad-personal
+{
+    "idPersonal": 1,
+    "idEspecialidades":[
+        {
+            "id" : 1
+        },
+        {
+            "id" : 2
+        }
+    ]
+}

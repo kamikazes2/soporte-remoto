@@ -87,15 +87,31 @@ use Src\ModuloTarjeta\Tarjeta\Infrastructure\TarjetaController as TC;
 use Src\ModuloPagos\NitTributario\Infrastructure\NitTributarioController as NTC;
 use Src\ModuloPagos\Factura\Infrastructure\FacturaController as FC;
 use Src\ModuloPagos\DetalleFactura\Infrastructure\DetalleFacturaController as DFC;
+use Src\ModuloPersonal\Personal\Infrastructure\PersonalController as PC;
+use Src\ModuloPersonal\Tecnico\Infrastructure\TecnicoController as PTC;
+use Src\ModuloEspecialidad\EspecialidadPersonal\Infrastructure\EspecialidadPersonalController as EPC;
 
 
 //para el login
 Route::post('/request/login', [FrontController::class, 'login']);
 Route::get('/request/get-logged-user', [FrontController::class, 'getLoggedUser']);
 
-
 //para usuarios
 Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
+
+//para los personales
+Route::post('/request/nuevo-personal',[PC::class, 'createPersonal']);
+Route::get('/request/get-all-personales', [PC::class, 'getPersonales']);
+Route::post('/request/update-personal',[PC::class, 'updatePersonal']);
+//para los tecnicos
+Route::post('/request/nuevo-tecnico2',[PTC::class, 'createTecnico']);
+Route::get('/request/get-all-tecnicos', [PTC::class, 'getTecnicos']);
+Route::delete('/request/delete-tecnico/{idPersonal}', [PTC::class, 'deleteTecnico']);
+//para especialidad personal
+Route::post('/request/create-or-update-especialidad-personal',[EPC::class, 'createOrUpdateEspecialidadPersonal']);
+
+
+
 //para cliente
 Route::post('/request/nuevo-cliente2',[CC::class, 'createCliente']);
 Route::get('/request/verificar-cliente/{dni}',[CC::class, 'verificarCliente']);

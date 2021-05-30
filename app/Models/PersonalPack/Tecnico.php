@@ -18,5 +18,8 @@ class Tecnico extends Model
     public function isTecnico($idPersonal){
         return $tecnico = DB::table('tecnico')->where('idPersonal', $idPersonal)->get();
     }
-
+    public function deleteByIdPersonal($idPersonal){
+        $especialidadServicio = DB::table('tecnico')->where('idPersonal', $idPersonal)->delete();
+        return true;
+    }
 }

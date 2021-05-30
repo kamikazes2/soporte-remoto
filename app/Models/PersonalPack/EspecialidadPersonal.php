@@ -26,4 +26,23 @@ class EspecialidadPersonal extends Model
            })
            ->get();
     }
+
+    public function deleteRelacion($idPersonal, $idEspecialidad){
+        $especialidadPersonal = DB::table('especialidadpersonal')->where('idPersonal', $idPersonal)->where('idEspecialidad',$idEspecialidad)->delete();
+        return true;
+    }
+
+    public function existeEspecialidadPersonal($idPersonal, $idEspecialidad){
+        $esp = DB::table('especialidadpersonal')->where('idPersonal', $idPersonal)->where('idEspecialidad',$idEspecialidad)->get();
+        if($esp!=null && count($esp)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function GetEspecialidadesByIdPersonal($idPersonal){
+        return $esp = DB::table('especialidadpersonal')->where('idPersonal', $idPersonal)->get();
+    }
+
 }
