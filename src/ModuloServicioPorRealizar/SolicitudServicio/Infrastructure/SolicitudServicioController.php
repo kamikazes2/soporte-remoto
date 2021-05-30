@@ -35,7 +35,7 @@ class SolicitudServicioController
     public function createSolicitud(Request $request)
     {
         //creamos la solicitud
-        $idCliente = 1;//Session::get('idUsuario');
+        $idCliente = $request['idCliente'];
         $date = Carbon::now();
         $fecha = $date->toDateTimeString();
         $fechaSolicitud = $fecha;

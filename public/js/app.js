@@ -4158,7 +4158,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
-                _context13.next = 2;
+                if (_this9.nitNombreCliente == '') {
+                  _this9.nitNombreCliente = "s/n";
+                }
+
+                if (_this9.nitCliente == '') {
+                  _this9.nitCliente = 0;
+                }
+
+                _context13.next = 4;
                 return axios.post('/request/nuevo-nit', {
                   'idCliente': _this9.idCliente,
                   'nombre': _this9.nitNombreCliente,
@@ -4170,10 +4178,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(error);
                 });
 
-              case 2:
+              case 4:
                 return _context13.abrupt("return", data);
 
-              case 3:
+              case 5:
               case "end":
                 return _context13.stop();
             }
@@ -4232,7 +4240,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 /* 
                     Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
                 */
-                'arrayServicios': _this11.carritoservicios
+                'arrayServicios': _this11.carritoservicios,
+                'idCliente': _this11.idCliente
               }).then(function (res) {
                 //alert("La solicitud fue registrada correctamente");
                 a = res.data;
@@ -61570,7 +61579,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text" },
+                          attrs: { required: "", type: "text" },
                           domProps: { value: _vm.nitCliente },
                           on: {
                             input: function($event) {
@@ -61596,7 +61605,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text" },
+                          attrs: { required: "", type: "text" },
                           domProps: { value: _vm.nitNombreCliente },
                           on: {
                             input: function($event) {
