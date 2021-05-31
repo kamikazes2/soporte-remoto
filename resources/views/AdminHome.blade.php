@@ -26,7 +26,7 @@
                         <a class="nav-link" href="#">Especialidad</a>
                     </li>
                     <li @click="menu=3">
-                        <a class="nav-link" href="#">Tenicos</a>
+                        <a class="nav-link" href="#">Personal</a>
                     </li>
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
