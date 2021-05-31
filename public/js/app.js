@@ -3038,6 +3038,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -3095,6 +3097,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     vaciarModal: function vaciarModal() {
       this.idPersonal = 0;
+      this.dni = "";
       this.nombre = "";
       this.apellido = "";
       this.fechaNacimiento = "";
@@ -3104,6 +3107,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.tipoUsuario = "";
       this.password = "";
       this.idTecnico = 0;
+      this.especialidades = [];
       setTimeout(function () {
         document.getElementById("BtnGuardar").style.display = "inline-block";
         document.getElementById("BtnModificar").style.display = "none";
@@ -3116,7 +3120,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }.bind(this));
     },
     getPersonal: function getPersonal() {
-      axios.get("/request/get-all-personales").then(function (res) {
+      axios.get("/request/get-all-personales-with-especialidades").then(function (res) {
         this.arrayPersonal = res.data;
         this.tabla();
       }.bind(this));
@@ -3267,6 +3271,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.SaveEspecialidades(this.idPersonal);
       }
 
+      this.vaciarModal();
       this.refresh();
     },
     ////Eliminar
