@@ -145,15 +145,8 @@
             <button class="btn btn-primary" type="button" @click="filtrarServicios()">Mostrar</button> -->
             </div>
             <div>
-                Buscar:
-                <input
-                    id="busquedaServicio"
-                    v-model="search"
-                    class="form-control"
-                    width="50px"
-                />
-                <button class="btn btn-success" @click="filtrarServicios()">
-                    Buscar
+                <button class="btn btn-success" @click="showhide()">
+                    Mostrar/Ocultar Tabla
                 </button>
                 <button class="btn btn-success" @click="refresh()">
                     Refresh
@@ -232,6 +225,7 @@ export default {
 */          
             index: 0,
             showModal: false,
+            showtable: false,
             arrayServicio: [],
             arrayEspecialidad: [],
             idServicio: 0,
@@ -549,6 +543,15 @@ export default {
                         console.log(error);
                     });
         },
+        showhide(){
+            if(this.showtable){
+                this.showtable=false;
+                document.getElementById("bodyTabla").setAttribute("style","display: none");
+            }else{
+                this.showtable=true;
+                document.getElementById("bodyTabla").removeAttribute("style");
+            }
+            },
         vaciarModal() {
             this.id = 0;
             this.nombre = "";

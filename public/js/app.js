@@ -3020,6 +3020,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -3032,13 +3050,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       nombre: '',
       apellido: '',
       fechaNacimiento: '',
-      disponibilidad: '',
+      disponible: '',
       ////Usuario
       idUsuario: 0,
       usuario: ''
-    }, _defineProperty(_ref, "idUsuario", ''), _defineProperty(_ref, "tipoUsuario", ''), _defineProperty(_ref, "password", ''), _defineProperty(_ref, "idTecnico", 0), _defineProperty(_ref, "arrayEspecialidad", []), _defineProperty(_ref, "especialidades", []), _defineProperty(_ref, "arrayPersonal", []), _defineProperty(_ref, "showModal", false), _defineProperty(_ref, "buscado", false), _defineProperty(_ref, "showtable", false), _defineProperty(_ref, "search", ''), _ref;
+    }, _defineProperty(_ref, "idUsuario", ''), _defineProperty(_ref, "tipoUsuario", ''), _defineProperty(_ref, "password", ''), _defineProperty(_ref, "cargo", ''), _defineProperty(_ref, "email", ''), _defineProperty(_ref, "user", {
+      nombre: "",
+      usuario: "",
+      email: "",
+      tipoUsuario: "",
+      id: 0
+    }), _defineProperty(_ref, "idTecnico", 0), _defineProperty(_ref, "idJefeTecnico", 0), _defineProperty(_ref, "arrayEspecialidad", []), _defineProperty(_ref, "especialidades", []), _defineProperty(_ref, "arrayCargo", ['tecnico', 'jefeTecnico']), _defineProperty(_ref, "arrayPersonal", []), _defineProperty(_ref, "showModal", false), _defineProperty(_ref, "buscado", false), _defineProperty(_ref, "showtable", false), _defineProperty(_ref, "search", ''), _ref;
   },
   mounted: function mounted() {
+    this.getPersonal();
     this.getEspecialidades();
     document.getElementById("bodyTabla").setAttribute("style", "display: none");
   },
@@ -3073,7 +3098,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.nombre = "";
       this.apellido = "";
       this.fechaNacimiento = "";
-      this.disponibilidad = "";
+      this.disponible = "";
       this.idUsuario = 0;
       this.usuario = "";
       this.tipoUsuario = "";
@@ -3091,13 +3116,188 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }.bind(this));
     },
     getPersonal: function getPersonal() {
+      axios.get("/request/get-all-personales").then(function (res) {
+        this.arrayPersonal = res.data;
+        this.tabla();
+      }.bind(this));
+    },
+    ///Guardar////
+    signUp: function signUp() {
+      var _this = this;
+
+      console.log(this);
+      axios.post("request/nuevo-usuario", {
+        nombre: this.nombre,
+        usuario: this.usuario,
+        email: this.email,
+        password: this.password,
+        tipoUsuario: this.cargo
+      }).then(function (response) {
+        console.log("Entrando al then");
+        console.log(response.data);
+
+        if (response.data.error == true) {
+          console.log("error =true");
+          alert(response.data.message);
+        } else {
+          alert("Usuario creado correctamente");
+
+          _this.SavePersonal(response.data.user); //this.user=response.data.user;
+
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      console.log("thisUsera");
+      console.log(this.user);
+    },
+    SavePersonal: function SavePersonal(user) {
+      var _this2 = this;
+
+      axios.post('/request/nuevo-personal', {
+        'idUsuario': user.id,
+        'dni': this.dni,
+        'nombre': user.nombre,
+        'apellido': this.apellido,
+        'fechaNacimiento': this.fechaNacimiento
+      }).then(function (response) {
+        console.log(response.data);
+
+        if (response.data.error == true) {
+          alert(response.data.message);
+        } else {
+          alert("PErsonal creado correctamente");
+
+          _this2.SaveNuevaRelacion(response.data.id);
+
+          _this2.SaveEspecialidades(response.data.id);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    SaveNuevaRelacion: function SaveNuevaRelacion(id) {
+      var url = "";
+
+      if (this.cargo == "tecnico") {
+        url = "request/nuevo-tecnico2";
+      }
+
+      if (this.cargo == "jefeTecnico") {
+        url = "request/nuevo-jefe-tecnico2";
+      }
+
+      axios.post(url, {
+        'idPersonal': id
+      }).then(function (response) {
+        console.log(response.data);
+
+        if (response.data.error == true) {
+          alert(response.data.message);
+        } else {
+          alert("Relacion creado correctamente");
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    SaveEspecialidades: function SaveEspecialidades(id) {
+      axios.post("request/create-or-update-especialidad-personal", {
+        'idPersonal': id,
+        'idEspecialidades': this.especialidades
+      }).then(function (response) {
+        console.log(response.data);
+
+        if (response.data.error == true) {
+          alert(response.data.message);
+        } else {
+          alert("Relacion Especialidades creado correctamente");
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    //////////
+    /////Modificar
+    modificar: function modificar(id, idUsuario, dni, nombre, apellido, fechaNacimiento, especialidad) {
+      this.idPersonal = id;
+      this.idUsuario = idUsuario;
+      this.dni = dni;
+      this.nombre = nombre;
+      this.apellido = apellido;
+      this.fechaNacimiento = fechaNacimiento;
+      this.especialidades = especialidad;
+      this.showModal = true;
+      setTimeout(function () {
+        document.getElementById("BtnGuardar").style.display = "none";
+        document.getElementById("BtnModificar").style.display = "inline-block";
+      }, 1);
+    },
+    VerificarBaseDatos: function VerificarBaseDatos() {
+      ///Verifica que los datos locales y la BD sean Iguales
+      //var local = [...this.arrayServicio];
+      var localPersonales = Array.from(this.arrayPersonal);
+      this.refresh();
+
+      if (JSON.stringify(localPersonales) == JSON.stringify(this.arrayPersonal)) {
+        console.log("Tablas Integras");
+        return true;
+      } //this.arrayEspecialidad= Array.from(localEspecialidades);
+
+
+      console.log("Tablas Distintas");
+      alert("Posiblemente necesite actualizar su tabla con la BD");
+      return false;
+    },
+    modificarTabla: function modificarTabla() {
+      // console.log("primera vez q menciona servicio");
+      var local = this.arrayEspecialidad;
+
+      if (this.VerificarBaseDatos()) {
+        axios.post("request/update-personal", {
+          idPersonal: this.idPersonal,
+          idUsuario: this.idUsuario,
+          dni: this.dni,
+          nombre: this.nombre,
+          apellido: this.apellido,
+          fechaNacimiento: this.fechaNacimiento
+        }).then(function (error) {})["catch"](function (error) {
+          console.log(error);
+        });
+        this.SaveEspecialidades(this.idPersonal);
+      }
+
+      this.refresh();
+    },
+    ////Eliminar
+    eliminar: function eliminar(idPersonal, index) {
+      alert("En construccion");
       /*
-      axios.get("/request/lista-especialidad").then(
-          function(res) {
-              this.arrayPersonal = res.data;
-              this.tabla();
-          }.bind(this)
-      );
+      if (confirm("Estas seguro de eliminar?")) {
+      axios
+          .post("/request/eliminar-especialidad/" + idEsp, {
+              _method: "delete"
+          })
+          .then(
+              response => {
+                  if (response.data == "ExisteTransaccion") {
+                      alert(
+                          "No se puede eliminar, Existe una transaccion"
+                      );
+                  } else {
+                      ("Se elimino correctamente");
+                      this.refresh();
+                  }
+              },
+              error => {
+                  console.log(
+                      "Puede que el servicio haya sido utilizado previamente"
+                  );
+                  console.log(response);
+                  // error callback
+              }
+          );
+      }
       */
     }
   }
@@ -3326,13 +3526,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -3352,6 +3545,7 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       */
       index: 0,
       showModal: false,
+      showtable: false,
       arrayServicio: [],
       arrayEspecialidad: [],
       idServicio: 0,
@@ -3626,6 +3820,15 @@ Vue.component("multiselect", vue_multiselect__WEBPACK_IMPORTED_MODULE_1___defaul
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    showhide: function showhide() {
+      if (this.showtable) {
+        this.showtable = false;
+        document.getElementById("bodyTabla").setAttribute("style", "display: none");
+      } else {
+        this.showtable = true;
+        document.getElementById("bodyTabla").removeAttribute("style");
+      }
     },
     vaciarModal: function vaciarModal() {
       this.id = 0;
@@ -61142,6 +61345,33 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
+                            value: _vm.email,
+                            expression: "email"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Correo Electronico"
+                        },
+                        domProps: { value: _vm.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.email = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
                             value: _vm.password,
                             expression: "password"
                           }
@@ -61156,6 +61386,31 @@ var render = function() {
                             }
                             _vm.password = $event.target.value
                           }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        { staticClass: "grey-text", attrs: { for: "Cargo" } },
+                        [_vm._v("Cargo")]
+                      ),
+                      _vm._v(" "),
+                      _c("multiselect", {
+                        attrs: {
+                          options: _vm.arrayCargo,
+                          searchable: false,
+                          "close-on-select": false,
+                          "show-labels": false,
+                          placeholder: "Escoja un Cargo"
+                        },
+                        model: {
+                          value: _vm.cargo,
+                          callback: function($$v) {
+                            _vm.cargo = $$v
+                          },
+                          expression: "cargo"
                         }
                       }),
                       _vm._v(" "),
@@ -61219,19 +61474,7 @@ var render = function() {
                           },
                           expression: "especialidades"
                         }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.signUp()
-                            }
-                          }
-                        },
-                        [_vm._v("crear")]
-                      )
+                      })
                     ],
                     1
                   )
@@ -61245,7 +61488,7 @@ var render = function() {
                       attrs: { id: "BtnGuardar" },
                       on: {
                         click: function($event) {
-                          return _vm.guardar()
+                          return _vm.signUp()
                         }
                       }
                     },
@@ -61365,7 +61608,9 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(personal.disponibilidad))]),
+              personal.disponible == 1
+                ? _c("td", [_vm._v(" Disponible")])
+                : _c("td", [_vm._v(" No Disponible")]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -61375,7 +61620,8 @@ var render = function() {
                     on: {
                       click: function($event) {
                         return _vm.modificar(
-                          personal.idPersonal,
+                          personal.id,
+                          personal.idUsuario,
                           personal.dni,
                           personal.nombre,
                           personal.apellido,
@@ -61755,40 +62001,17 @@ var render = function() {
       _c("div"),
       _vm._v(" "),
       _c("div", [
-        _vm._v("\n            Buscar:\n            "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: { id: "busquedaServicio", width: "50px" },
-          domProps: { value: _vm.search },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.search = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
         _c(
           "button",
           {
             staticClass: "btn btn-success",
             on: {
               click: function($event) {
-                return _vm.filtrarServicios()
+                return _vm.showhide()
               }
             }
           },
-          [_vm._v("\n                Buscar\n            ")]
+          [_vm._v("\n                Mostrar/Ocultar Tabla\n            ")]
         ),
         _vm._v(" "),
         _c(
@@ -76876,8 +77099,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\soporte-remoto\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
