@@ -75,8 +75,8 @@
                     <td>{{asig.email}}</td>
                     <td>{{asig.estado}}</td>
                     <td>
-                        <button style= "" @click="showRechazo(asig.idAsignacion)" class="btn btn-success custom_button">Rechazar</button>
-                        <button style= "" @click="finalizarServicioRealizar(asig.idServicioRealizar)" class="btn btn-danger custom_button">Finalizar</button>
+                        <button style= "" @click="showRechazo(asig.idAsignacion)" class="btn btn-danger custom_button">Rechazar</button>
+                        <button style= "" @click="finalizarServicioRealizar(asig.idServicioRealizar)" class="btn btn-success custom_button">Finalizar</button>
                         <!-- <button @click="verDetalle($event)" class="btn btn-success custom_button">Detalle</button> -->
                     </td>
                 </tr>
