@@ -76,6 +76,67 @@
         <br>
 
 
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card" id="paso2" style="display:none">
+                    <div class="card-header"> Solicitud de Servicio</div>      
+                        <div class="card-body" id="vistaServiciosDisponibles">
+                            <div class='menuContent col-md-8'>
+                                <div v-for="servicio in arrayServicio" :key="servicio.id" class='menuItem'>
+                                    <!--<div class='menuImagen'>
+                                        <img src='$dir'>
+                                    </div>-->
+                                    <div class='menuTitulo'>
+                                                    {{servicio.nombre}}
+                                    </div>
+                                    <div class='menuDescripcion'>
+                                        <p class='menuAreaDescripcion'>
+                                              {{servicio.descripcion}}
+                                        </p>
+                                    </div>
+                                    <div class='menuBtn'>
+                                            <button @click="Agregar(servicio.nombre, servicio.id, servicio.precio, $event)" class='btn btn-dark'>Añadir</button>
+                                    </div>
+                                    <div class='menuPrecio text-danger'>
+                                                        BS
+                                    </div>
+                                   <!-- <div class='menuOferta menuOferta-top-right'>
+                                                <span> -10% </span>
+                                    </div> -->
+                                    <div class='menuPrecio'>
+                                                {{servicio.precio}}BS
+                                    </div>
+                                </div>
+                            </div>
+
+                                    <div class="col-4 carrito1">
+                                        <div class="container">
+                                        <h4>Carrito
+                                            <span class="price" style="color:black">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            <b>{{cantCarrito}}</b>
+                                            </span>
+                                        </h4>
+                                        <div v-for="carrito in carritoservicios" :key="carrito.idServicio">
+                                            <div class="carritoNombre">
+                                                <a href="#">{{carrito.nombre}}</a> 
+                                            </div>
+                                            <div class="carritoPrecio2">
+                                            <span class="price">{{carrito.precioFijado}}</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Total <span class="price" style="color:black"><b>{{total}}</b></span></p>
+                                            <div class="CenteredDivContent"><button @click="finalizar()" disabled id="btnSiguiente" class="btn btn-success">solicitar</button></div>
+                                        </div>
+                                    </div>
+
+                        </div>
+                        
+                </div>
+            </div>
+        </div>
+
 
 
 
@@ -150,6 +211,7 @@
                     var res = response.data;
                     if(res.error == false){
                         res = res.cliente;
+                        this.idCliente = res.id
                         this.dniCliente = res.dni;
                         this.nombreCliente = res.nombre;
                         this.apellidoCliente = res.apellido;
@@ -216,7 +278,53 @@
                 });
                 return r;
             },
+            async modificarCliente(id,dni, nombre, apellido, fechaNacimiento, telefono){
+                var r;
+                await axios.post('/request/actualizar-cliente2',{
+                    'idCliente' : id,
+                    'dni': dni,
+                    'nombre': nombre,
+                    'apellido': apellido,
+                    'fechaNacimiento': fechaNacimiento,
+                    'telefono': telefono
+                }).then(function(res){
+                    r = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return r;
+            },
+            async verificarSiClienteTieneTarjeta(idCliente){
+                var r;
+                if(idCliente != 0 && idCliente!= null){
+                    await axios.get('/request/buscar-tarjeta-cliente/'+idCliente).then(function (res) {
+                    if(res.data.tiene){
+                        r =  res.data;
+                    }else{
+                        r = null;
+                    }
+                });
+                }
+                return r;
+            },
+            async createTarjeta(idCliente){
+                var data;
+                await axios.post('/request/nueva-tarjeta',{
+                    'idCliente' : idCliente,
+                    'nombre': this.nombreTarjeta,
+                    'numero': this.numeroTarjeta,
+                    'mes': this.expTarjeta,
+                    'anio': this.yearExpTarjeta
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
             async submitPaso1(){
+                var preloader = document.getElementById("preloader");
+                preloader.style.display="block";
                 //verificar si existe el cliente con el dni
                 var cliente = await this.verificarSiExisteCliente();
 
@@ -224,15 +332,19 @@
                 if(cliente.existe == false){   //si no existe el cliente crearlo
                     cli = await this.crearNuevoCliente();
                 }else{
-                    //modificar al cliente si los datos no son iguales
                     cli = cliente.cliente[0];
                     if(
                         this.nombreCliente != cli.nombre ||
-                        rhis.apellidoCliente != cli.apellidoCliente
+                        this.apellidoCliente != cli.apellidoCliente ||
+                        this.telefono != cli.telefono
                     ){
-
+                        //modificar cliente ya que no son iguales
+                        var nuevo = await this.modificarCliente(cli.id, this.dniCliente , this.nombreCliente, this.apellidoCliente, this.fechaNacimientoCliente, this.TelefonoCliente)
+                        cli = nuevo;
                     }
                 }
+
+                this.idCliente = cli.id;
 
                 //verificamos si existe el usuario con el correo
                 var usuario = await this.verificarSiExisteUsuario();
@@ -250,17 +362,103 @@
                 //al mismo usuario y a un nuevo usuario
                 await this.createClienteUsuario(usu.id, cli.id);
 
+                var tarjeta = await this.verificarSiClienteTieneTarjeta(cli.id);
 
+                if(tarjeta == null){
+                    var newTar = await this.createTarjeta(cli.id);
+                }else{
+                    tarjeta = tarjeta.tarjeta[0];
+                    if(
+                        tarjeta.nombre != this.nombreTarjeta ||
+                        tarjeta.numero != this.numeroTarjeta ||
+                        tarjeta.mes     != this.expTarjeta   ||
+                        tarjeta.anio    != this.yearExpTarjeta
+                    ){
+                        //crear otra tarjeta
+                        var newTar = await this.createTarjeta(cli.id);
+                    }
+                }
 
-                //si existe modificar al cliente, verificar si tiene tarjeta, si no tiene crear si tiene modificar
-                //si no existe crear al cliente
-                //si no existe crear tarjeta
+                await setTimeout(async function() {
+                    preloader.style.display="none";
+                    document.getElementById("paso1").style.display = "none";
+                    document.getElementById("paso2").style.display = "flex";
+                }, 3000);
+                
+            },
+            Agregar(nombre, idServicio, precio, event){
+                var btn = event.target;
+                    // btn.disabled = true;
+                if(this.carritoservicios.findIndex(servicio => 
+                    servicio.idServicio === idServicio
+                    ) != -1)
+                {
+                    btn.innerHTML = "Añadir";
+                    btn.className = "btn btn-dark";
+                    var index = this.carritoservicios.findIndex(function(array) {
+                        return array.idServicio == idServicio
+                    });
+                    this.carritoservicios.splice(index, 1);
+                    this.total = parseFloat(this.total) - parseFloat(precio);
+                    this.cantCarrito-=1;
+                }else{
+                    btn.innerHTML = "Quitar";
+                    btn.className = "btn btn-danger";
+                    var servicio = {
+                    'idServicio': 0,
+                    'precioFijado': 0,
+                    'nombre': ''
+                    };
+                    this.total = parseFloat(this.total) + parseFloat(precio);
+
+                    servicio.idServicio = idServicio;
+                    servicio.precioFijado = precio;
+                    servicio.nombre = nombre;
+                    this.carritoservicios.push(servicio);
+                    this.cantCarrito+=1;
+                }
+                if(this.cantCarrito==0){
+                    document.getElementById("btnSiguiente").disabled = true;
+                }else{
+                    document.getElementById("btnSiguiente").disabled = false;
+                }
+            },
+            async solicitar(){
+                var a;
+                let me = this;
+                await axios.post('/request/create-solicitud-servicio2',{
+                        /* 
+                            Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
+                        */
+                        'arrayServicios' : this.carritoservicios,
+                        'idCliente': this.idCliente
+                        
+                }).then(function(res){
+                        //alert("La solicitud fue registrada correctamente");
+                        a = res.data;
+                }).catch(function(error){
+                        console.log(error);
+                });
+                return a;
+            },
+            async finalizar(){
+                await this.solicitar();
+                alert("solicitado correctamente");
+                window.location = '/';
             }
-
         },
             async mounted() {
+                await axios.get('/request/get-servicios2').then(function(response){
+                        this.arrayServicio = response.data;
+                }.bind(this));
                 await this.getDataUsuario();
-                await this.findLastCliente(); //falta
+                await this.findLastCliente();
+                var tar = await this.verificarSiClienteTieneTarjeta(this.idCliente);
+                tar = tar.tarjeta[0];
+                this.nombreTarjeta = tar.nombre;
+                this.numeroTarjeta = tar.numero;
+                this.expTarjeta = tar.mes;
+                this.yearExpTarjeta = tar.anio;
             },
     }
 </script>

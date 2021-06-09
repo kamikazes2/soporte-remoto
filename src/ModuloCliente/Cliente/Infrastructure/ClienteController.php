@@ -64,11 +64,13 @@ class ClienteController
         $nombre = $request['nombre'];
         $apellido = $request['apellido'];
         $fechaNacimiento = $request['fechaNacimiento'];
+        $telefono = $request['telefono'];
         $clien = $updateUserUC->__invoke(
             $id,
             $nombre,
             $apellido,
-            $fechaNacimiento
+            $fechaNacimiento,
+            $telefono
         );
         return $clien;
     }

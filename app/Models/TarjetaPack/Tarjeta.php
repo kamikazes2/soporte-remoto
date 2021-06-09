@@ -12,7 +12,7 @@ class Tarjeta extends Model
 
 
     public function getLastTarjetaUsedByIdCliente($idCliente){
-        $tar = DB::table('tarjeta')->where('idCliente', $idCliente)->orderBy('created_at','asc')->get();
+        $tar = DB::table('tarjeta')->where('idCliente', $idCliente)->orderBy('created_at','desc')->get();
         return $tar;
     }
 
