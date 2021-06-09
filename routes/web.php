@@ -94,7 +94,7 @@ use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\AsignacionServicioCon
 use Src\ModuloPersonal\JefeTecnico\Infrastructure\JefeTecnicoController as PJTC;
 use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\ServicioRealizarController as SRC;
 use Src\ModuloUsuario\ClienteUsuario\Infrastructure\ClienteUsuarioController as CUC;
-
+use Src\ModuloAsignacion\RechazoAsignacion\Infrastructure\RechazoAsignacionController as RA;
 
 //para el login
 Route::post('/request/login', [FrontController::class, 'login']);
@@ -177,3 +177,7 @@ Route::post('/request/aceptar-servicio-realizar', [SRC::class, 'aceptarServicio'
 Route::post('/request/solicitar-finalizacion-servicio-realizar', [SRC::class, 'finalizarServicio']);
 Route::post('/request/aceptar-finalizacion-servicio-realizar', [SRC::class, 'aprobarFinalizacionServicio']);
 
+//Para Rechazar Asignacion
+Route::post('/request/rechazar-asignacion-servicio',[RA::class, 'createRechazoAsignacion']);
+Route::get('/request/get-rechazar-asignacion',[RA::class, 'getRechazoAsignacion']);
+Route::post('/request/aceptar-rechazar-asignacion',[CC::class, 'aceptarRechazoAsignacion']);
