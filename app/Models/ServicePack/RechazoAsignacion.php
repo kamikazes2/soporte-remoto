@@ -18,10 +18,13 @@ class RechazoAsignacion extends Model
         ->where('especialidadservicio.idServicio', '=' , $id)
         ->get();
         */
-        $sql = "SELECT ra.id as id, t.id as idTecnico, p.nombre as nombreTecnico, ra.idAsignacion as idAsignacion, ra.descripcion, ra.estado 
+        $sql = "SELECT ra.id as id, t.id as idTecnico, p.nombre as nombreTecnico, ra.idAsignacion as idAsignacion, s.nombre as nombreServicio, ra.descripcion, ra.estado 
         FROM rechazoasignacion as ra
         INNER JOIN tecnico as t on t.id = ra.idTecnico
         INNER JOIN personal as p on p.id = t.idPersonal
+        INNER JOIN asignacionservicio as asi on asi.id = ra.idAsignacionServicio
+        INNER JOIN serviciorealizar as sr on asi.idServicioRealizar = sr.id
+        INNER JOIN servicio as s on s.id = sr.idServicio
         ORDER BY ra.estado DESC";
         $res = DB::select($sql);
         return $res;

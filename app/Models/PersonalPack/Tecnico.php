@@ -32,4 +32,13 @@ class Tecnico extends Model
         return $res;
     }
 
+    public function getTecnicobyUserId($idUsuario){
+        $sql = "SELECT t.id as idTecnico, p.nombre, p.id as idPersonal 
+        FROM tecnico as t 
+        INNER JOIN personal as p ON t.idPersonal = p.id
+        INNER JOIN users as u ON u.id = p.idUsuario AND u.id = ".$idUsuario."";    
+        $res = DB::select($sql);
+        return $res;
+    }
+
 }

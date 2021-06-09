@@ -96,6 +96,7 @@ export default {
             showModal: false,
             asignacion: {
                 idAsignacion: 0,
+                idTecnico: 0 ,
                 descripcion: '',
             }
         }
@@ -129,18 +130,28 @@ export default {
             return i;
         },
         async rechazarAsignacion(){
-                let me = this.asignacion;
-                await axios.post('/request/rechazar-asignacion-servicio',{
-                    'idAsignacion' : me.idAsignacion,
-                    'descripcion' : me.descripcion
-                }).then(async function(error){
-                    await me.getAsignaciones();
-                    await me.vaciarModal();
-                    await me.closeModal();
-                    await alert("Solicitud Enviada Correctamente"); 
-                }).catch(function(error){
-                    console.log(error);
-                });
+            let me = this.asignacion;
+
+            await axios.get('/request/get-tecnico-iduser').then(function(response){
+                if(response.data!=false){
+                    me.idTecnico = response.data.idTecnico;
+                }else{
+                    i = false;
+                }
+            }.bind(this));
+
+            await axios.post('/request/rechazar-asignacion-servicio',{
+                'idAsignacion' : me.idAsignacion,
+                'idTecnico' : me.idTecnico,
+                'descripcion' : me.descripcion
+            }).then(async function(error){
+                await me.getAsignaciones();
+                await me.vaciarModal();
+                await me.closeModal();
+                alert("Solicitud Enviada Correctamente"); 
+            }).catch(function(error){
+                console.log(error);
+            });
         },
         async finalizarServicioRealizar(idServicioRealizar){
                 let me = this;
