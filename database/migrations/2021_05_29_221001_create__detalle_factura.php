@@ -21,7 +21,7 @@ class CreateDetalleFactura extends Migration
             $table->foreign('idSolicitudServicio')->references('id')->on('solicitudservicio');
             $table->string("nroPago");
             $table->decimal("monto",8,2);
-            $table->decimal("detalle");
+            $table->string("detalle");
             $table->timestamps();
         });
     }

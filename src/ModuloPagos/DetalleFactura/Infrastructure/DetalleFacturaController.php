@@ -11,6 +11,7 @@ use Src\ModuloPagos\DetalleFactura\Infrastructure\Repositories\EloquentDetalleFa
 use Src\ModuloPagos\DetalleFactura\Application\CreateDetalleFacturaUseCase;
 use Src\ModuloPagos\DetalleFactura\Application\BuscarDetalleFacturaClienteUseCase;
 
+use App\Models\PagoPack\DetalleFactura;
 
 
 
@@ -24,7 +25,7 @@ class DetalleFacturaController
         $this->detalleFacturaRepository = $repository;
     }
 
-    public function createDetalleFactura(Request $request){
+    public function createDetalleFacturass(Request $request){
         
         $arrayServiciosRealizar = $request['arrayIdServiciosRealizar'];
         $idFactura = $request['idFactura'];
@@ -36,6 +37,26 @@ class DetalleFacturaController
         }
 
         return $resArray;
+    }
+
+
+    public function createDetalleFactura(Request $request){
+
+        $idFactura = $request['idFactura'];
+        $idSolicitudServicio = $request['idSolicitudServicio'];
+        $nroPago = $request['nroPago'];
+        $monto = $request['monto'];
+        $detalle = $request['detalle'];
+
+        $df = new DetalleFactura;
+        $df->idFactura = $idFactura;
+        $df->idSolicitudServicio = $idSolicitudServicio;
+        $df->nroPago = $nroPago;
+        $df->monto = $monto;
+        $df->detalle = $detalle;
+
+        $df->save();
+        return $df;
     }
 
 

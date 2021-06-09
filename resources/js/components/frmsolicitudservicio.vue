@@ -127,12 +127,67 @@
                                         </div>
                                         <hr>
                                         <p>Total <span class="price" style="color:black"><b>{{total}}</b></span></p>
-                                            <div class="CenteredDivContent"><button @click="finalizar()" disabled id="btnSiguiente" class="btn btn-success">Solicitar</button></div>
+                                            <div class="CenteredDivContent"><button @click="siguiente()" disabled id="btnSiguiente" class="btn btn-success">siguiente</button></div>
                                         </div>
                                     </div>
 
                         </div>
                         
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container" id="paso3" style="display:none">
+            <div><button style="width: 20%" @click="irPaso2()"  class="btn btn-danger">Cancelar</button></div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-md-12" >
+                    <div class="card">
+                        <div class="card-header"> Ultimo paso</div>
+                            <div class="card-body">
+                                 <div class="row">
+                                    <div class="col-75">
+                                        <div class="container">
+                                            <div class="col-50">
+                                                <h3>Datos de facturacion</h3>
+                                                <label for="nit">Nit</label>
+                                                <input required class="form-control" v-model="nitCliente" type="text">
+                                                <label for="fname">Nombre completo</label>
+                                                <input required class="form-control" v-model="nitNombreCliente"  type="text">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col-12 carrito1">
+                                                <div class="container">
+                                                <h4>Detalles de la compra
+                                                    <span class="price" style="color:black">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    <b>{{cantCarrito}}</b>
+                                                    </span>
+                                                </h4>
+                                                <div v-for="carrito in carritoservicios" :key="carrito.idServicio">
+                                                    <div class="carritoNombre">
+                                                        <a href="#">{{carrito.nombre}}</a> 
+                                                    </div>
+                                                    <div class="carritoPrecio2">
+                                                    <span class="price">{{carrito.precioFijado}}Bs</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <p>Total <span class="price" style="color:black"><b>{{total}}Bs</b></span></p>
+                                                <p>A pagar <span class="price" style="color:red"><b>{{total*0.10}}Bs</b></span></p>
+                                                    <div class="CenteredDivContent">
+                                                        <strong>Al solicitar el servicio se le hará un recargo del 10% del total</strong><br>
+                                                        <button style="width: 20%" @click="pagar()"  id="btnPagar" class="btn btn-success">Pagar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                 </div>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -441,10 +496,112 @@
                 });
                 return a;
             },
-            async finalizar(){
-                await this.solicitar();
-                alert("solicitado correctamente");
-                window.location = '/';
+            async createDetalleFactura(idF, idS, nroPago, monto){
+                var data;
+                await axios.post('/request/nuevo-detalle-factura',{
+                    'idFactura' : idF,
+                    'idSolicitudServicio': idS,
+                    'nroPago': nroPago,
+                    'monto': monto,
+                    'detalle': 'pago incial del 10%' 
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
+            async createFactura(idNit){
+                var data;
+                await axios.post('/request/nueva-factura',{
+                    'idNit' : idNit
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
+            async verificarSiClienteTieneNit(idCliente){
+                var r;
+                if(idCliente != 0 && idCliente!= null){
+                    await axios.get('/request/buscar-nit-cliente/'+idCliente).then(function (res) {
+                    if(res.data.tiene){
+                        r =  res.data;
+                    }else{
+                        r = null;
+                    }
+                });
+                }
+                return r;
+            },
+            async createNit(){
+                var data;
+                if(this.nitNombreCliente==''){
+                    this.nitNombreCliente = "s/n";
+                }
+                if(this.nitCliente == ''){
+                    this.nitCliente = 0;
+                }
+                await axios.post('/request/nuevo-nit',{
+                    'idCliente' : this.idCliente,
+                    'nombre': this.nitNombreCliente,
+                    'nit': this.nitCliente,
+                    'tipo': 'nit'
+                }).then(function(res){
+                    data = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return data;
+            },
+            async pagar(){
+                if(this.nitCliente == "" || this.nitNombreCliente == ""){
+                    var r = confirm("Los datos de facturacion no han sido llenados, desea continuar?");
+                    if(r==false)
+                        return;
+                }
+                var preloader = document.getElementById("preloader");
+                preloader.style.display="block";
+                var nit =  await this.verificarSiClienteTieneNit(this.idCliente);
+                if(nit!=null){
+                    //verificar si es igual
+                    nit = nit.nitTributario[0];
+                    console.log(nit);
+                    if(
+                        nit.nombre != this.nitNombreCliente ||
+                        nit.nit != this.nitCliente
+                    ){
+                        var sol = await this.solicitar();
+                        var nit = await this.createNit();
+                        var factura = await this.createFactura(nit.id);
+                        var df = await this.createDetalleFactura(factura.id, sol[0].id, "1", this.total*0.10)
+                    }else{
+                        var sol = await this.solicitar();
+                        var factura = await this.createFactura(nit.id);
+                        var df = await this.createDetalleFactura(factura.id, sol[0].id, "1", this.total*0.10)
+                    }
+
+                }else{ //crear
+                    var sol = await this.solicitar();
+                    var nit = await this.createNit();
+                    var factura = await this.createFactura(nit.id);
+                    var df = await this.createDetalleFactura(factura.id, sol[0].id, "1", this.total*0.10)
+                }
+                await setTimeout(async function() {
+                    preloader.style.display="none";
+                    alert("solicitado correctamente")
+                    window.location = '/';
+                }, 3000);
+                
+                
+                
+
+
+            },
+            async siguiente(){
+                document.getElementById("paso2").style.display = "none";
+                document.getElementById("paso3").style.display = "block";
             }
         },
             async mounted() {
@@ -454,11 +611,14 @@
                 await this.getDataUsuario();
                 await this.findLastCliente();
                 var tar = await this.verificarSiClienteTieneTarjeta(this.idCliente);
-                tar = tar.tarjeta[0];
-                this.nombreTarjeta = tar.nombre;
-                this.numeroTarjeta = tar.numero;
-                this.expTarjeta = tar.mes;
-                this.yearExpTarjeta = tar.anio;
+                if(tar!=null){
+                    tar = tar.tarjeta[0];
+                    this.nombreTarjeta = tar.nombre;
+                    this.numeroTarjeta = tar.numero;
+                    this.expTarjeta = tar.mes;
+                    this.yearExpTarjeta = tar.anio;
+                }
+
             },
     }
 </script>

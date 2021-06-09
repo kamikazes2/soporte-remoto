@@ -20,21 +20,26 @@ class ClienteUsuarioController
         if($idUsuario == $idUsuarioLogueado){
             //crear solo 1
             $clienteUsuario = new ClienteUsuario;
-            $clienteUsuario->idUsuario = $idUsuario;
-            $clienteUsuario->idCliente = $idCliente;
-            $clienteUsuario->save();
+            if(!$clienteUsuario->existe($idUsuario, $idCliente)){
+                $clienteUsuario->idUsuario = $idUsuario;
+                $clienteUsuario->idCliente = $idCliente;
+                $clienteUsuario->save();
+            }
             return $clienteUsuario;
         }else{
             //crear para los 2
-            $clienteUsuario = new ClienteUsuario;
-            $clienteUsuario->idUsuario = $idUsuario;
-            $clienteUsuario->idCliente = $idCliente;
-            $clienteUsuario->save();
-
-            $clienteUsuario = new ClienteUsuario;
-            $clienteUsuario->idUsuario = $idUsuarioLogueado;
-            $clienteUsuario->idCliente = $idCliente;
-            $clienteUsuario->save();
+            if(!$clienteUsuario->existe($idUsuario, $idCliente)){
+                $clienteUsuario = new ClienteUsuario;
+                $clienteUsuario->idUsuario = $idUsuario;
+                $clienteUsuario->idCliente = $idCliente;
+                $clienteUsuario->save();
+            }
+            if(!$clienteUsuario->existe($idUsuarioLogueado, $idCliente)){
+                $clienteUsuario = new ClienteUsuario;
+                $clienteUsuario->idUsuario = $idUsuarioLogueado;
+                $clienteUsuario->idCliente = $idCliente;
+                $clienteUsuario->save();
+            }
         }
     }
 

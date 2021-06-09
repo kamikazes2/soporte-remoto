@@ -3,52 +3,23 @@ namespace Src\ModuloPagos\DetalleFactura\Domain;
 final class DetalleFactura{
 
     private $id;
-    private $idServicioRealizar;
     private $idFactura;
+    private $idSolicitudServicio;
+    private $nroPago;
+    private $monto;
+    private $detalle;
 
-
-    public function __construct($idServicioRealizar, $idFactura){
-        $this->idServicioRealizar = $idServicioRealizar;
+    public function __construct($idFactura, $idSolicitudServicio, $nroPago, $monto, $detalle){
         $this->idFactura = $idFactura;
-    }
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
+        $this->idSolicitudServicio = $idSolicitudServicio;
+        $this->nroPago = $nroPago;
+        $this->monto = $monto;
+        $this->detalle = $detalle;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of idServicioRealizar
-     */ 
-    public function getIdServicioRealizar()
-    {
-        return $this->idServicioRealizar;
-    }
-
-    /**
-     * Set the value of idServicioRealizar
-     *
-     * @return  self
-     */ 
-    public function setIdServicioRealizar($idServicioRealizar)
-    {
-        $this->idServicioRealizar = $idServicioRealizar;
-
-        return $this;
+    public static function create($idFactura, $idSolicitudServicio, $nroPago, $monto, $detalle):DetalleFactura{
+        $df = new self($idFactura, $idSolicitudServicio, $nroPago, $monto, $detalle);
+        return $df;
     }
 
     /**
@@ -70,9 +41,84 @@ final class DetalleFactura{
 
         return $this;
     }
-    
-    public static function create($idServicioRealizar, $idFactura):DetalleFactura{
-        $df = new self($idServicioRealizar, $idFactura);
-        return $df;
+
+    /**
+     * Get the value of idSolicitudServicio
+     */ 
+    public function getIdSolicitudServicio()
+    {
+        return $this->idSolicitudServicio;
+    }
+
+    /**
+     * Set the value of idSolicitudServicio
+     *
+     * @return  self
+     */ 
+    public function setIdSolicitudServicio($idSolicitudServicio)
+    {
+        $this->idSolicitudServicio = $idSolicitudServicio;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of nroPago
+     */ 
+    public function getNroPago()
+    {
+        return $this->nroPago;
+    }
+
+    /**
+     * Set the value of nroPago
+     *
+     * @return  self
+     */ 
+    public function setNroPago($nroPago)
+    {
+        $this->nroPago = $nroPago;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of monto
+     */ 
+    public function getMonto()
+    {
+        return $this->monto;
+    }
+
+    /**
+     * Set the value of monto
+     *
+     * @return  self
+     */ 
+    public function setMonto($monto)
+    {
+        $this->monto = $monto;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of detalle
+     */ 
+    public function getDetalle()
+    {
+        return $this->detalle;
+    }
+
+    /**
+     * Set the value of detalle
+     *
+     * @return  self
+     */ 
+    public function setDetalle($detalle)
+    {
+        $this->detalle = $detalle;
+
+        return $this;
     }
 }

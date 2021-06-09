@@ -15,4 +15,13 @@ class ClienteUsuario extends Model
         return $cliente;
     }
 
+    public function existe($idUsuario, $idCliente){
+        $cliente = DB::table('clienteusuario')->where('idUsuario', $idUsuario)->where('idCliente', $idCliente)->get();
+        if(count($cliente)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
