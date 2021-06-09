@@ -13,7 +13,7 @@ use Src\ModuloServicioPorRealizar\ServicioRealizar\Application\AprobarFinalizaci
 use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\Repositories\EloquentAsignacionServicioRepository;
 use Src\ModuloAsignacion\AsignacionServicio\Application\CreateAsignacionServicioUseCase;
 
-
+use App\Models\ServicePack\ServicioRealizar;
 
 class ServicioRealizarController
 {
@@ -67,5 +67,13 @@ class ServicioRealizarController
         $as->__invoke();
         return response()->json("finalizado");
     }
+
+    public function update_Pendiente(Request $request)
+    {
+        $sr = new ServicioRealizar;
+        $sr->updateToPendiente( $request['idServicioRealizar']);
+        return true;
+    }
+
 
 }

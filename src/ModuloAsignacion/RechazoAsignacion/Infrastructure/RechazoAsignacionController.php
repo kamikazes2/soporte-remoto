@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Session;
 
-use App\Models\ServicePack\RechazoAsignacion;
-
 use App\Models\UserPack\User;
 use App\Models\ServicePack\RechazoAsignacion;
 
@@ -16,9 +14,10 @@ class RechazoAsignacionController
     public function createRechazoAsignacion(Request $request){
         $rechazoAsignacion = new RechazoAsignacion;
         $idUsuario = Session::get('idUsuario');
-        $rechazoAsignacion->idAsignacion = $request['idAsignacion'];
+        //$idUsuario = 3;
+        $rechazoAsignacion->idAsignacionServicio = $request['idAsignacionServicio'];
         $rechazoAsignacion->idTecnico = $request['idTecnico'];
-        $rechazoAsignacion->motivo = $request['descripcion'];
+        $rechazoAsignacion->descripcion = $request['descripcion'];
         $rechazoAsignacion->estado = "En revision";
         $rechazoAsignacion->save();
         $a['error'] = false;
@@ -27,16 +26,10 @@ class RechazoAsignacionController
     }
 
     public function aceptarRechazoAsignacion(Request $request){
+
         $rechazoAsignacion = new RechazoAsignacion;
-        $idUsuario = Session::get('idUsuario');
-        $rechazoAsignacion->idAsignacion = $request['idAsignacion'];
-        $rechazoAsignacion->idTecnico = $request['idTecnico'];
-        $rechazoAsignacion->motivo = $request['descripcion'];
-        $rechazoAsignacion->estado = "Aceptado";
-        $rechazoAsignacion->save();
-        $a['error'] = false;
-        $a['idTecnico'] = $rechazoAsignacion->idTecnico;
-        return $a;
+        $rechazoAsignacion->aceptarRechazo( $request['id']);
+        return true;
     }
 
     public function getRechazoAsignacion(){

@@ -19,6 +19,11 @@ class ServicioRealizar extends Model
          ->where('id', $id)
          ->update(['estado' => 'ASIGNADO']);
     }
+    public function updateToPendiente($id){
+        return  $affected = DB::table('serviciorealizar')
+         ->where('id', $id)
+         ->update(['estado' => 'PENDIENTE']);
+    }
     public function updateToComplete($id){
         $affected = DB::table('serviciorealizar')
          ->where('id', $id)
