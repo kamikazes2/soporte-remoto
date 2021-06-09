@@ -121,6 +121,7 @@ Route::get('/request/get-all-personales-with-especialidades',[PC::class, 'getAll
 Route::post('/request/nuevo-tecnico2',[PTC::class, 'createTecnico']);
 Route::get('/request/get-all-tecnicos', [PTC::class, 'getTecnicos']);
 Route::delete('/request/delete-tecnico/{idPersonal}', [PTC::class, 'deleteTecnico']);
+Route::get('/request/get-tecnico-iduser', [PTC::class, 'getTecnicobyUserId']);
 //para especialidad personal
 Route::post('/request/create-or-update-especialidad-personal',[EPC::class, 'createOrUpdateEspecialidadPersonal']);
 
