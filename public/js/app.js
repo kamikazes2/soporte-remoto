@@ -4758,6 +4758,163 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rechazarasignacion.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rechazarasignacion.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      ////Rechazo Asignacion
+      id: 0,
+      descripcion: '',
+      estado: '',
+      ///Asignacion
+      idAsignacion: 0,
+      ////ServicioREalizar
+      idServicioRealizar: 0,
+      ////Servicio
+      idServicio: 0,
+      nombreServicio: '',
+      ///Tenico
+      idTecnico: 0,
+      disponible: '',
+      /////
+      ////Lista Solicitudes de Rechazo
+      arrayRechazoAsignacion: [],
+      ////
+      ////Variables Globales, Tabla
+      buscado: false,
+      showtable: false
+    };
+  },
+  mounted: function mounted() {
+    this.getRechazarAsignacion();
+    document.getElementById("bodyTabla").setAttribute("style", "display: none");
+  },
+  methods: {
+    tabla: function tabla() {
+      this.$nextTick(function () {
+        $("#tablaRechazarServicio").DataTable();
+      });
+    },
+    showhide: function showhide() {
+      if (this.showtable) {
+        this.showtable = false;
+        document.getElementById("bodyTabla").setAttribute("style", "display: none");
+      } else {
+        this.showtable = true;
+        document.getElementById("bodyTabla").removeAttribute("style");
+      }
+    },
+    refresh: function refresh() {
+      this.getRechazarAsignacion();
+    },
+    aceptarRechazoAsignacion: function aceptarRechazoAsignacion() {},
+    getRechazarAsignacion: function getRechazarAsignacion() {
+      axios.get("/request/get-rechazar-asignacion").then(function (res) {
+        this.arrayRechazoAsignacion = res.data;
+        this.tabla();
+      }.bind(this));
+    },
+    /////Aceptar
+    VerificarBaseDatos: function VerificarBaseDatos() {
+      ///Verifica que los datos locales y la BD sean Iguales
+      //var local = [...this.arrayServicio];
+      var localRechazoAsignacion = Array.from(this.arrayRechazoAsignacion);
+      this.refresh();
+
+      if (JSON.stringify(localRechazoAsignacion) == JSON.stringify(this.arrayRechazoAsignacion)) {
+        console.log("Tablas Integras");
+        return true;
+      } //this.arrayEspecialidad= Array.from(localEspecialidades);
+
+
+      console.log("Tablas Distintas");
+      alert("Posiblemente necesite actualizar su tabla con la BD");
+      return false;
+    },
+    modificarTabla: function modificarTabla(idAsignacion, idTecnico, descripcion) {
+      // console.log("primera vez q menciona servicio");
+      if (this.VerificarBaseDatos()) {
+        axios.post("request/aceptar-rechazar-asignacion", {
+          'idAsignacion': idAsignacion,
+          'idTecnico': idTecnico,
+          'descripcion': descripcion
+        }).then(function (error) {})["catch"](function (error) {
+          console.log(error);
+        });
+      }
+
+      this.refresh();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/serviciosasignados.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/serviciosasignados.vue?vue&type=script&lang=js& ***!
@@ -4811,12 +4968,72 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       arraryAsignaciones: [],
-      btnDetalleActual: null
+      btnDetalleActual: null,
+      showModal: false,
+      asignacion: {
+        idAsignacion: 0,
+        idTecnico: 0,
+        descripcion: ''
+      }
     };
   },
   methods: {
@@ -4824,6 +5041,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$nextTick(function () {
         $('#tablaAsignacion').DataTable();
       });
+    },
+    showRechazo: function showRechazo(idAsignacion) {
+      this.showModal = true;
+      this.asignacion.idAsignacion = idAsignacion;
+    },
+    closeModal: function closeModal() {
+      this.showModal = false;
+    },
+    vaciarModal: function vaciarModal() {
+      this.asignacion.idAsignacion = 0;
+      this.asignacion.descripcion = '';
     },
     getAsignaciones: function getAsignaciones() {
       var _this = this;
@@ -4855,7 +5083,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    aceptarServicioRealizar: function aceptarServicioRealizar(idServicioRealizar) {
+    rechazarAsignacion: function rechazarAsignacion() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -4864,10 +5092,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                me = _this2;
+                me = _this2.asignacion;
                 _context3.next = 3;
-                return axios.post('/request/aceptar-servicio-realizar', {
-                  'idServicioRealizar': idServicioRealizar
+                return axios.get('/request/get-tecnico-iduser').then(function (response) {
+                  if (response.data != false) {
+                    me.idTecnico = response.data.idTecnico;
+                  } else {
+                    i = false;
+                  }
+                }.bind(_this2));
+
+              case 3:
+                _context3.next = 5;
+                return axios.post('/request/rechazar-asignacion-servicio', {
+                  'idAsignacion': me.idAsignacion,
+                  'idTecnico': me.idTecnico,
+                  'descripcion': me.descripcion
                 }).then( /*#__PURE__*/function () {
                   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(error) {
                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -4878,6 +5118,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                             return me.getAsignaciones();
 
                           case 2:
+                            _context2.next = 4;
+                            return me.vaciarModal();
+
+                          case 4:
+                            _context2.next = 6;
+                            return me.closeModal();
+
+                          case 6:
+                            alert("Solicitud Enviada Correctamente");
+
+                          case 7:
                           case "end":
                             return _context2.stop();
                         }
@@ -4892,7 +5143,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(error);
                 });
 
-              case 3:
+              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -62415,7 +62666,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("solicitar")]
+                          [_vm._v("Solicitar")]
                         )
                       ])
                     ],
@@ -62748,6 +62999,155 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rechazarasignacion.vue?vue&type=template&id=5a2117d5&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rechazarasignacion.vue?vue&type=template&id=5a2117d5& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "contentFrmPersonal" } }, [
+    _c("div", { attrs: { id: "servicio-table-main-content" } }, [
+      _c("div", [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                return _vm.showhide()
+              }
+            }
+          },
+          [
+            _vm._v(
+              "\n                    Mostrar/Ocultar Tabla\n                "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                return _vm.refresh()
+              }
+            }
+          },
+          [_vm._v("\n                    Refresh\n                ")]
+        ),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("br")
+      ]),
+      _vm._v(" "),
+      _c(
+        "table",
+        { staticClass: "table", attrs: { id: "tablaRechazarServicio" } },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            { attrs: { id: "bodyTabla" } },
+            _vm._l(_vm.arrayRechazoAsignacion, function(rechazoAsignacion) {
+              return _c("tr", { key: rechazoAsignacion.id }, [
+                _c("td", [_vm._v(_vm._s(rechazoAsignacion.nombreTecnico))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(rechazoAsignacion.nombreServicio))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(rechazoAsignacion.descripcion))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(rechazoAsignacion.estado))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-sm",
+                      on: {
+                        click: function($event) {
+                          return _vm.aceptarRechazoAsignacion(
+                            rechazoAsignacion.idAsignacion,
+                            rechazoAsignacion.idTecnico,
+                            rechazoAsignacion.descripcion
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Aceptar\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-sm",
+                      on: {
+                        click: function($event) {
+                          return _vm.eliminar(
+                            _vm.personal.idPersonal,
+                            _vm.index
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Declinar\n                            "
+                      )
+                    ]
+                  )
+                ])
+              ])
+            }),
+            0
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tecnico")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Servicio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Descripcion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/serviciosasignados.vue?vue&type=template&id=2b549bb3&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/serviciosasignados.vue?vue&type=template&id=2b549bb3& ***!
@@ -62764,6 +63164,135 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
+    _c("script", { attrs: { type: "text/x-template", id: "modal-template" } }, [
+      _vm._v(
+        '\n        <transition name="modal">\n            <div class="modal-mask">\n            <div class="modal-wrapper">\n                <div class="modal-container">\n                <div class="modal-header">\n                    <slot name="header">\n                    default header\n                    </slot>\n                </div>\n                <div class="modal-body">\n                    <slot name="body">\n                    default body\n                    </slot>\n                </div>\n                <div class="modal-footer">\n                    <slot name="footer">\n                    <button class="btn btn-danger" @click="$emit(\'close\')">\n                        Cerrar\n                    </button>\n                    </slot>\n                </div>\n                </div>\n            </div>\n            </div>\n        </transition>\n    '
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { attrs: { id: "app" } },
+      [
+        _vm.showModal
+          ? _c(
+              "modal",
+              {
+                on: {
+                  close: function($event) {
+                    _vm.showModal = false
+                  }
+                }
+              },
+              [
+                _c("h2", { attrs: { slot: "header" }, slot: "header" }, [
+                  _vm._v("Solicitud Rechazo de Asignacion")
+                ]),
+                _vm._v(" "),
+                _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+                  _c(
+                    "form",
+                    {
+                      staticClass: "login-register-form",
+                      attrs: { id: "solicitudRechazo" }
+                    },
+                    [
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.asignacion.idAsignacion,
+                            expression: "asignacion.idAsignacion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "hidden", id: "id" },
+                        domProps: { value: _vm.asignacion.idAsignacion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.asignacion,
+                              "idAsignacion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.asignacion.descripcion,
+                            expression: "asignacion.descripcion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Descripcion" },
+                        domProps: { value: _vm.asignacion.descripcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.asignacion,
+                              "descripcion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br")
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
+                  _c(
+                    "button",
+                    {
+                      class: "btn btn-danger",
+                      attrs: { id: "BtnRechazar" },
+                      on: {
+                        click: function($event) {
+                          return _vm.rechazarAsignacion()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Rechazar\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.closeModal()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Cerrar\n                ")]
+                  )
+                ])
+              ]
+            )
+          : _vm._e()
+      ],
+      1
+    ),
+    _vm._v(" "),
     _c("table", { staticClass: "table", attrs: { id: "tablaAsignacion" } }, [
       _vm._m(0),
       _vm._v(" "),
@@ -62785,39 +63314,33 @@ var render = function() {
             _c("td", [_vm._v(_vm._s(asig.estado))]),
             _vm._v(" "),
             _c("td", [
-              asig.estado == "ASIGNADO"
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success custom_button",
-                      on: {
-                        click: function($event) {
-                          return _vm.aceptarServicioRealizar(
-                            asig.idServicioRealizar
-                          )
-                        }
-                      }
-                    },
-                    [_vm._v("Aceptar")]
-                  )
-                : _vm._e(),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success custom_button",
+                  on: {
+                    click: function($event) {
+                      return _vm.showRechazo(asig.idAsignacion)
+                    }
+                  }
+                },
+                [_vm._v("Rechazar")]
+              ),
               _vm._v(" "),
-              asig.estado == "ACEPTADO"
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger custom_button",
-                      on: {
-                        click: function($event) {
-                          return _vm.finalizarServicioRealizar(
-                            asig.idServicioRealizar
-                          )
-                        }
-                      }
-                    },
-                    [_vm._v("Finalizar")]
-                  )
-                : _vm._e()
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger custom_button",
+                  on: {
+                    click: function($event) {
+                      return _vm.finalizarServicioRealizar(
+                        asig.idServicioRealizar
+                      )
+                    }
+                  }
+                },
+                [_vm._v("Finalizar")]
+              )
             ])
           ])
         }),
@@ -75769,6 +76292,7 @@ Vue.component('nombreusuariologueado', __webpack_require__(/*! ./components/nomb
 Vue.component('frmespecialidad', __webpack_require__(/*! ./components/frmespecialidad.vue */ "./resources/js/components/frmespecialidad.vue")["default"]);
 Vue.component('frmpersonal', __webpack_require__(/*! ./components/frmpersonal.vue */ "./resources/js/components/frmpersonal.vue")["default"]);
 Vue.component('serviciosasignados', __webpack_require__(/*! ./components/serviciosasignados.vue */ "./resources/js/components/serviciosasignados.vue")["default"]);
+Vue.component('rechazarasignacion', __webpack_require__(/*! ./components/rechazarasignacion.vue */ "./resources/js/components/rechazarasignacion.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -76382,6 +76906,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nombreUsuarioLogueadoComponent_vue_vue_type_template_id_67bac8eb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_nombreUsuarioLogueadoComponent_vue_vue_type_template_id_67bac8eb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/rechazarasignacion.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/rechazarasignacion.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _rechazarasignacion_vue_vue_type_template_id_5a2117d5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rechazarasignacion.vue?vue&type=template&id=5a2117d5& */ "./resources/js/components/rechazarasignacion.vue?vue&type=template&id=5a2117d5&");
+/* harmony import */ var _rechazarasignacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rechazarasignacion.vue?vue&type=script&lang=js& */ "./resources/js/components/rechazarasignacion.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _rechazarasignacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _rechazarasignacion_vue_vue_type_template_id_5a2117d5___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _rechazarasignacion_vue_vue_type_template_id_5a2117d5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/rechazarasignacion.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/rechazarasignacion.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/rechazarasignacion.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_rechazarasignacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./rechazarasignacion.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rechazarasignacion.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_rechazarasignacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/rechazarasignacion.vue?vue&type=template&id=5a2117d5&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/rechazarasignacion.vue?vue&type=template&id=5a2117d5& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_rechazarasignacion_vue_vue_type_template_id_5a2117d5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./rechazarasignacion.vue?vue&type=template&id=5a2117d5& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rechazarasignacion.vue?vue&type=template&id=5a2117d5&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_rechazarasignacion_vue_vue_type_template_id_5a2117d5___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_rechazarasignacion_vue_vue_type_template_id_5a2117d5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

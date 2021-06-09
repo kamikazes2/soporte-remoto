@@ -94,7 +94,7 @@ class SolicitudServicioController
                 $a['idSolicitud'] = $res->idSolicitud;
                 $a['nombreCliente'] = $res->nombreCliente;
                 $a['fechaSolicitud'] = $res->fechaSolicitud;
-                $a['idFactura'] = $res->idFactura;
+                // $a['idFactura'] = $res->idFactura;
                 $d['nombreServicio'] = $res->nombreServicio;
                 $d['estado'] = $res->estado;
                 $d['idServicioRealizar'] = $res->idServicioRealizar;
