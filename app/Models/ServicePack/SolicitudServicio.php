@@ -20,14 +20,13 @@ class SolicitudServicio extends Model
     }
 
     public function getSolicitudByIdUsuario($idUsuario){   
-        $sql = "SELECT ss.id as idSolicitud, s.nombre as nombreServicio, sr.id as idServicioRealizar, c.nombre as nombreCliente, sr.estado, ss.fechaSolicitud, df.idFactura
+        $sql = "SELECT ss.id as idSolicitud, s.nombre as nombreServicio, sr.id as idServicioRealizar, c.nombre as nombreCliente, sr.estado, ss.fechaSolicitud
         FROM solicitudservicio as ss
         INNER JOIN serviciorealizar as sr on ss.id = sr.idSolicitud
         INNER JOIN servicio as s on s.id = sr.idServicio
         INNER JOIN cliente as c ON c.id = ss.idCliente
-        INNER JOIN users as u ON u.id = c.idUsuario and u.id = ".$idUsuario."
-        INNER JOIN detallefactura as df on df.idServicioRealizar = sr.id
-        INNER JOIN factura as f ON f.id = df.idFactura
+        INNER JOIN clienteusuario as cu ON cu.idCliente = c.id
+        INNER JOIN users as u ON u.id = cu.idUsuario and u.id = ".$idUsuario."
         ORDER BY ss.id DESC";
         $res = DB::select($sql);
         return $res;

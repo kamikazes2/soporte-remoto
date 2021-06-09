@@ -127,7 +127,7 @@
                                         </div>
                                         <hr>
                                         <p>Total <span class="price" style="color:black"><b>{{total}}</b></span></p>
-                                            <div class="CenteredDivContent"><button @click="finalizar()" disabled id="btnSiguiente" class="btn btn-success">solicitar</button></div>
+                                            <div class="CenteredDivContent"><button @click="finalizar()" disabled id="btnSiguiente" class="btn btn-success">Solicitar</button></div>
                                         </div>
                                     </div>
 
