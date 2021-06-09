@@ -144,9 +144,17 @@
                 }).catch(error => {});
                 this.correoCliente = re.email;
             },
-                async findLastCliente(){
+            async findLastCliente(){
                 var i = false;
                 await axios.get('/request/get-ultimo-cliente-del-usuario').then(function(response){
+                    var res = response.data;
+                    if(res.error == false){
+                        res = res.cliente;
+                        this.dniCliente = res.dni;
+                        this.nombreCliente = res.nombre;
+                        this.apellidoCliente = res.apellido;
+                        this.TelefonoCliente = res.telefono;
+                    }
                 }.bind(this));
                 return i;
             },
@@ -175,7 +183,34 @@
                     'fechaNacimiento': this.fechaNacimientoCliente,
                     'telefono': this.TelefonoCliente
                 }).then(function(res){
-                    r = res;
+                    r = res.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return r;
+            },
+            async createNuevoUsuario(nombre, usuario, email, password){
+                var r;
+                await axios.post('/request/nuevo-usuario',{
+                    'nombre': nombre,
+                    'usuario': usuario,
+                    'email': email,
+                    'password': password,
+                    'tipoUsuario': 'cliente'
+                }).then((response) => {
+                    r = response.data.user;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return r;
+            },
+            async createClienteUsuario(idUsuario, idCliente){
+                var r;
+                await axios.post('/request/nuevo-cliente-usuario',{
+                    'idUsuario': idUsuario,
+                    'idCliente': idCliente
+                }).then((response) => {
+                    r = response.data;
                 }).catch(function(error){
                     console.log(error);
                 });
@@ -184,18 +219,37 @@
             async submitPaso1(){
                 //verificar si existe el cliente con el dni
                 var cliente = await this.verificarSiExisteCliente();
-                console.log(cliente);
-                //verificamos si existe el usuario con el correo
-                var usuario = await this.verificarSiExisteUsuario();
-                console.log(usuario);
 
+                var cli;
                 if(cliente.existe == false){   //si no existe el cliente crearlo
-                    $cli = await this.crearNuevoCliente();
-                    console.log($cli);
+                    cli = await this.crearNuevoCliente();
+                }else{
+                    //modificar al cliente si los datos no son iguales
+                    cli = cliente.cliente[0];
+                    if(
+                        this.nombreCliente != cli.nombre ||
+                        rhis.apellidoCliente != cli.apellidoCliente
+                    ){
+
+                    }
                 }
 
-                //asignar ese cliente creado a un usuario, si es el mismo usuario solo 1 si el diferente, 
+                //verificamos si existe el usuario con el correo
+                var usuario = await this.verificarSiExisteUsuario();
+
+                var usu;
+                if(usuario.existe == false){   //si no existe el usuario crearlo
+                    var username = this.nombreCliente[0]+this.apellidoCliente+String(cli.id);
+                    var password = this.apellidoCliente+String(cli.id);
+                    usu = await this.createNuevoUsuario(this.nombreCliente, username, this.correoCliente, password);
+                }else{
+                    usu = usuario.usuario[0];
+                }
+                //asignar ese cliente creado a un usuario, 
+                //si es el mismo usuario solo 1 si el diferente 2, 
                 //al mismo usuario y a un nuevo usuario
+                await this.createClienteUsuario(usu.id, cli.id);
+
 
 
                 //si existe modificar al cliente, verificar si tiene tarjeta, si no tiene crear si tiene modificar

@@ -13,19 +13,43 @@ use App\Models\ClientePack\Cliente;
 class ClienteUsuarioController
 {
 
+    public function createClienteUsuario(Request $request){
+        $idUsuario = $request['idUsuario'];
+        $idUsuarioLogueado = Session::get('idUsuario');
+        $idCliente = $request['idCliente'];
+        if($idUsuario == $idUsuarioLogueado){
+            //crear solo 1
+            $clienteUsuario = new ClienteUsuario;
+            $clienteUsuario->idUsuario = $idUsuario;
+            $clienteUsuario->idCliente = $idCliente;
+            $clienteUsuario->save();
+            return $clienteUsuario;
+        }else{
+            //crear para los 2
+            $clienteUsuario = new ClienteUsuario;
+            $clienteUsuario->idUsuario = $idUsuario;
+            $clienteUsuario->idCliente = $idCliente;
+            $clienteUsuario->save();
+
+            $clienteUsuario = new ClienteUsuario;
+            $clienteUsuario->idUsuario = $idUsuarioLogueado;
+            $clienteUsuario->idCliente = $idCliente;
+            $clienteUsuario->save();
+        }
+    }
+
     public function getUltimoClienteDelUsuario(){
         $cu = new ClienteUsuario;
-        $idUsuario = Session::get('idUsuario');
-        $idCliente = $cu->buscarUltimoIdClienteDelUsuario($idUsuario);
+        $idUsuario = 1;//Session::get('idUsuario');
+        $clienteusuario = $cu->buscarUltimoIdClienteDelUsuario($idUsuario);
 
-        if(count($idCliente)==0){
+        if(count($clienteusuario)==0){
             return response()->json(
                 ['error' => true, 'message' => "no existe cliente"]
             );
         }
-
         $c = new Cliente;
-        $cl = $c->getCliente($idCliente);
+        $cl = $c->getCliente($clienteusuario[0]->idCliente);
         if($cl != null){
             return response()->json(
                 ['error' => false, 'cliente' => $cl]
