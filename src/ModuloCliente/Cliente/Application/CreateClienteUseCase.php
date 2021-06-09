@@ -18,10 +18,10 @@ class CreateClienteUseCase
         $nombre,
         $apellido,
         $fechaNacimiento,
-        $idUsuario
+        $telefono
     )
     {
-        $cliente = Cliente::create($dni, $nombre, $apellido, $fechaNacimiento, $idUsuario);
+        $cliente = Cliente::create($dni, $nombre, $apellido, $fechaNacimiento, $telefono);
         return $this->repository->save($cliente);
     }
 

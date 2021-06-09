@@ -25,15 +25,15 @@ class EloquentClienteRepository implements ClienteRepositoryContract
         $nuevoCliente->nombre = $cliente->getNombre();
         $nuevoCliente->apellido = $cliente->getApellido();
         $nuevoCliente->fechaNacimiento = $cliente->getFechaNacimiento();
-        $nuevoCliente->idUsuario = $cliente->getIdUsuario();
+        $nuevoCliente->telefono = $cliente->getTelefono();
         $nuevoCliente->save();
 
         return $nuevoCliente;
     }
 
-    public function verificarCliente($dni, $idUsuario){
+    public function verificarCliente($dni, $telefono){
         $cliente = $this->eloquentClienteModel;
-        $cliente = $cliente->verificarCliente($dni, $idUsuario);
+        $cliente = $cliente->verificarCliente($dni, $telefono);
         if(count($cliente)>0){
             return response()->json(
                 [
@@ -50,19 +50,20 @@ class EloquentClienteRepository implements ClienteRepositoryContract
         }
     }
 
-    public function update($id, $nombre, $apellido, $fechaNacimiento){
+    public function update($id, $nombre, $apellido, $fechaNacimiento, $telefono){
         $cli = $this->eloquentClienteModel;
         $cli = $cli->find($id);
         $cli->nombre = $nombre;
         $cli->apellido = $apellido;
         $cli->fechaNacimiento = $fechaNacimiento;
+        $cli->telefono = $telefono;
         $cli->save();
         return $cli;
     }
 
-    public function buscarUltimoCliente($idUsuario){
+    public function buscarUltimoCliente($telefono){
         $cli = $this->eloquentClienteModel;
-        $res = $cli->buscarUltimoCliente($idUsuario);
+        $res = $cli->buscarUltimoCliente($telefono);
         if(count($res)>0){
             return response()->json($res[0]);
         }else{

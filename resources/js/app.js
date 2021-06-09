@@ -50,6 +50,8 @@ Vue.component('frmpersonal', require('./components/frmpersonal.vue').default);
 Vue.component('serviciosasignados', require('./components/serviciosasignados.vue').default);
 
 
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

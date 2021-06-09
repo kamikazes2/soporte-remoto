@@ -4,6 +4,7 @@ namespace Src\ModuloUsuario\Usuario\Infrastructure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Session;
 
 use Src\ModuloUsuario\Usuario\Infrastructure\Repositories\EloquentUsuarioRepository;
 
@@ -12,7 +13,7 @@ use Src\ModuloUsuario\Usuario\Application\CreateUsuarioUseCase;
 use Src\ModuloUsuario\Usuario\Application\BuscarUsuarioUseCase;
 // use Src\ModuloUsuario\Usuario\Application\UpdateUsuarioUseCase;
 // use Src\ModuloUsuario\Usuario\Application\GetUsuarioUseCase;
-
+use App\Models\UserPack\User;
 
 class UsuarioController
 {
@@ -71,6 +72,13 @@ class UsuarioController
 
     public function deleteUsuario(Request $request){
         //falta
+    }
+
+    public function getDataUsuario(){
+        $idUsuario = Session::get('idUsuario');
+        $user = new User;
+        $us = $user->getUserById($idUsuario);
+        return response()->json($us);
     }
 
 }

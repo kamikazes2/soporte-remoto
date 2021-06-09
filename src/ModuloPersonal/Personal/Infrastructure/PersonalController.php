@@ -97,7 +97,7 @@ class PersonalController
             );
             $eArray = array();
             foreach($esp as $e){
-                $aux['idEspecialidad'] = $e->idEspecialidad;
+                $aux['id'] = $e->idEspecialidad;
                 $aux['nombre'] = $e->nombre;
                 $aux['descripcion'] = $e->descripcion;
                 array_push($eArray, $aux); 

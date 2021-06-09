@@ -15,10 +15,10 @@ class VerificarClienteUseCase
 
     public function __invoke(
         $dni,
-        $idUsuario
+        $telefono
     )
     {
-        return $this->repository->verificarCliente($dni, $idUsuario);
+        return $this->repository->verificarCliente($dni, $telefono);
     }
 
 }

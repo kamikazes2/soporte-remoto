@@ -7,14 +7,14 @@ final class Cliente{
     private $nombre;
     private $apellido;
     private $fechaNacimiento;
-    private $idUsuario;
+    private $telefono;
 
-    public function __construct($dni, $nombre, $apellido, $fechaNacimiento, $idUsuario){
+    public function __construct($dni, $nombre, $apellido, $fechaNacimiento, $telefono){
         $this->dni = $dni;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->fechaNacimiento = $fechaNacimiento;
-        $this->idUsuario = $idUsuario;
+        $this->telefono = $telefono;
     }
 
     /**
@@ -118,27 +118,27 @@ final class Cliente{
     }
 
     /**
-     * Get the value of idUsuario
+     * Get the value of telefono
      */ 
     public function getIdUsuario()
     {
-        return $this->idUsuario;
+        return $this->telefono;
     }
 
     /**
-     * Set the value of idUsuario
+     * Set the value of telefono
      *
      * @return  self
      */ 
-    public function setIdUsuario($idUsuario)
+    public function setIdUsuario($telefono)
     {
-        $this->idUsuario = $idUsuario;
+        $this->telefono = $telefono;
 
         return $this;
     }
 
-    public static function create($dni, $nombre, $apellido, $fechaNacimiento, $idUsuario):Cliente{
-        $cliente = new self($dni, $nombre, $apellido, $fechaNacimiento, $idUsuario);
+    public static function create($dni, $nombre, $apellido, $fechaNacimiento, $telefono):Cliente{
+        $cliente = new self($dni, $nombre, $apellido, $fechaNacimiento, $telefono);
         return $cliente;
     }
 

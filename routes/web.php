@@ -93,6 +93,7 @@ use Src\ModuloEspecialidad\EspecialidadPersonal\Infrastructure\EspecialidadPerso
 use Src\ModuloAsignacion\AsignacionServicio\Infrastructure\AsignacionServicioController as ASC;
 use Src\ModuloPersonal\JefeTecnico\Infrastructure\JefeTecnicoController as PJTC;
 use Src\ModuloServicioPorRealizar\ServicioRealizar\Infrastructure\ServicioRealizarController as SRC;
+use Src\ModuloUsuario\ClienteUsuario\Infrastructure\ClienteUsuarioController as CUC;
 
 
 //para el login
@@ -101,6 +102,9 @@ Route::get('/request/get-logged-user', [FrontController::class, 'getLoggedUser']
 
 //para usuarios
 Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
+Route::get('/request/get-data-usuario',[UC::class, 'getDataUsuario']);
+//para clienteUsuario
+Route::get('/request/get-ultimo-cliente-del-usuario',[CUC::class, 'getUltimoClienteDelUsuario']);
 
 //para los personales
 Route::post('/request/nuevo-personal',[PC::class, 'createPersonal']);
