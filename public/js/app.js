@@ -4071,54 +4071,129 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    submitPaso1: function submitPaso1() {
+    verificarSiExisteUsuario: function verificarSiExisteUsuario() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var cliente;
+        var re;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return _this4.verificarSiExisteCliente();
+                return axios.get('/request/verificar-usuario/' + _this4.correoCliente).then(function (res) {
+                  re = res;
+                })["catch"](function (error) {});
 
               case 2:
-                cliente = _context4.sent;
-                console.log(cliente); //si existe modificar al cliente, verificar si tiene tarjeta, si no tiene crear si tiene modificar
-                //si no existe crear al cliente
-                //si no existe crear tarjeta
+                return _context4.abrupt("return", re.data);
 
-              case 4:
+              case 3:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
       }))();
+    },
+    crearNuevoCliente: function crearNuevoCliente() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var r;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios.post('/request/nuevo-cliente2', {
+                  'dni': _this5.dniCliente,
+                  'nombre': _this5.nombreCliente,
+                  'apellido': _this5.apellidoCliente,
+                  'fechaNacimiento': _this5.fechaNacimientoCliente,
+                  'telefono': _this5.TelefonoCliente
+                }).then(function (res) {
+                  r = res;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+                return _context5.abrupt("return", r);
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    submitPaso1: function submitPaso1() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var cliente, usuario;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return _this6.verificarSiExisteCliente();
+
+              case 2:
+                cliente = _context6.sent;
+                console.log(cliente); //verificamos si existe el usuario con el correo
+
+                _context6.next = 6;
+                return _this6.verificarSiExisteUsuario();
+
+              case 6:
+                usuario = _context6.sent;
+                console.log(usuario);
+
+                if (!(cliente.existe == false)) {
+                  _context6.next = 13;
+                  break;
+                }
+
+                _context6.next = 11;
+                return _this6.crearNuevoCliente();
+
+              case 11:
+                $cli = _context6.sent;
+                console.log($cli);
+
+              case 13:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this7 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context7.prev = _context7.next) {
             case 0:
-              _context5.next = 2;
-              return _this5.getDataUsuario();
+              _context7.next = 2;
+              return _this7.getDataUsuario();
 
             case 2:
-              _context5.next = 4;
-              return _this5.findLastCliente();
+              _context7.next = 4;
+              return _this7.findLastCliente();
 
             case 4:
             case "end":
-              return _context5.stop();
+              return _context7.stop();
           }
         }
-      }, _callee5);
+      }, _callee7);
     }))();
   }
 });

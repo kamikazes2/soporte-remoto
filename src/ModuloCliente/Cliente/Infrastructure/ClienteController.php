@@ -31,7 +31,7 @@ class ClienteController
         $nombre = $request['nombre'];
         $apellido = $request['apellido'];
         $fechaNacimiento = $request['fechaNacimiento'];
-        $idUsuario = Session::get('idUsuario');
+        $telefono = $request['telefono'];
 
         $createClienteUseCase = new CreateClienteUseCase($this->clienteRepository);
         $cl = $createClienteUseCase->__invoke(
@@ -39,7 +39,7 @@ class ClienteController
             $nombre,
             $apellido,
             $fechaNacimiento,
-            $idUsuario
+            $telefono
         );
 
         return $cl;

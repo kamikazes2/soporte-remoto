@@ -31,9 +31,9 @@ class EloquentClienteRepository implements ClienteRepositoryContract
         return $nuevoCliente;
     }
 
-    public function verificarCliente($dni, $telefono){
+    public function verificarCliente($dni){
         $cliente = $this->eloquentClienteModel;
-        $cliente = $cliente->verificarCliente($dni, $telefono);
+        $cliente = $cliente->verificarCliente($dni);
         if(count($cliente)>0){
             return response()->json(
                 [

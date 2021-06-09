@@ -120,7 +120,7 @@ final class Cliente{
     /**
      * Get the value of telefono
      */ 
-    public function getIdUsuario()
+    public function getTelefono()
     {
         return $this->telefono;
     }
@@ -130,7 +130,7 @@ final class Cliente{
      *
      * @return  self
      */ 
-    public function setIdUsuario($telefono)
+    public function setTelefono($telefono)
     {
         $this->telefono = $telefono;
 

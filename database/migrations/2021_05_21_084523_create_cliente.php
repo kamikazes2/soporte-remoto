@@ -19,7 +19,7 @@ class CreateCliente extends Migration
             $table->string("nombre");
             $table->string("apellido");
             $table->dateTime("fechaNacimiento");
-            $table->dateTime("telefono");
+            $table->string("telefono");
             $table->timestamps();
         });
     }

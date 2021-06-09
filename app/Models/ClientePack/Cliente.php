@@ -11,8 +11,8 @@ class Cliente extends Model
     protected $table = 'cliente';
     protected $fillable = ['dni', 'nombre','apellido','fechaNacimiento','telefono'];
 
-    public function verificarCliente($dni, $idUsuario){
-        $cliente = DB::table('cliente')->where('dni', $dni)->where('idUsuario', $idUsuario)->get();
+    public function verificarCliente($dni){
+        $cliente = DB::table('cliente')->where('dni', $dni)->get();
         return $cliente;
     }
 

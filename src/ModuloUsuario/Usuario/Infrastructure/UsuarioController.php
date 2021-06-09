@@ -81,4 +81,21 @@ class UsuarioController
         return response()->json($us);
     }
 
+    public function verificarSiExisteUsuarioCorreo(Request $request){
+        $correo = $request['correo'];
+        $user = new User;
+        $user = $user->buscarUsuarioByCorreo($correo);
+
+        if($user != false){
+            return response()->json(
+                ['existe'=> true, 'usuario' => $user]
+            );
+        }else{
+            return response()->json(
+                ['existe'=> false, 'message' => 'no existe usuario']
+            );
+        }
+
+    }
+
 }

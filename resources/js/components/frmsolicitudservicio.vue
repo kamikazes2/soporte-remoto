@@ -158,10 +158,46 @@
                 })
                 return re.data;
             },
+            async verificarSiExisteUsuario(){
+                var re;
+                await axios.get('/request/verificar-usuario/'+this.correoCliente).then(function (res) {
+                    re =  res;
+                }).catch(error => {
+                })
+                return re.data;
+            },
+            async crearNuevoCliente(){
+                var r;
+                await axios.post('/request/nuevo-cliente2',{
+                    'dni': this.dniCliente,
+                    'nombre': this.nombreCliente,
+                    'apellido': this.apellidoCliente,
+                    'fechaNacimiento': this.fechaNacimientoCliente,
+                    'telefono': this.TelefonoCliente
+                }).then(function(res){
+                    r = res;
+                }).catch(function(error){
+                    console.log(error);
+                });
+                return r;
+            },
             async submitPaso1(){
                 //verificar si existe el cliente con el dni
                 var cliente = await this.verificarSiExisteCliente();
                 console.log(cliente);
+                //verificamos si existe el usuario con el correo
+                var usuario = await this.verificarSiExisteUsuario();
+                console.log(usuario);
+
+                if(cliente.existe == false){   //si no existe el cliente crearlo
+                    $cli = await this.crearNuevoCliente();
+                    console.log($cli);
+                }
+
+                //asignar ese cliente creado a un usuario, si es el mismo usuario solo 1 si el diferente, 
+                //al mismo usuario y a un nuevo usuario
+
+
                 //si existe modificar al cliente, verificar si tiene tarjeta, si no tiene crear si tiene modificar
                 //si no existe crear al cliente
                 //si no existe crear tarjeta
@@ -170,7 +206,7 @@
         },
             async mounted() {
                 await this.getDataUsuario();
-                await this.findLastCliente();
+                await this.findLastCliente(); //falta
             },
     }
 </script>
