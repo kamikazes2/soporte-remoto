@@ -34,7 +34,7 @@
                 <div slot="body">
                    
                     <form class="login-register-form" id="solicitudRechazo"> <br />
-                    <input type="hidden" v-model="asignacion.idAsignacion" id="id" class="form-control"/> <br />
+                    <input type="hidden" v-model="asignacion.idAsignacionServicio" id="id" class="form-control"/> <br />
                     <label> Motivo:</label>
                     <input type="text" v-model="asignacion.descripcion" placeholder="Descripcion" class="form-control"/> <br />
                     </form>
@@ -96,7 +96,7 @@ export default {
             btnDetalleActual: null,
             showModal: false,
             asignacion: {
-                idAsignacion: 0,
+                idAsignacionServicio: 0,
                 idTecnico: 0 ,
                 descripcion: '',
             }
@@ -108,15 +108,15 @@ export default {
                 $('#tablaAsignacion').DataTable();
             });
         },
-        showRechazo(idAsignacion) {
+        showRechazo(idAsignacionServicio) {
             this.showModal = true;
-            this.asignacion.idAsignacion=idAsignacion;
+            this.asignacion.idAsignacionServicio=idAsignacionServicio;
         },
         closeModal() {
             this.showModal = false;
         },
         vaciarModal(){
-            this.asignacion.idAsignacion = 0;
+            this.asignacion.idAsignacionServicio = 0;
             this.asignacion.descripcion = '';
         },
         async getAsignaciones(){
@@ -139,19 +139,21 @@ export default {
                     
                 }
             }.bind(this));
-            console.log(me.idTecnico);
+            
+            
             await axios.post('/request/rechazar-asignacion-servicio',{
-                'idAsignacion' : me.idAsignacion,
+                'idAsignacionServicio' : me.idAsignacionServicio,
                 'idTecnico' : me.idTecnico,
                 'descripcion' : me.descripcion
-            }).then(async function(error){
-                await me.getAsignaciones();
-                await me.vaciarModal();
-                await me.closeModal();
+            }).then(function(error){
+
                 alert("Solicitud Enviada Correctamente"); 
             }).catch(function(error){
                 console.log(error);
             });
+            this.getAsignaciones();
+                this.vaciarModal();
+                this.closeModal();
         },
         async finalizarServicioRealizar(idServicioRealizar){
                 let me = this;

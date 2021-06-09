@@ -17,7 +17,7 @@ use Src\ModuloEspecialidad\EspecialidadPersonal\Infrastructure\Repositories\Eloq
 use Src\ModuloEspecialidad\EspecialidadPersonal\Application\GetEspecialidadesWithNombreByIdPersonalUseCase;
 
 
-
+use App\Models\PersonalPack\Personal;
 
 
 class PersonalController
@@ -109,5 +109,10 @@ class PersonalController
         return $arrayTodoLosPersonales;
     }
 
-
+    public function habilitar(Request $request)
+    {
+        $p = new Personal;
+        $p->habilitarPersonal( $request['idPersonal']);
+        return true;
+    }
 }

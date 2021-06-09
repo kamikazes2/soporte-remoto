@@ -115,7 +115,7 @@ Route::post('/request/nuevo-personal',[PC::class, 'createPersonal']);
 Route::get('/request/get-all-personales', [PC::class, 'getPersonales']);
 Route::post('/request/update-personal',[PC::class, 'updatePersonal']);
 Route::get('/request/get-all-personales-with-especialidades',[PC::class, 'getAllPersonalesWithEspecialides']);
-
+Route::post('/request/habilitar_personal',[PC::class, 'habilitar']);
 
 //para los tecnicos
 Route::post('/request/nuevo-tecnico2',[PTC::class, 'createTecnico']);
@@ -177,8 +177,9 @@ Route::get('/request/get-servicios-asignados', [ASC::class, 'getServiciosAsignad
 Route::post('/request/aceptar-servicio-realizar', [SRC::class, 'aceptarServicio']);
 Route::post('/request/solicitar-finalizacion-servicio-realizar', [SRC::class, 'finalizarServicio']);
 Route::post('/request/aceptar-finalizacion-servicio-realizar', [SRC::class, 'aprobarFinalizacionServicio']);
+Route::post('/request/update_Pendiente', [SRC::class, 'update_Pendiente']);
 
 //Para Rechazar Asignacion
 Route::post('/request/rechazar-asignacion-servicio',[RA::class, 'createRechazoAsignacion']);
 Route::get('/request/get-rechazar-asignacion',[RA::class, 'getRechazoAsignacion']);
-Route::post('/request/aceptar-rechazar-asignacion',[CC::class, 'aceptarRechazoAsignacion']);
+Route::post('/request/aceptar-rechazar-asignacion',[RA::class, 'aceptarRechazoAsignacion']);

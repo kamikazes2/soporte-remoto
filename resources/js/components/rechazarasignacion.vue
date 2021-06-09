@@ -35,7 +35,7 @@
                             <button
                                 class="btn btn-success btn-sm"
                                 @click="
-                                    aceptarRechazoAsignacion(rechazoAsignacion.idAsignacion, rechazoAsignacion.idTecnico, rechazoAsignacion.descripcion)
+                                    aceptarRechazoAsignacion(rechazoAsignacion.id, rechazoAsignacion.idServicioRealizar, rechazoAsignacion.idPersonal)
                                 "
                             >
                                 Aceptar
@@ -43,7 +43,7 @@
 
                             <button
                                 class="btn btn-danger btn-sm"
-                                @click="eliminar(personal.idPersonal, index)"
+                                @click="naaaaa()"
                             >
                                 Declinar
                             </button>
@@ -114,11 +114,11 @@
 
             },
 
-            getRechazarAsignacion() {
+            async getRechazarAsignacion() {
             
-            axios.get("/request/get-rechazar-asignacion").then(
+            await axios.get("/request/get-rechazar-asignacion").then(
                 function(res) {
-                    this.arrayRechazoAsignacion = res.data;
+                    this.arrayRechazoAsignacion = res.data.rechazoasignacion;
                     this.tabla();
                 }.bind(this)
             );
@@ -128,7 +128,7 @@
             
             /////Aceptar
             
-            VerificarBaseDatos() {
+            async VerificarBaseDatos() {
             ///Verifica que los datos locales y la BD sean Iguales
 
             //var local = [...this.arrayServicio];
@@ -146,25 +146,69 @@
             return false;
             },
 
-            modificarTabla(idAsignacion, idTecnico, descripcion) {
+            async aceptarRechazoAsignacion(id,  idServicioRealizar, idPersonal) {
             // console.log("primera vez q menciona servicio");
-
+                
+                var r = confirm("Esta Seguro de Aceptar la Solicitud?");
+                if (r == true) {
                 if (this.VerificarBaseDatos()) {
-                    axios
+                    await this.modificarEstadoServicioRealizar(idServicioRealizar, idPersonal);
+
+                    
+
+
+                    await axios
                         .post("request/aceptar-rechazar-asignacion", {
-                            'idAsignacion' : idAsignacion,
-                            'idTecnico' : idTecnico,
-                            'descripcion' : descripcion
+                            'id': id,
                         })
                         .then(function(error) {
+                            alert("Se acepto");
                         })
                         .catch(function(error) {
                             console.log(error);
                         });
                     
                 }
+                }
             this.refresh();
         },
+        async modificarEstadoServicioRealizar(idServicioRealizar, idPersonal){
+
+            
+            
+
+                await axios
+                        .post("request/update_Pendiente", {
+                            'idServicioRealizar': idServicioRealizar
+                        })
+                        .then(function(error) {
+                            console.log("Pendiente");
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+
+                await axios
+                        .post("request/asignar-servicios-solicitados", {
+                        })
+                        .then(function(error) {
+                            alert("Se Reasigno");
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+
+                await axios
+                        .post("request/habilitar_personal", {
+                            'idPersonal': idPersonal
+                        })
+                        .then(function(error) {
+                            console.log("Habilitado");
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+        }
            
         }
     }   
