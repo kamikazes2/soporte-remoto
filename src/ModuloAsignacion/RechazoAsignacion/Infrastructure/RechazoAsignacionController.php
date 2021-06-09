@@ -15,34 +15,39 @@ class RechazoAsignacionController
 {
     public function createRechazoAsignacion(Request $request){
         $rechazoAsignacion = new RechazoAsignacion;
-        
-            $rechazoAsignacion->idAsignacion = $request['idAsignacion'];
-            $rechazoAsignacion->motivo = $request['motivo'];
-            $rechazoAsignacion->estado = ""
-            $rechazoAsignacion->save();
-            $a['error'] = false;
-            $a['id'] = $rechazoAsignacion->id;
-            return $a;
+        $idUsuario = Session::get('idUsuario');
+        $rechazoAsignacion->idAsignacion = $request['idAsignacion'];
+        $rechazoAsignacion->idTecnico = $request['idTecnico'];
+        $rechazoAsignacion->motivo = $request['descripcion'];
+        $rechazoAsignacion->estado = "En revision";
+        $rechazoAsignacion->save();
+        $a['error'] = false;
+        $a['id'] = $rechazoAsignacion->id;
+        return $a;
     }
 
-    public function getUltimoClienteDelUsuario(){
-        $ra = new RechazoAsignacion;
+    public function aceptarRechazoAsignacion(Request $request){
+        $rechazoAsignacion = new RechazoAsignacion;
         $idUsuario = Session::get('idUsuario');
+        $rechazoAsignacion->idAsignacion = $request['idAsignacion'];
+        $rechazoAsignacion->idTecnico = $request['idTecnico'];
+        $rechazoAsignacion->motivo = $request['descripcion'];
+        $rechazoAsignacion->estado = "Aceptado";
+        $rechazoAsignacion->save();
+        $a['error'] = false;
+        $a['idTecnico'] = $rechazoAsignacion->idTecnico;
+        return $a;
+    }
+
+    public function getRechazoAsignacion(){
+        $ra = new RechazoAsignacion;
 
 
-        $idCliente = $ra->buscarUltimoIdClienteDelUsuario($idUsuario);
+        $res = $ra->getRechazoAsignacion();
 
-        if(count($idCliente)==0){
+        if($res != null){
             return response()->json(
-                ['error' => true, 'message' => "no existe cliente"]
-            );
-        }
-
-        $c = new RechazoAsignacion;
-        $cl = $c->getCliente($idCliente);
-        if($cl != null){
-            return response()->json(
-                ['error' => false, 'rechazoasignacion' => $cl]
+                ['error' => false, 'rechazoasignacion' => $res]
             );
         }else{
             return response()->json(
