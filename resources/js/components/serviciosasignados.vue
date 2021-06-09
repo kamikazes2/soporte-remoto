@@ -1,5 +1,59 @@
 <template>
     <div class="container">
+
+        <script type="text/x-template" id="modal-template">
+            <transition name="modal">
+                <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+                    <div class="modal-header">
+                        <slot name="header">
+                        default header
+                        </slot>
+                    </div>
+                    <div class="modal-body">
+                        <slot name="body">
+                        default body
+                        </slot>
+                    </div>
+                    <div class="modal-footer">
+                        <slot name="footer">
+                        <button class="btn btn-danger" @click="$emit('close')">
+                            Cerrar
+                        </button>
+                        </slot>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </transition>
+        </script>
+        <div id="app">
+            <modal v-if="showModal" @close="showModal = false">
+                <h2 slot="header">Solicitud Rechazo de Asignacion</h2>
+                <div slot="body">
+                   
+                    <form class="login-register-form" id="solicitudRechazo"> <br />
+                    <input type="hidden" v-model="asignacion.idAsignacion" id="id" class="form-control"/> <br />
+                    <input type="text" v-model="asignacion.descripcion" placeholder="Descripcion" class="form-control"/> <br />
+                    </form>
+                </div>
+                <div slot="footer">
+                    <button
+                        v-bind:id="'BtnRechazar'"
+                        v-bind:class="'btn btn-danger'"
+                        @click="rechazarAsignacion()"
+                    >
+                        Rechazar
+                    </button>
+                    <button class="btn btn-primary" @click="closeModal()">
+                        Cerrar
+                    </button>
+                </div>
+            </modal>
+        </div>
+
+
         <table id="tablaAsignacion" class="table">
             <thead>
                 <tr>
@@ -21,8 +75,8 @@
                     <td>{{asig.email}}</td>
                     <td>{{asig.estado}}</td>
                     <td>
-                        <button v-if="asig.estado == 'ASIGNADO'" style= "" @click="aceptarServicioRealizar(asig.idServicioRealizar)" class="btn btn-success custom_button">Aceptar</button>
-                        <button v-if="asig.estado == 'ACEPTADO'" style= "" @click="finalizarServicioRealizar(asig.idServicioRealizar)" class="btn btn-danger custom_button">Finalizar</button>
+                        <button style= "" @click="showRechazo(asig.idAsignacion)" class="btn btn-success custom_button">Rechazar</button>
+                        <button style= "" @click="finalizarServicioRealizar(asig.idServicioRealizar)" class="btn btn-danger custom_button">Finalizar</button>
                         <!-- <button @click="verDetalle($event)" class="btn btn-success custom_button">Detalle</button> -->
                     </td>
                 </tr>
@@ -38,7 +92,12 @@ export default {
     data(){
         return{
             arraryAsignaciones: [],
-            btnDetalleActual: null
+            btnDetalleActual: null,
+            showModal: false,
+            asignacion: {
+                idAsignacion: 0,
+                descripcion: '',
+            }
         }
     },
     methods:{
@@ -46,6 +105,17 @@ export default {
             this.$nextTick(()=>{
                 $('#tablaAsignacion').DataTable();
             });
+        },
+        showRechazo(idAsignacion) {
+            this.showModal = true;
+            this.asignacion.idAsignacion=idAsignacion;
+        },
+        closeModal() {
+            this.showModal = false;
+        },
+        vaciarModal(){
+            this.asignacion.idAsignacion = 0;
+            this.asignacion.descripcion = '';
         },
         async getAsignaciones(){
             var i = false;
@@ -58,12 +128,16 @@ export default {
             }.bind(this));
             return i;
         },
-        async aceptarServicioRealizar(idServicioRealizar){
-                let me = this;
-                await axios.post('/request/aceptar-servicio-realizar',{
-                    'idServicioRealizar' : idServicioRealizar,
+        async rechazarAsignacion(){
+                let me = this.asignacion;
+                await axios.post('/request/rechazar-asignacion-servicio',{
+                    'idAsignacion' : me.idAsignacion,
+                    'descripcion' : me.descripcion
                 }).then(async function(error){
-                    await me.getAsignaciones(); 
+                    await me.getAsignaciones();
+                    await me.vaciarModal();
+                    await me.closeModal();
+                    await alert("Solicitud Enviada Correctamente"); 
                 }).catch(function(error){
                     console.log(error);
                 });
