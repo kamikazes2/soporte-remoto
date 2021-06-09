@@ -17,10 +17,11 @@ class UpdateClienteUseCase
         $id,
         $nombre,
         $apellido,
-        $fechaNacimiento
+        $fechaNacimiento,
+        $telefono
     )
     {
-        return $this->repository->update($id, $nombre, $apellido, $fechaNacimiento);
+        return $this->repository->update($id, $nombre, $apellido, $fechaNacimiento, $telefono);
     }
 
 }

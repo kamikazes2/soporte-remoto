@@ -46,5 +46,9 @@ class User extends Authenticatable
         $user = User::where('usuario',$usuario)->orWhere('email', $email)->first();
         return $user;
     }
+    public function getUserById($id){
+        $user = User::where('id',$id)->first();
+        return $user;
+    }
 
 }

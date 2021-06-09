@@ -3865,217 +3865,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
-var _methods;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4177,12 +3972,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       total: 0,
       cantCarrito: 0,
+      correoCliente: '',
       //para el cliente
       idCliente: '',
       nombreCliente: '',
       apellidoCliente: '',
       dniCliente: '',
       fechaNacimientoCliente: '',
+      TelefonoCliente: '',
       nombreTarjeta: '',
       numeroTarjeta: '',
       expTarjeta: '',
@@ -4201,144 +3998,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       totalDetalle: 0
     };
   },
-  methods: (_methods = {
-    Agregar: function Agregar(nombre, idServicio, precio, event) {
-      var btn = event.target; // btn.disabled = true;
-
-      if (this.carritoservicios.findIndex(function (servicio) {
-        return servicio.idServicio === idServicio;
-      }) != -1) {
-        btn.innerHTML = "Añadir";
-        btn.className = "btn btn-dark";
-        var index = this.carritoservicios.findIndex(function (array) {
-          return array.idServicio == idServicio;
-        });
-        this.carritoservicios.splice(index, 1);
-        this.total = parseFloat(this.total) - parseFloat(precio);
-        this.cantCarrito -= 1;
-      } else {
-        btn.innerHTML = "Quitar";
-        btn.className = "btn btn-danger";
-        var servicio = {
-          'idServicio': 0,
-          'precioFijado': 0,
-          'nombre': ''
-        };
-        this.total = parseFloat(this.total) + parseFloat(precio);
-        servicio.idServicio = idServicio;
-        servicio.precioFijado = precio;
-        servicio.nombre = nombre;
-        this.carritoservicios.push(servicio);
-        this.cantCarrito += 1;
-      }
-
-      if (this.cantCarrito == 0) {
-        document.getElementById("btnSiguiente").disabled = true;
-      } else {
-        document.getElementById("btnSiguiente").disabled = false;
-      }
-    },
-    irPaso2: function irPaso2() {
-      document.getElementById("paso1").style.display = "none";
-      document.getElementById("paso2").style.display = "block";
-      document.getElementById("paso3").style.display = "none";
-    },
-    irPaso1: function irPaso1() {
-      document.getElementById("paso2").style.display = "none";
-      document.getElementById("paso1").style.display = "flex";
-      document.getElementById("paso3").style.display = "none";
-    },
-    irPaso3: function irPaso3() {
-      document.getElementById("paso1").style.display = "none";
-      document.getElementById("paso2").style.display = "none";
-      document.getElementById("paso3").style.display = "block";
-    },
-    verificar: function verificar() {
+  methods: {
+    getDataUsuario: function getDataUsuario() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var preloader, cliente, datosIguales, tieneTarjeta, iguales;
+        var re;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                preloader = document.getElementById("preloader");
-                preloader.style.display = "block";
-                _context.next = 4;
-                return _this.verificarSiExisteCliente();
+                _context.next = 2;
+                return axios.get('/request/get-data-usuario').then(function (res) {
+                  re = res.data;
+                })["catch"](function (error) {});
 
-              case 4:
-                cliente = _context.sent;
+              case 2:
+                _this.correoCliente = re.email;
 
-                if (!cliente.existe) {
-                  _context.next = 13;
-                  break;
-                }
-
-                _this.idCliente = cliente.cliente[0].id;
-                datosIguales = _this.verificarDatosIgualesConBD(cliente.cliente[0]);
-
-                if (datosIguales) {
-                  _context.next = 11;
-                  break;
-                }
-
-                _context.next = 11;
-                return _this.updateCliente(cliente.cliente[0].id, _this.nombreCliente, _this.apellidoCliente, _this.fechaNacimientoCliente);
-
-              case 11:
-                _context.next = 16;
-                break;
-
-              case 13:
-                _context.next = 15;
-                return _this.createCliente();
-
-              case 15:
-                _this.idCliente = _context.sent;
-
-              case 16:
-                _context.next = 18;
-                return _this.verificarSiClienteTieneTarjeta(_this.idCliente);
-
-              case 18:
-                tieneTarjeta = _context.sent;
-
-                if (!(tieneTarjeta != null)) {
-                  _context.next = 26;
-                  break;
-                }
-
-                //verificar que los datos sean iguales
-                iguales = _this.verificarTarjetaIgualConBD(tieneTarjeta.tarjeta[0]); ////crear la nueva tarjeta si es diferente
-
-                if (iguales) {
-                  _context.next = 24;
-                  break;
-                }
-
-                _context.next = 24;
-                return _this.createTarjeta();
-
-              case 24:
-                _context.next = 28;
-                break;
-
-              case 26:
-                _context.next = 28;
-                return _this.createTarjeta();
-
-              case 28:
-                //enviar al ultimo paso de compra
-                setTimeout(function () {
-                  preloader.style.display = "none";
-                  console.log("enviar al ultimo paso");
-                  document.getElementById("paso1").style.display = "none";
-                  document.getElementById("paso2").style.display = "none";
-                  document.getElementById("paso3").style.display = "block";
-                }, 3000);
-
-              case 29:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -4346,24 +4024,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    verificarSiExisteCliente: function verificarSiExisteCliente() {
+    findLastCliente: function findLastCliente() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var re;
+        var i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return axios.get('/request/verificar-cliente/' + _this2.dniCliente).then(function (res) {
-                  re = res;
-                })["catch"](function (error) {});
-
-              case 2:
-                return _context2.abrupt("return", re.data);
+                i = false;
+                _context2.next = 3;
+                return axios.get('/request/get-ultimo-cliente-del-usuario').then(function (response) {}.bind(_this2));
 
               case 3:
+                return _context2.abrupt("return", i);
+
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -4371,45 +4048,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    verificarDatosIgualesConBD: function verificarDatosIgualesConBD(db) {
-      if (db.nombre != this.nombreCliente || db.apellido != this.apellidoCliente) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    verificarTarjetaIgualConBD: function verificarTarjetaIgualConBD(db) {
-      if (db.nombre != this.nombreTarjeta || db.numero != this.numeroTarjeta || db.mes != this.expTarjeta || db.anio != this.yearExpTarjeta) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    verificarSiClienteTieneTarjeta: function verificarSiClienteTieneTarjeta(idCliente) {
+    verificarSiExisteCliente: function verificarSiExisteCliente() {
+      var _this3 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var r;
+        var re;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(idCliente != 0 && idCliente != null)) {
-                  _context3.next = 3;
-                  break;
-                }
+                _context3.next = 2;
+                return axios.get('/request/verificar-cliente/' + _this3.dniCliente).then(function (res) {
+                  re = res;
+                })["catch"](function (error) {});
 
-                _context3.next = 3;
-                return axios.get('/request/buscar-tarjeta-cliente/' + idCliente).then(function (res) {
-                  if (res.data.tiene) {
-                    r = res.data;
-                  } else {
-                    r = null;
-                  }
-                });
+              case 2:
+                return _context3.abrupt("return", re.data);
 
               case 3:
-                return _context3.abrupt("return", r);
-
-              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -4417,29 +4073,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    verificarSiClienteTieneNit: function verificarSiClienteTieneNit(idCliente) {
+    submitPaso1: function submitPaso1() {
+      var _this4 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var r;
+        var cliente;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!(idCliente != 0 && idCliente != null)) {
-                  _context4.next = 3;
-                  break;
-                }
+                _context4.next = 2;
+                return _this4.verificarSiExisteCliente();
 
-                _context4.next = 3;
-                return axios.get('/request/buscar-nit-cliente/' + idCliente).then(function (res) {
-                  if (res.data.tiene) {
-                    r = res.data;
-                  } else {
-                    r = null;
-                  }
-                });
-
-              case 3:
-                return _context4.abrupt("return", r);
+              case 2:
+                cliente = _context4.sent;
+                console.log(cliente); //si existe modificar al cliente, verificar si tiene tarjeta, si no tiene crear si tiene modificar
+                //si no existe crear al cliente
+                //si no existe crear tarjeta
 
               case 4:
               case "end":
@@ -4448,486 +4098,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee4);
       }))();
-    },
-    updateCliente: function updateCliente(id, nombre, apellido, fechaNacimiento) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var r;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                console.log(id + nombre + apellido + fechaNacimiento);
-                _context5.next = 3;
-                return axios.post('/request/actualizar-cliente2', {
-                  'idCliente': id,
-                  'nombre': nombre,
-                  'apellido': apellido,
-                  'fechaNacimiento': fechaNacimiento
-                }).then(function (res) {
-                  r = res;
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 3:
-                return _context5.abrupt("return", r);
-
-              case 4:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    },
-    createCliente: function createCliente() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var id;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return axios.post('/request/nuevo-cliente2', {
-                  'dni': _this3.dniCliente,
-                  'nombre': _this3.nombreCliente,
-                  'apellido': _this3.apellidoCliente,
-                  'fechaNacimiento': _this3.fechaNacimientoCliente
-                }).then(function (res) {
-                  id = res.data.id;
-                })["catch"](function (error) {
-                  console.log(error);
-                  preloader.style.display = "none";
-                });
-
-              case 2:
-                return _context6.abrupt("return", id);
-
-              case 3:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
-    createTarjeta: function createTarjeta() {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _context7.next = 2;
-                return axios.post('/request/nueva-tarjeta', {
-                  'idCliente': _this4.idCliente,
-                  'nombre': _this4.nombreTarjeta,
-                  'numero': _this4.numeroTarjeta,
-                  'mes': _this4.expTarjeta,
-                  'anio': _this4.yearExpTarjeta
-                }).then(function (res) {
-                  data = res.data;
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 2:
-                return _context7.abrupt("return", data);
-
-              case 3:
-              case "end":
-                return _context7.stop();
-            }
-          }
-        }, _callee7);
-      }))();
-    },
-    findCliente: function findCliente() {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-        var i;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                i = false;
-                _context8.next = 3;
-                return axios.get('/request/buscar-ultimo-cliente-usuario-logueado').then(function (response) {
-                  if (response.data != false) {
-                    var data = response.data;
-                    var MyDate = new Date(data.fechaNacimiento.replace(/-/g, "/"));
-                    var MyDateString;
-                    MyDate.setDate(MyDate.getDate() + 20);
-                    MyDateString = MyDate.getFullYear() + '-' + ('0' + MyDate.getDate()).slice(-2) + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2);
-                    this.nombreCliente = data.nombre;
-                    this.apellidoCliente = data.apellido;
-                    this.dniCliente = data.dni;
-                    this.fechaNacimientoCliente = MyDateString;
-                    this.idCliente = data.id;
-                  } else {
-                    i = false;
-                  }
-                }.bind(_this5));
-
-              case 3:
-                return _context8.abrupt("return", i);
-
-              case 4:
-              case "end":
-                return _context8.stop();
-            }
-          }
-        }, _callee8);
-      }))();
-    },
-    salir: function salir() {
-      window.location = '/';
-    },
-    pagar: function pagar() {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
-        var nit, iguales, nuevoNit, servRealizar, fact, r;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
-          while (1) {
-            switch (_context10.prev = _context10.next) {
-              case 0:
-                preloader.style.display = "block";
-                _context10.next = 3;
-                return _this6.verificarSiClienteTieneNit(_this6.idCliente);
-
-              case 3:
-                nit = _context10.sent;
-
-                if (!(nit != null && nit.tiene)) {
-                  _context10.next = 17;
-                  break;
-                }
-
-                nit = nit.nitTributario[0];
-                iguales = _this6.verificarDatosIgualesConBD(nit);
-
-                if (iguales) {
-                  _context10.next = 14;
-                  break;
-                }
-
-                _context10.next = 10;
-                return _this6.createNit();
-
-              case 10:
-                nuevoNit = _context10.sent;
-                _this6.idNit = nuevoNit.id;
-                _context10.next = 15;
-                break;
-
-              case 14:
-                _this6.idNit = nit.id;
-
-              case 15:
-                _context10.next = 21;
-                break;
-
-              case 17:
-                _context10.next = 19;
-                return _this6.createNit();
-
-              case 19:
-                nuevoNit = _context10.sent;
-                _this6.idNit = nuevoNit.id;
-
-              case 21:
-                _context10.next = 23;
-                return _this6.solicitar();
-
-              case 23:
-                servRealizar = _context10.sent;
-                _context10.next = 26;
-                return _this6.createFactura();
-
-              case 26:
-                fact = _context10.sent;
-                _this6.idFact = fact.id; //obtengo el id de la factura creada
-                //por cada servicioRealizar crear un detalle de factura asignado a 1 factura
-
-                servRealizar.forEach(function (sr) {
-                  var k = {
-                    'id': sr.id
-                  };
-
-                  _this6.arrayServiciosRealizar.push(k);
-                });
-                _context10.next = 31;
-                return _this6.createDetalleFactura();
-
-              case 31:
-                r = _context10.sent;
-                _context10.next = 34;
-                return _this6.generarFactura();
-
-              case 34:
-                setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
-                    while (1) {
-                      switch (_context9.prev = _context9.next) {
-                        case 0:
-                          preloader.style.display = "none";
-                          console.log("finalizar y mostrar la factura");
-                          document.getElementById("paso3").style.display = "none";
-                          document.getElementById("paso4").style.display = "block";
-
-                        case 4:
-                        case "end":
-                          return _context9.stop();
-                      }
-                    }
-                  }, _callee9);
-                })), 3000);
-
-              case 35:
-              case "end":
-                return _context10.stop();
-            }
-          }
-        }, _callee10);
-      }))();
-    },
-    createFactura: function createFactura() {
-      var _this7 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
-          while (1) {
-            switch (_context11.prev = _context11.next) {
-              case 0:
-                _context11.next = 2;
-                return axios.post('/request/nueva-factura', {
-                  'idNit': _this7.idNit
-                }).then(function (res) {
-                  data = res.data;
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 2:
-                return _context11.abrupt("return", data);
-
-              case 3:
-              case "end":
-                return _context11.stop();
-            }
-          }
-        }, _callee11);
-      }))();
-    },
-    createDetalleFactura: function createDetalleFactura() {
-      var _this8 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
-          while (1) {
-            switch (_context12.prev = _context12.next) {
-              case 0:
-                _context12.next = 2;
-                return axios.post('/request/nuevo-detalle-factura', {
-                  'idFactura': _this8.idFact,
-                  'arrayIdServiciosRealizar': _this8.arrayServiciosRealizar
-                }).then(function (res) {
-                  data = res.data;
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 2:
-                return _context12.abrupt("return", data);
-
-              case 3:
-              case "end":
-                return _context12.stop();
-            }
-          }
-        }, _callee12);
-      }))();
-    },
-    createNit: function createNit() {
-      var _this9 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
-          while (1) {
-            switch (_context13.prev = _context13.next) {
-              case 0:
-                if (_this9.nitNombreCliente == '') {
-                  _this9.nitNombreCliente = "s/n";
-                }
-
-                if (_this9.nitCliente == '') {
-                  _this9.nitCliente = 0;
-                }
-
-                _context13.next = 4;
-                return axios.post('/request/nuevo-nit', {
-                  'idCliente': _this9.idCliente,
-                  'nombre': _this9.nitNombreCliente,
-                  'nit': _this9.nitCliente,
-                  'tipo': 'nit'
-                }).then(function (res) {
-                  data = res.data;
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 4:
-                return _context13.abrupt("return", data);
-
-              case 5:
-              case "end":
-                return _context13.stop();
-            }
-          }
-        }, _callee13);
-      }))();
     }
-  }, _defineProperty(_methods, "verificarDatosIgualesConBD", function verificarDatosIgualesConBD(db) {
-    if (db.nit != this.nitCliente || db.nombre != this.nitNombreCliente) {
-      return false;
-    } else {
-      return true;
-    }
-  }), _defineProperty(_methods, "generarFactura", function generarFactura() {
-    var _this10 = this;
-
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
-      var re;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
-        while (1) {
-          switch (_context14.prev = _context14.next) {
-            case 0:
-              _context14.next = 2;
-              return axios.get('/request/get-factura-completa/' + _this10.idFact).then(function (res) {
-                re = res.data;
-              })["catch"](function (error) {});
-
-            case 2:
-              _this10.facturaFecha = re.fecha;
-              _this10.facturaNombre = re.nombreCliente;
-              _this10.facturaNit = re.nit;
-              _this10.arrayDetalleFactura = re.detalleFactura;
-              re.detalleFactura.forEach(function (df) {
-                _this10.totalDetalle = parseFloat(_this10.totalDetalle) + parseFloat(df.precio);
-              });
-
-            case 7:
-            case "end":
-              return _context14.stop();
-          }
-        }
-      }, _callee14);
-    }))();
-  }), _defineProperty(_methods, "solicitar", function solicitar() {
-    var _this11 = this;
-
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
-      var a, me;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
-        while (1) {
-          switch (_context15.prev = _context15.next) {
-            case 0:
-              me = _this11;
-              _context15.next = 3;
-              return axios.post('/request/create-solicitud-servicio2', {
-                /* 
-                    Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
-                */
-                'arrayServicios': _this11.carritoservicios,
-                'idCliente': _this11.idCliente
-              }).then(function (res) {
-                //alert("La solicitud fue registrada correctamente");
-                a = res.data;
-              })["catch"](function (error) {
-                console.log(error);
-              });
-
-            case 3:
-              return _context15.abrupt("return", a);
-
-            case 4:
-            case "end":
-              return _context15.stop();
-          }
-        }
-      }, _callee15);
-    }))();
-  }), _defineProperty(_methods, "downloadPDFWithjsPDF", function downloadPDFWithjsPDF() {
-    var doc = new jspdf__WEBPACK_IMPORTED_MODULE_1__["jsPDF"]('l', 'mm', [800, 450]);
-    doc.html(document.querySelector('#facturaHTML'), {
-      callback: function callback(doc) {
-        doc.save('factura.pdf');
-      },
-      margin: [10, 10, 10, 10],
-      x: 32,
-      y: 32
-    });
-  }), _methods),
+  },
   mounted: function mounted() {
-    var _this12 = this;
+    var _this5 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16() {
-      var tarjeta, nit;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context16.prev = _context16.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
-              _context16.next = 2;
-              return axios.get('/request/get-servicios2').then(function (response) {
-                this.arrayServicio = response.data;
-              }.bind(_this12));
+              _context5.next = 2;
+              return _this5.getDataUsuario();
 
             case 2:
-              _context16.next = 4;
-              return _this12.findCliente();
+              _context5.next = 4;
+              return _this5.findLastCliente();
 
             case 4:
-              _context16.next = 6;
-              return _this12.verificarSiClienteTieneTarjeta(_this12.idCliente);
-
-            case 6:
-              tarjeta = _context16.sent;
-
-              if (tarjeta != null && tarjeta.tiene) {
-                tarjeta = tarjeta.tarjeta[0];
-                _this12.nombreTarjeta = tarjeta.nombre;
-                _this12.numeroTarjeta = tarjeta.numero;
-                _this12.expTarjeta = tarjeta.mes;
-                _this12.yearExpTarjeta = tarjeta.anio;
-              }
-
-              _context16.next = 10;
-              return _this12.verificarSiClienteTieneNit(_this12.idCliente);
-
-            case 10:
-              nit = _context16.sent;
-
-              if (nit != null && nit.tiene) {
-                nit = nit.nitTributario[0];
-                _this12.nitNombreCliente = nit.nombre;
-                _this12.nitCliente = nit.nit;
-              }
-
-            case 12:
             case "end":
-              return _context16.stop();
+              return _context5.stop();
           }
         }
-      }, _callee16);
+      }, _callee5);
     }))();
   }
 });
@@ -62158,866 +61351,408 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "card", attrs: { id: "paso1" } }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v(" Solicitud de Servicio")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "card-body",
-              attrs: { id: "vistaServiciosDisponibles" }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "menuContent col-md-8" },
-                _vm._l(_vm.arrayServicio, function(servicio) {
-                  return _c(
-                    "div",
-                    { key: servicio.id, staticClass: "menuItem" },
-                    [
-                      _c("div", { staticClass: "menuTitulo" }, [
-                        _vm._v(
-                          "\n                                                " +
-                            _vm._s(servicio.nombre) +
-                            "\n                                "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "menuDescripcion" }, [
-                        _c("p", { staticClass: "menuAreaDescripcion" }, [
-                          _vm._v(
-                            "\n                                          " +
-                              _vm._s(servicio.descripcion) +
-                              "\n                                    "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "menuBtn" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-dark",
-                            on: {
-                              click: function($event) {
-                                return _vm.Agregar(
-                                  servicio.nombre,
-                                  servicio.id,
-                                  servicio.precio,
-                                  $event
-                                )
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "container", attrs: { id: "paso1" } }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v(" Datos del Cliente")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-75" }, [
+                  _c("div", { staticClass: "container" }, [
+                    _c(
+                      "form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.submitPaso1()
+                          }
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-50" }, [
+                            _c("h3", [_vm._v("Datos del cliente")]),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "dni" } }, [
+                              _vm._v("CI")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dniCliente,
+                                  expression: "dniCliente"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "text",
+                                id: "dni",
+                                name: "dni"
+                              },
+                              domProps: { value: _vm.dniCliente },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.dniCliente = $event.target.value
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("Añadir")]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "menuPrecio text-danger" }, [
-                        _vm._v(
-                          "\n                                                    BS\n                                "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "menuPrecio" }, [
-                        _vm._v(
-                          "\n                                            " +
-                            _vm._s(servicio.precio) +
-                            "BS\n                                "
-                        )
-                      ])
-                    ]
-                  )
-                }),
-                0
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-4 carrito1" }, [
-                _c(
-                  "div",
-                  { staticClass: "container" },
-                  [
-                    _c("h4", [
-                      _vm._v(
-                        "Carrito\n                                        "
-                      ),
-                      _c(
-                        "span",
-                        {
-                          staticClass: "price",
-                          staticStyle: { color: "black" }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-shopping-cart" }),
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "fname" } }, [
+                              _vm._v("Nombre")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.nombreCliente,
+                                  expression: "nombreCliente"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "text",
+                                id: "nombre",
+                                name: "firstname"
+                              },
+                              domProps: { value: _vm.nombreCliente },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.nombreCliente = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "apellido" } }, [
+                              _vm._v("Apellido")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.apellidoCliente,
+                                  expression: "apellidoCliente"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "text",
+                                id: "apellido",
+                                name: "apellido"
+                              },
+                              domProps: { value: _vm.apellidoCliente },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.apellidoCliente = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "fechaNacimiento" } }, [
+                              _vm._v("Fecha de nacimiento")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.fechaNacimientoCliente,
+                                  expression: "fechaNacimientoCliente"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "date",
+                                id: "fechaNacimiento",
+                                name: "fechaNacimiento"
+                              },
+                              domProps: { value: _vm.fechaNacimientoCliente },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.fechaNacimientoCliente =
+                                    $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "correo" } }, [
+                              _vm._v("Correo")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.correoCliente,
+                                  expression: "correoCliente"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "email",
+                                id: "correo",
+                                name: "correo"
+                              },
+                              domProps: { value: _vm.correoCliente },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.correoCliente = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "telefono" } }, [
+                              _vm._v("Telefono")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.TelefonoCliente,
+                                  expression: "TelefonoCliente"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "number",
+                                id: "telefono",
+                                name: "telefono"
+                              },
+                              domProps: { value: _vm.TelefonoCliente },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.TelefonoCliente = $event.target.value
+                                }
+                              }
+                            })
+                          ]),
                           _vm._v(" "),
-                          _c("b", [_vm._v(_vm._s(_vm.cantCarrito))])
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.carritoservicios, function(carrito) {
-                      return _c("div", { key: carrito.idServicio }, [
-                        _c("div", { staticClass: "carritoNombre" }, [
-                          _c("a", { attrs: { href: "#" } }, [
-                            _vm._v(_vm._s(carrito.nombre))
+                          _c("div", { staticClass: "col-50" }, [
+                            _c("h3", [_vm._v("Pago")]),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "fname" } }, [
+                              _vm._v("Se aceptan")
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "cname" } }, [
+                              _vm._v("Nombre en la tarjeta")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.nombreTarjeta,
+                                  expression: "nombreTarjeta"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "text",
+                                id: "cname",
+                                name: "cardname"
+                              },
+                              domProps: { value: _vm.nombreTarjeta },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.nombreTarjeta = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "ccnum" } }, [
+                              _vm._v("Numero de la tarjeta")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.numeroTarjeta,
+                                  expression: "numeroTarjeta"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "number",
+                                id: "ccnum",
+                                name: "cardnumber"
+                              },
+                              domProps: { value: _vm.numeroTarjeta },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.numeroTarjeta = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "expmonth" } }, [
+                              _vm._v("Mes Exp")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.expTarjeta,
+                                  expression: "expTarjeta"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                required: "",
+                                type: "number",
+                                id: "expmonth",
+                                name: "expmonth"
+                              },
+                              domProps: { value: _vm.expTarjeta },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.expTarjeta = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-50" }, [
+                                _c("label", { attrs: { for: "expyear" } }, [
+                                  _vm._v("Año Exp")
+                                ]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.yearExpTarjeta,
+                                      expression: "yearExpTarjeta"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    required: "",
+                                    type: "number",
+                                    id: "expyear",
+                                    name: "expyear"
+                                  },
+                                  domProps: { value: _vm.yearExpTarjeta },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.yearExpTarjeta = $event.target.value
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-50" }, [
+                                _c("label", { attrs: { for: "cvv" } }, [
+                                  _vm._v("CVV")
+                                ]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cvvTarjeta,
+                                      expression: "cvvTarjeta"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    required: "",
+                                    type: "number",
+                                    id: "cvv",
+                                    name: "cvv"
+                                  },
+                                  domProps: { value: _vm.cvvTarjeta },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.cvvTarjeta = $event.target.value
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "carritoPrecio2" }, [
-                          _c("span", { staticClass: "price" }, [
-                            _vm._v(_vm._s(carrito.precioFijado))
-                          ])
-                        ])
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v("Total "),
-                      _c(
-                        "span",
-                        {
-                          staticClass: "price",
-                          staticStyle: { color: "black" }
-                        },
-                        [_c("b", [_vm._v(_vm._s(_vm.total))])]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "CenteredDivContent" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          attrs: { disabled: "", id: "btnSiguiente" },
-                          on: {
-                            click: function($event) {
-                              return _vm.irPaso2()
-                            }
-                          }
-                        },
-                        [_vm._v("Siguiente")]
-                      )
-                    ])
-                  ],
-                  2
-                )
+                        _vm._m(2)
+                      ]
+                    )
+                  ])
+                ])
               ])
-            ]
-          )
+            ])
+          ])
         ])
       ])
     ]),
     _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "container",
-        staticStyle: { display: "none" },
-        attrs: { id: "paso2" }
-      },
-      [
-        _c("div", { staticClass: "row justify-content-center" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _vm._v(" Finalizar Compra")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-75" }, [
-                    _c("div", { staticClass: "container" }, [
-                      _c(
-                        "form",
-                        {
-                          on: {
-                            submit: function($event) {
-                              $event.preventDefault()
-                              return _vm.verificar()
-                            }
-                          }
-                        },
-                        [
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col-50" }, [
-                              _c("h3", [_vm._v("Datos del cliente")]),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "dni" } }, [
-                                _vm._v("DNI")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.dniCliente,
-                                    expression: "dniCliente"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "text",
-                                  id: "dni",
-                                  name: "dni"
-                                },
-                                domProps: { value: _vm.dniCliente },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.dniCliente = $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "fname" } }, [
-                                _vm._v("Nombre")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.nombreCliente,
-                                    expression: "nombreCliente"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "text",
-                                  id: "nombre",
-                                  name: "firstname"
-                                },
-                                domProps: { value: _vm.nombreCliente },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.nombreCliente = $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "apellido" } }, [
-                                _vm._v("Apellido")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.apellidoCliente,
-                                    expression: "apellidoCliente"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "text",
-                                  id: "apellido",
-                                  name: "apellido"
-                                },
-                                domProps: { value: _vm.apellidoCliente },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.apellidoCliente = $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "label",
-                                { attrs: { for: "fechaNacimiento" } },
-                                [_vm._v("Fecha de nacimiento")]
-                              ),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.fechaNacimientoCliente,
-                                    expression: "fechaNacimientoCliente"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "date",
-                                  id: "fechaNacimiento",
-                                  name: "fechaNacimiento"
-                                },
-                                domProps: { value: _vm.fechaNacimientoCliente },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.fechaNacimientoCliente =
-                                      $event.target.value
-                                  }
-                                }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-50" }, [
-                              _c("h3", [_vm._v("Pago")]),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "fname" } }, [
-                                _vm._v("Se aceptan")
-                              ]),
-                              _vm._v(" "),
-                              _vm._m(1),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "cname" } }, [
-                                _vm._v("Nombre en la tarjeta")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.nombreTarjeta,
-                                    expression: "nombreTarjeta"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "text",
-                                  id: "cname",
-                                  name: "cardname"
-                                },
-                                domProps: { value: _vm.nombreTarjeta },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.nombreTarjeta = $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "ccnum" } }, [
-                                _vm._v("Numero de la tarjeta")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.numeroTarjeta,
-                                    expression: "numeroTarjeta"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "number",
-                                  id: "ccnum",
-                                  name: "cardnumber"
-                                },
-                                domProps: { value: _vm.numeroTarjeta },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.numeroTarjeta = $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("label", { attrs: { for: "expmonth" } }, [
-                                _vm._v("Mes Exp")
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.expTarjeta,
-                                    expression: "expTarjeta"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  required: "",
-                                  type: "number",
-                                  id: "expmonth",
-                                  name: "expmonth"
-                                },
-                                domProps: { value: _vm.expTarjeta },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.expTarjeta = $event.target.value
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "row" }, [
-                                _c("div", { staticClass: "col-50" }, [
-                                  _c("label", { attrs: { for: "expyear" } }, [
-                                    _vm._v("Año Exp")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.yearExpTarjeta,
-                                        expression: "yearExpTarjeta"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      required: "",
-                                      type: "number",
-                                      id: "expyear",
-                                      name: "expyear"
-                                    },
-                                    domProps: { value: _vm.yearExpTarjeta },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.yearExpTarjeta = $event.target.value
-                                      }
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-50" }, [
-                                  _c("label", { attrs: { for: "cvv" } }, [
-                                    _vm._v("CVV")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.cvvTarjeta,
-                                        expression: "cvvTarjeta"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      required: "",
-                                      type: "number",
-                                      id: "cvv",
-                                      name: "cvv"
-                                    },
-                                    domProps: { value: _vm.cvvTarjeta },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.cvvTarjeta = $event.target.value
-                                      }
-                                    }
-                                  })
-                                ])
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm._m(2)
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-25" }, [
-                    _c(
-                      "div",
-                      { staticClass: "container" },
-                      [
-                        _c("h4", [
-                          _vm._v(
-                            "Carrito\n                                        "
-                          ),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "price",
-                              staticStyle: { color: "black" }
-                            },
-                            [
-                              _c("i", { staticClass: "fa fa-shopping-cart" }),
-                              _vm._v(" "),
-                              _c("b", [_vm._v(_vm._s(_vm.cantCarrito))])
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.carritoservicios, function(carrito) {
-                          return _c("div", { key: carrito.idServicio }, [
-                            _c("div", { staticClass: "carritoNombre" }, [
-                              _c("a", { attrs: { href: "#" } }, [
-                                _vm._v(_vm._s(carrito.nombre))
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "carritoPrecio" }, [
-                              _c("span", { staticClass: "price" }, [
-                                _vm._v(_vm._s(carrito.precioFijado))
-                              ])
-                            ])
-                          ])
-                        }),
-                        _vm._v(" "),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c("p", [
-                          _vm._v("Total "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "price",
-                              staticStyle: { color: "black" }
-                            },
-                            [_c("b", [_vm._v(_vm._s(_vm.total))])]
-                          )
-                        ])
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "CenteredDivContent" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          on: { click: _vm.irPaso1 }
-                        },
-                        [_vm._v("Volver")]
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "container",
-        staticStyle: { display: "none" },
-        attrs: { id: "paso3" }
-      },
-      [
-        _c("div", [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-danger",
-              staticStyle: { width: "20%" },
-              on: {
-                click: function($event) {
-                  return _vm.irPaso2()
-                }
-              }
-            },
-            [_vm._v("Cancelar")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("div", { staticClass: "row justify-content-center" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _vm._v(" Ultimo paso")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-75" }, [
-                    _c("div", { staticClass: "container" }, [
-                      _c("div", { staticClass: "col-50" }, [
-                        _c("h3", [_vm._v("Datos de facturacion")]),
-                        _vm._v(" "),
-                        _c("label", { attrs: { for: "nit" } }, [_vm._v("Nit")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.nitCliente,
-                              expression: "nitCliente"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { required: "", type: "text" },
-                          domProps: { value: _vm.nitCliente },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.nitCliente = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("label", { attrs: { for: "fname" } }, [
-                          _vm._v("Nombre completo")
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.nitNombreCliente,
-                              expression: "nitNombreCliente"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { required: "", type: "text" },
-                          domProps: { value: _vm.nitNombreCliente },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.nitNombreCliente = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-12 carrito1" }, [
-                      _c(
-                        "div",
-                        { staticClass: "container" },
-                        [
-                          _c("h4", [
-                            _vm._v(
-                              "Detalles de la compra\n                                                "
-                            ),
-                            _c(
-                              "span",
-                              {
-                                staticClass: "price",
-                                staticStyle: { color: "black" }
-                              },
-                              [
-                                _c("i", { staticClass: "fa fa-shopping-cart" }),
-                                _vm._v(" "),
-                                _c("b", [_vm._v(_vm._s(_vm.cantCarrito))])
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.carritoservicios, function(carrito) {
-                            return _c("div", { key: carrito.idServicio }, [
-                              _c("div", { staticClass: "carritoNombre" }, [
-                                _c("a", { attrs: { href: "#" } }, [
-                                  _vm._v(_vm._s(carrito.nombre))
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "carritoPrecio2" }, [
-                                _c("span", { staticClass: "price" }, [
-                                  _vm._v(_vm._s(carrito.precioFijado))
-                                ])
-                              ])
-                            ])
-                          }),
-                          _vm._v(" "),
-                          _c("hr"),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v("Total "),
-                            _c(
-                              "span",
-                              {
-                                staticClass: "price",
-                                staticStyle: { color: "black" }
-                              },
-                              [_c("b", [_vm._v(_vm._s(_vm.total))])]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "CenteredDivContent" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success",
-                                staticStyle: { width: "20%" },
-                                attrs: { id: "btnPagar" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.pagar()
-                                  }
-                                }
-                              },
-                              [_vm._v("Pagar Total")]
-                            )
-                          ])
-                        ],
-                        2
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticStyle: { display: "none" }, attrs: { id: "paso4" } }, [
-      _c("div", { staticClass: "alignRight" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success btn-descargar-factura",
-            on: {
-              click: function($event) {
-                return _vm.downloadPDFWithjsPDF()
-              }
-            }
-          },
-          [_vm._v("Descargar")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-danger btn-descargar-factura",
-            on: {
-              click: function($event) {
-                return _vm.salir()
-              }
-            }
-          },
-          [_vm._v("Salir")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "contenedor-factura", attrs: { id: "facturaHTML" } },
-        [
-          _c("div", { staticClass: "contenedor-interior" }, [
-            _vm._m(3),
-            _vm._v(" "),
-            _c("div", { staticClass: "factura-body" }, [
-              _c("div", { staticClass: "informacion-factura" }, [
-                _c("table", { staticClass: "table-body-factura" }, [
-                  _c("tr", [
-                    _c("td", [
-                      _c("strong", [_vm._v("Fecha:")]),
-                      _vm._v(" " + _vm._s(_vm.facturaFecha))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "alignRight" }, [
-                      _c("strong", [_vm._v("Nit:")]),
-                      _vm._v(" " + _vm._s(_vm.facturaNit))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [
-                      _c("strong", [_vm._v("Señor(es):")]),
-                      _vm._v(" " + _vm._s(_vm.facturaNombre))
-                    ]),
-                    _vm._v(" "),
-                    _c("td")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "detalle-factura" }, [
-                _c("table", { staticClass: "table-detalle-factura" }, [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    [
-                      _vm._l(_vm.arrayDetalleFactura, function(detalle) {
-                        return _c("tr", { key: detalle.id }, [
-                          _c("td", [_vm._v("1")]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(detalle.nombreServicio))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(detalle.precio))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(detalle.precio))])
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td"),
-                        _vm._v(" "),
-                        _c("td"),
-                        _vm._v(" "),
-                        _vm._m(5),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "negrilla" }, [
-                          _vm._v(_vm._s(_vm.totalDetalle) + " Bs.")
-                        ])
-                      ])
-                    ],
-                    2
-                  )
-                ])
-              ])
-            ])
-          ])
-        ]
-      )
-    ])
+    _c("br")
   ])
 }
 var staticRenderFns = [
@@ -63064,47 +61799,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { id: "btnVerificar" } }, [
-      _c("button", { staticClass: "btn btn-dark" }, [_vm._v("Verificar")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "factura-header" }, [
-      _c("table", { staticClass: "table-header-factura" }, [
-        _c("tr", [_c("td", [_vm._v("Soporte Remoto SRL.")])]),
-        _vm._v(" "),
-        _c("tr", [_c("td", [_vm._v("Av. Paragua 4to anillo")])]),
-        _vm._v(" "),
-        _c("tr", [_c("td", [_vm._v("Santa Cruz - Bolivia")])])
-      ]),
-      _vm._v(" "),
-      _c("h1", { staticClass: "factura-title" }, [_vm._v("FACTURA")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Cant")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Descripcion")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("P/U")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Total")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "total-factura" }, [
-      _c("strong", [_vm._v("TOTAL")])
+      _c("button", { staticClass: "btn btn-dark" }, [_vm._v("Siguiente")])
     ])
   }
 ]
