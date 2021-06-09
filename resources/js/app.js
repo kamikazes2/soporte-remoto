@@ -49,6 +49,7 @@ Vue.component('frmespecialidad', require('./components/frmespecialidad.vue').def
 Vue.component('frmpersonal', require('./components/frmpersonal.vue').default);
 Vue.component('serviciosasignados', require('./components/serviciosasignados.vue').default);
 Vue.component('rechazarasignacion', require('./components/rechazarasignacion.vue').default);
+Vue.component('misdeudas', require('./components/frmdeudas.vue').default);
 
 
 /**

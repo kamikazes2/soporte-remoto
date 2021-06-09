@@ -32,6 +32,9 @@
                     <li @click="menu=2">
                         <a class="nav-link" href="#">Mis Solicitudes</a>
                     </li> 
+                    <li @click="menu=3">
+                        <a class="nav-link" href="#">Mis Deudas</a>
+                    </li> 
                     <li>
                         <a class="nav-link" href="{{ url('cerrar-sesion') }}">Cerrar Sesion</a>
                     </li>  
@@ -48,6 +51,9 @@
             </template>
             <template v-if="menu==2">
                 <frmmissolicitudes></frmmissolicitudes>
+            </template>
+            <template v-if="menu==3">
+                <misdeudas></misdeudas>
             </template>
             <!--Fin menu principal-->
         </div>

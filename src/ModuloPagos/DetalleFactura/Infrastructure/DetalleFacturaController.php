@@ -4,6 +4,7 @@ namespace Src\ModuloPagos\DetalleFactura\Infrastructure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Session;
 
 use Src\ModuloPagos\DetalleFactura\Infrastructure\Repositories\EloquentDetalleFacturaRepository;
 
@@ -105,6 +106,33 @@ class DetalleFacturaController
 
     
         return response()->json($df);
+    }
+
+    public function getDeudas(){
+        $dff = new DetalleFactura;
+        $idUsuario = Session::get('idUsuario');
+        $deudas = $dff->getDeudas($idUsuario);
+        $array = array();
+        foreach($deudas as $d){
+            $a['idSolicitudServicio'] = $d->idSolicitudServicio;
+            $a['nombreCliente'] = $d->nombre;
+            $a['nroPago'] = $d->nroPago;
+            $a['monto'] = $d->monto;
+            $a['detalle'] = $d->detalle;
+            $a['idDetalle'] = $d->idDetalle;
+            array_push($array, $a);
+        }
+        
+
+        return response()->json($array);
+
+    }
+
+    public function pagarDeuda(Request $request){
+        $idDetalle = $request['idDetalle'];
+        $dff = new DetalleFactura;
+        $a = $dff->pagar($idDetalle);
+        return $a; 
     }
 
 
