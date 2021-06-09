@@ -3954,6 +3954,67 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -4038,6 +4099,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   if (res.error == false) {
                     res = res.cliente;
+                    this.idCliente = res.id;
                     this.dniCliente = res.dni;
                     this.nombreCliente = res.nombre;
                     this.apellidoCliente = res.apellido;
@@ -4198,100 +4260,377 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee7);
       }))();
     },
-    submitPaso1: function submitPaso1() {
-      var _this6 = this;
-
+    modificarCliente: function modificarCliente(id, dni, nombre, apellido, fechaNacimiento, telefono) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-        var cliente, cli, usuario, usu, username, password;
+        var r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
                 _context8.next = 2;
-                return _this6.verificarSiExisteCliente();
+                return axios.post('/request/actualizar-cliente2', {
+                  'idCliente': id,
+                  'dni': dni,
+                  'nombre': nombre,
+                  'apellido': apellido,
+                  'fechaNacimiento': fechaNacimiento,
+                  'telefono': telefono
+                }).then(function (res) {
+                  r = res.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
 
               case 2:
-                cliente = _context8.sent;
+                return _context8.abrupt("return", r);
 
-                if (!(cliente.existe == false)) {
-                  _context8.next = 9;
-                  break;
-                }
-
-                _context8.next = 6;
-                return _this6.crearNuevoCliente();
-
-              case 6:
-                cli = _context8.sent;
-                _context8.next = 11;
-                break;
-
-              case 9:
-                //modificar al cliente si los datos no son iguales
-                cli = cliente.cliente[0];
-
-                if (_this6.nombreCliente != cli.nombre || rhis.apellidoCliente != cli.apellidoCliente) {}
-
-              case 11:
-                _context8.next = 13;
-                return _this6.verificarSiExisteUsuario();
-
-              case 13:
-                usuario = _context8.sent;
-
-                if (!(usuario.existe == false)) {
-                  _context8.next = 22;
-                  break;
-                }
-
-                //si no existe el usuario crearlo
-                username = _this6.nombreCliente[0] + _this6.apellidoCliente + String(cli.id);
-                password = _this6.apellidoCliente + String(cli.id);
-                _context8.next = 19;
-                return _this6.createNuevoUsuario(_this6.nombreCliente, username, _this6.correoCliente, password);
-
-              case 19:
-                usu = _context8.sent;
-                _context8.next = 23;
-                break;
-
-              case 22:
-                usu = usuario.usuario[0];
-
-              case 23:
-                _context8.next = 25;
-                return _this6.createClienteUsuario(usu.id, cli.id);
-
-              case 25:
+              case 3:
               case "end":
                 return _context8.stop();
             }
           }
         }, _callee8);
       }))();
+    },
+    verificarSiClienteTieneTarjeta: function verificarSiClienteTieneTarjeta(idCliente) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+        var r;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                if (!(idCliente != 0 && idCliente != null)) {
+                  _context9.next = 3;
+                  break;
+                }
+
+                _context9.next = 3;
+                return axios.get('/request/buscar-tarjeta-cliente/' + idCliente).then(function (res) {
+                  if (res.data.tiene) {
+                    r = res.data;
+                  } else {
+                    r = null;
+                  }
+                });
+
+              case 3:
+                return _context9.abrupt("return", r);
+
+              case 4:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    createTarjeta: function createTarjeta(idCliente) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return axios.post('/request/nueva-tarjeta', {
+                  'idCliente': idCliente,
+                  'nombre': _this6.nombreTarjeta,
+                  'numero': _this6.numeroTarjeta,
+                  'mes': _this6.expTarjeta,
+                  'anio': _this6.yearExpTarjeta
+                }).then(function (res) {
+                  data = res.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+                return _context10.abrupt("return", data);
+
+              case 3:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    submitPaso1: function submitPaso1() {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
+        var preloader, cliente, cli, nuevo, usuario, usu, username, password, tarjeta, newTar;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                preloader = document.getElementById("preloader");
+                preloader.style.display = "block"; //verificar si existe el cliente con el dni
+
+                _context12.next = 4;
+                return _this7.verificarSiExisteCliente();
+
+              case 4:
+                cliente = _context12.sent;
+
+                if (!(cliente.existe == false)) {
+                  _context12.next = 11;
+                  break;
+                }
+
+                _context12.next = 8;
+                return _this7.crearNuevoCliente();
+
+              case 8:
+                cli = _context12.sent;
+                _context12.next = 17;
+                break;
+
+              case 11:
+                cli = cliente.cliente[0];
+
+                if (!(_this7.nombreCliente != cli.nombre || _this7.apellidoCliente != cli.apellidoCliente || _this7.telefono != cli.telefono)) {
+                  _context12.next = 17;
+                  break;
+                }
+
+                _context12.next = 15;
+                return _this7.modificarCliente(cli.id, _this7.dniCliente, _this7.nombreCliente, _this7.apellidoCliente, _this7.fechaNacimientoCliente, _this7.TelefonoCliente);
+
+              case 15:
+                nuevo = _context12.sent;
+                cli = nuevo;
+
+              case 17:
+                _this7.idCliente = cli.id; //verificamos si existe el usuario con el correo
+
+                _context12.next = 20;
+                return _this7.verificarSiExisteUsuario();
+
+              case 20:
+                usuario = _context12.sent;
+
+                if (!(usuario.existe == false)) {
+                  _context12.next = 29;
+                  break;
+                }
+
+                //si no existe el usuario crearlo
+                username = _this7.nombreCliente[0] + _this7.apellidoCliente + String(cli.id);
+                password = _this7.apellidoCliente + String(cli.id);
+                _context12.next = 26;
+                return _this7.createNuevoUsuario(_this7.nombreCliente, username, _this7.correoCliente, password);
+
+              case 26:
+                usu = _context12.sent;
+                _context12.next = 30;
+                break;
+
+              case 29:
+                usu = usuario.usuario[0];
+
+              case 30:
+                _context12.next = 32;
+                return _this7.createClienteUsuario(usu.id, cli.id);
+
+              case 32:
+                _context12.next = 34;
+                return _this7.verificarSiClienteTieneTarjeta(cli.id);
+
+              case 34:
+                tarjeta = _context12.sent;
+
+                if (!(tarjeta == null)) {
+                  _context12.next = 41;
+                  break;
+                }
+
+                _context12.next = 38;
+                return _this7.createTarjeta(cli.id);
+
+              case 38:
+                newTar = _context12.sent;
+                _context12.next = 46;
+                break;
+
+              case 41:
+                tarjeta = tarjeta.tarjeta[0];
+
+                if (!(tarjeta.nombre != _this7.nombreTarjeta || tarjeta.numero != _this7.numeroTarjeta || tarjeta.mes != _this7.expTarjeta || tarjeta.anio != _this7.yearExpTarjeta)) {
+                  _context12.next = 46;
+                  break;
+                }
+
+                _context12.next = 45;
+                return _this7.createTarjeta(cli.id);
+
+              case 45:
+                newTar = _context12.sent;
+
+              case 46:
+                _context12.next = 48;
+                return setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+                    while (1) {
+                      switch (_context11.prev = _context11.next) {
+                        case 0:
+                          preloader.style.display = "none";
+                          document.getElementById("paso1").style.display = "none";
+                          document.getElementById("paso2").style.display = "flex";
+
+                        case 3:
+                        case "end":
+                          return _context11.stop();
+                      }
+                    }
+                  }, _callee11);
+                })), 3000);
+
+              case 48:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
+    },
+    Agregar: function Agregar(nombre, idServicio, precio, event) {
+      var btn = event.target; // btn.disabled = true;
+
+      if (this.carritoservicios.findIndex(function (servicio) {
+        return servicio.idServicio === idServicio;
+      }) != -1) {
+        btn.innerHTML = "Añadir";
+        btn.className = "btn btn-dark";
+        var index = this.carritoservicios.findIndex(function (array) {
+          return array.idServicio == idServicio;
+        });
+        this.carritoservicios.splice(index, 1);
+        this.total = parseFloat(this.total) - parseFloat(precio);
+        this.cantCarrito -= 1;
+      } else {
+        btn.innerHTML = "Quitar";
+        btn.className = "btn btn-danger";
+        var servicio = {
+          'idServicio': 0,
+          'precioFijado': 0,
+          'nombre': ''
+        };
+        this.total = parseFloat(this.total) + parseFloat(precio);
+        servicio.idServicio = idServicio;
+        servicio.precioFijado = precio;
+        servicio.nombre = nombre;
+        this.carritoservicios.push(servicio);
+        this.cantCarrito += 1;
+      }
+
+      if (this.cantCarrito == 0) {
+        document.getElementById("btnSiguiente").disabled = true;
+      } else {
+        document.getElementById("btnSiguiente").disabled = false;
+      }
+    },
+    solicitar: function solicitar() {
+      var _this8 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
+        var a, me;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                me = _this8;
+                _context13.next = 3;
+                return axios.post('/request/create-solicitud-servicio2', {
+                  /* 
+                      Cambiar a mandar un arraydeServicios donde cada servicio manda un idSErvicio y preciofijado
+                  */
+                  'arrayServicios': _this8.carritoservicios,
+                  'idCliente': _this8.idCliente
+                }).then(function (res) {
+                  //alert("La solicitud fue registrada correctamente");
+                  a = res.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 3:
+                return _context13.abrupt("return", a);
+
+              case 4:
+              case "end":
+                return _context13.stop();
+            }
+          }
+        }, _callee13);
+      }))();
+    },
+    finalizar: function finalizar() {
+      var _this9 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                _context14.next = 2;
+                return _this9.solicitar();
+
+              case 2:
+                alert("solicitado correctamente");
+                window.location = '/';
+
+              case 4:
+              case "end":
+                return _context14.stop();
+            }
+          }
+        }, _callee14);
+      }))();
     }
   },
   mounted: function mounted() {
-    var _this7 = this;
+    var _this10 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+      var tar;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
         while (1) {
-          switch (_context9.prev = _context9.next) {
+          switch (_context15.prev = _context15.next) {
             case 0:
-              _context9.next = 2;
-              return _this7.getDataUsuario();
+              _context15.next = 2;
+              return axios.get('/request/get-servicios2').then(function (response) {
+                this.arrayServicio = response.data;
+              }.bind(_this10));
 
             case 2:
-              _context9.next = 4;
-              return _this7.findLastCliente();
+              _context15.next = 4;
+              return _this10.getDataUsuario();
 
             case 4:
+              _context15.next = 6;
+              return _this10.findLastCliente();
+
+            case 6:
+              _context15.next = 8;
+              return _this10.verificarSiClienteTieneTarjeta(_this10.idCliente);
+
+            case 8:
+              tar = _context15.sent;
+              tar = tar.tarjeta[0];
+              _this10.nombreTarjeta = tar.nombre;
+              _this10.numeroTarjeta = tar.numero;
+              _this10.expTarjeta = tar.mes;
+              _this10.yearExpTarjeta = tar.anio;
+
+            case 14:
             case "end":
-              return _context9.stop();
+              return _context15.stop();
           }
         }
-      }, _callee9);
+      }, _callee15);
     }))();
   }
 });
@@ -61923,7 +62262,172 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("br")
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "div",
+          {
+            staticClass: "card",
+            staticStyle: { display: "none" },
+            attrs: { id: "paso2" }
+          },
+          [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v(" Solicitud de Servicio")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "card-body",
+                attrs: { id: "vistaServiciosDisponibles" }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "menuContent col-md-8" },
+                  _vm._l(_vm.arrayServicio, function(servicio) {
+                    return _c(
+                      "div",
+                      { key: servicio.id, staticClass: "menuItem" },
+                      [
+                        _c("div", { staticClass: "menuTitulo" }, [
+                          _vm._v(
+                            "\n                                                " +
+                              _vm._s(servicio.nombre) +
+                              "\n                                "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "menuDescripcion" }, [
+                          _c("p", { staticClass: "menuAreaDescripcion" }, [
+                            _vm._v(
+                              "\n                                          " +
+                                _vm._s(servicio.descripcion) +
+                                "\n                                    "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "menuBtn" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-dark",
+                              on: {
+                                click: function($event) {
+                                  return _vm.Agregar(
+                                    servicio.nombre,
+                                    servicio.id,
+                                    servicio.precio,
+                                    $event
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Añadir")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "menuPrecio text-danger" }, [
+                          _vm._v(
+                            "\n                                                    BS\n                                "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "menuPrecio" }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(servicio.precio) +
+                              "BS\n                                "
+                          )
+                        ])
+                      ]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-4 carrito1" }, [
+                  _c(
+                    "div",
+                    { staticClass: "container" },
+                    [
+                      _c("h4", [
+                        _vm._v(
+                          "Carrito\n                                        "
+                        ),
+                        _c(
+                          "span",
+                          {
+                            staticClass: "price",
+                            staticStyle: { color: "black" }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-shopping-cart" }),
+                            _vm._v(" "),
+                            _c("b", [_vm._v(_vm._s(_vm.cantCarrito))])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.carritoservicios, function(carrito) {
+                        return _c("div", { key: carrito.idServicio }, [
+                          _c("div", { staticClass: "carritoNombre" }, [
+                            _c("a", { attrs: { href: "#" } }, [
+                              _vm._v(_vm._s(carrito.nombre))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "carritoPrecio2" }, [
+                            _c("span", { staticClass: "price" }, [
+                              _vm._v(_vm._s(carrito.precioFijado))
+                            ])
+                          ])
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("hr"),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v("Total "),
+                        _c(
+                          "span",
+                          {
+                            staticClass: "price",
+                            staticStyle: { color: "black" }
+                          },
+                          [_c("b", [_vm._v(_vm._s(_vm.total))])]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "CenteredDivContent" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { disabled: "", id: "btnSiguiente" },
+                            on: {
+                              click: function($event) {
+                                return _vm.finalizar()
+                              }
+                            }
+                          },
+                          [_vm._v("solicitar")]
+                        )
+                      ])
+                    ],
+                    2
+                  )
+                ])
+              ]
+            )
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
