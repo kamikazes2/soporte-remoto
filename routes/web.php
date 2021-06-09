@@ -108,6 +108,7 @@ Route::get('/request/verificar-usuario/{correo}',[UC::class, 'verificarSiExisteU
 
 //para clienteUsuario
 Route::get('/request/get-ultimo-cliente-del-usuario',[CUC::class, 'getUltimoClienteDelUsuario']);
+Route::post('/request/nuevo-cliente-usuario',[CUC::class, 'createClienteUsuario']);
 
 //para los personales
 Route::post('/request/nuevo-personal',[PC::class, 'createPersonal']);

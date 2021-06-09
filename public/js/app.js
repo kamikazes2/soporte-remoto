@@ -4035,7 +4035,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 i = false;
                 _context2.next = 3;
-                return axios.get('/request/get-ultimo-cliente-del-usuario').then(function (response) {}.bind(_this2));
+                return axios.get('/request/get-ultimo-cliente-del-usuario').then(function (response) {
+                  var res = response.data;
+
+                  if (res.error == false) {
+                    res = res.cliente;
+                    this.dniCliente = res.dni;
+                    this.nombreCliente = res.nombre;
+                    this.apellidoCliente = res.apellido;
+                    this.TelefonoCliente = res.telefono;
+                  }
+                }.bind(_this2));
 
               case 3:
                 return _context2.abrupt("return", i);
@@ -4115,7 +4125,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   'fechaNacimiento': _this5.fechaNacimientoCliente,
                   'telefono': _this5.TelefonoCliente
                 }).then(function (res) {
-                  r = res;
+                  r = res.data;
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -4131,71 +4141,159 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    submitPaso1: function submitPaso1() {
-      var _this6 = this;
-
+    createNuevoUsuario: function createNuevoUsuario(nombre, usuario, email, password) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var cliente, usuario;
+        var r;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return _this6.verificarSiExisteCliente();
+                return axios.post('/request/nuevo-usuario', {
+                  'nombre': nombre,
+                  'usuario': usuario,
+                  'email': email,
+                  'password': password,
+                  'tipoUsuario': 'cliente'
+                }).then(function (response) {
+                  r = response.data.user;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
 
               case 2:
-                cliente = _context6.sent;
-                console.log(cliente); //verificamos si existe el usuario con el correo
+                return _context6.abrupt("return", r);
 
-                _context6.next = 6;
-                return _this6.verificarSiExisteUsuario();
-
-              case 6:
-                usuario = _context6.sent;
-                console.log(usuario);
-
-                if (!(cliente.existe == false)) {
-                  _context6.next = 13;
-                  break;
-                }
-
-                _context6.next = 11;
-                return _this6.crearNuevoCliente();
-
-              case 11:
-                $cli = _context6.sent;
-                console.log($cli);
-
-              case 13:
+              case 3:
               case "end":
                 return _context6.stop();
             }
           }
         }, _callee6);
       }))();
+    },
+    createClienteUsuario: function createClienteUsuario(idUsuario, idCliente) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var r;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return axios.post('/request/nuevo-cliente-usuario', {
+                  'idUsuario': idUsuario,
+                  'idCliente': idCliente
+                }).then(function (response) {
+                  r = response.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+                return _context7.abrupt("return", r);
+
+              case 3:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }))();
+    },
+    submitPaso1: function submitPaso1() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        var cliente, cli, usuario, usu, username, password;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _context8.next = 2;
+                return _this6.verificarSiExisteCliente();
+
+              case 2:
+                cliente = _context8.sent;
+
+                if (!(cliente.existe == false)) {
+                  _context8.next = 9;
+                  break;
+                }
+
+                _context8.next = 6;
+                return _this6.crearNuevoCliente();
+
+              case 6:
+                cli = _context8.sent;
+                _context8.next = 11;
+                break;
+
+              case 9:
+                //modificar al cliente si los datos no son iguales
+                cli = cliente.cliente[0];
+
+                if (_this6.nombreCliente != cli.nombre || rhis.apellidoCliente != cli.apellidoCliente) {}
+
+              case 11:
+                _context8.next = 13;
+                return _this6.verificarSiExisteUsuario();
+
+              case 13:
+                usuario = _context8.sent;
+
+                if (!(usuario.existe == false)) {
+                  _context8.next = 22;
+                  break;
+                }
+
+                //si no existe el usuario crearlo
+                username = _this6.nombreCliente[0] + _this6.apellidoCliente + String(cli.id);
+                password = _this6.apellidoCliente + String(cli.id);
+                _context8.next = 19;
+                return _this6.createNuevoUsuario(_this6.nombreCliente, username, _this6.correoCliente, password);
+
+              case 19:
+                usu = _context8.sent;
+                _context8.next = 23;
+                break;
+
+              case 22:
+                usu = usuario.usuario[0];
+
+              case 23:
+                _context8.next = 25;
+                return _this6.createClienteUsuario(usu.id, cli.id);
+
+              case 25:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
+      }))();
     }
   },
   mounted: function mounted() {
     var _this7 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
         while (1) {
-          switch (_context7.prev = _context7.next) {
+          switch (_context9.prev = _context9.next) {
             case 0:
-              _context7.next = 2;
+              _context9.next = 2;
               return _this7.getDataUsuario();
 
             case 2:
-              _context7.next = 4;
+              _context9.next = 4;
               return _this7.findLastCliente();
 
             case 4:
             case "end":
-              return _context7.stop();
+              return _context9.stop();
           }
         }
-      }, _callee7);
+      }, _callee9);
     }))();
   }
 });
