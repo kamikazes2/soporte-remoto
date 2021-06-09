@@ -19,6 +19,8 @@ class CreateRechazoasignacion extends Migration
             $table->foreignId("idAsignacionServicio");
             $table->foreign('idTecnico')->references('id')->on('tecnico');
             $table->foreign('idAsignacionServicio')->references('id')->on('asignacionservicio');
+            $table->string('estado');
+            $table->text("descripcion");
             $table->timestamps();
         });
     }

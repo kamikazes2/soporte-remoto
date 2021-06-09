@@ -50,5 +50,13 @@ class User extends Authenticatable
         $user = User::where('id',$id)->first();
         return $user;
     }
+    public function buscarUsuarioByCorreo($correo){
+        $user = User::where('email',$correo)->get();
+        if(count($user)>0){
+            return $user;
+        }else{
+            return false;
+        }
+    }
 
 }
