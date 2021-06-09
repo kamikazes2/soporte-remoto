@@ -25,17 +25,19 @@ class AsignacionServicio extends Model
         }
     }
 
-    public function getServiciosAsignadosByIdUsuario($idUsuario){
+    public function getServiciosAsignadosByIdUsuario($idUsuarioTecnico){
         $sql = "SELECT ads.id as idAsignacion, sr.id as idServicioRealizar, s.nombre as nombreServicio, ads.fecha as fecha, sr.estado, c.nombre as nombreCliente, u2.email
         FROM asignacionservicio as ads 
         INNER JOIN serviciorealizar as sr ON ads.idServicioRealizar = sr.id
         INNER JOIN solicitudservicio as ss ON ss.id = sr.idSolicitud
         INNER JOIN cliente as c ON c.id = ss.idCliente
-        INNER JOIN users as u2 ON u2.id = c.idUsuario
+        INNER JOIN clienteusuario as cu on cu.idCliente = c.id
+        INNER JOIN users as u2 ON u2.id = cu.idUsuario
         INNER JOIN tecnico as t ON t.id = ads.idTecnico
         INNER JOIN personal as p ON p.id = t.idPersonal
-        INNER JOIN users as u ON u.id = p.idUsuario AND u.id = ".$idUsuario."
-        INNER JOIN servicio as s ON s.id = sr.idServicio";
+        INNER JOIN servicio as s ON s.id = sr.idServicio
+        INNER JOIN users as u ON u.id = p.idUsuario AND u.id = ".$idUsuarioTecnico.""
+        ;
         $res = DB::select($sql);
         return $res;
     }
