@@ -47,6 +47,7 @@ class DetalleFacturaController
         $nroPago = $request['nroPago'];
         $monto = $request['monto'];
         $detalle = $request['detalle'];
+        $estado = $request['estado'];
 
         $df = new DetalleFactura;
         $df->idFactura = $idFactura;
@@ -54,6 +55,7 @@ class DetalleFacturaController
         $df->nroPago = $nroPago;
         $df->monto = $monto;
         $df->detalle = $detalle;
+        $df->estado = "PAGADO";
 
         $df->save();
         return $df;

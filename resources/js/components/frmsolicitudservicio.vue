@@ -139,7 +139,7 @@
 
 
         <div class="container" id="paso3" style="display:none">
-            <div><button style="width: 20%" @click="irPaso2()"  class="btn btn-danger">Cancelar</button></div>
+            <div><button style="width: 20%" @click="irPaso2()"  class="btn btn-danger">Atras</button></div>
             <br>
             <div class="row justify-content-center">
                 <div class="col-md-12" >
@@ -242,6 +242,8 @@
                 idFact: 0,
                 arrayServiciosRealizar: [],
                 
+                newUserName: '',
+                newUserPass: '',
 
                 //para crear la vista de la factura
                 facturaFecha: '',
@@ -313,7 +315,7 @@
                     'usuario': usuario,
                     'email': email,
                     'password': password,
-                    'tipoUsuario': 'cliente'
+                    'tipoUsuario': 'clientecreado'
                 }).then((response) => {
                     r = response.data.user;
                 }).catch(function(error){
@@ -408,6 +410,8 @@
                 if(usuario.existe == false){   //si no existe el usuario crearlo
                     var username = this.nombreCliente[0]+this.apellidoCliente+String(cli.id);
                     var password = this.apellidoCliente+String(cli.id);
+                    this.newUserName = username;
+                    this.newUserPass = password;
                     usu = await this.createNuevoUsuario(this.nombreCliente, username, this.correoCliente, password);
                 }else{
                     usu = usuario.usuario[0];
@@ -440,6 +444,10 @@
                     document.getElementById("paso2").style.display = "flex";
                 }, 3000);
                 
+            },
+            irPaso2(){
+                document.getElementById("paso3").style.display = "none";
+                document.getElementById("paso2").style.display = "flex";
             },
             Agregar(nombre, idServicio, precio, event){
                 var btn = event.target;
@@ -503,7 +511,8 @@
                     'idSolicitudServicio': idS,
                     'nroPago': nroPago,
                     'monto': monto,
-                    'detalle': 'pago incial del 10%' 
+                    'detalle': 'pago incial del 10%',
+                    'estado': 'PAGADO'
                 }).then(function(res){
                     data = res.data;
                 }).catch(function(error){
@@ -588,9 +597,13 @@
                     var factura = await this.createFactura(nit.id);
                     var df = await this.createDetalleFactura(factura.id, sol[0].id, "1", this.total*0.10)
                 }
+                let me = this;
                 await setTimeout(async function() {
                     preloader.style.display="none";
                     alert("solicitado correctamente")
+                    if(me.newUserName != ''){
+                        alert("nombre de usuario: "+ me.newUserName + "   contraseña: " + me.newUserPass);
+                    }
                     window.location = '/';
                 }, 3000);
                 

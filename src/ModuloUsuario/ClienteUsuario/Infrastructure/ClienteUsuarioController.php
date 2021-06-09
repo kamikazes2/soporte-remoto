@@ -15,7 +15,7 @@ class ClienteUsuarioController
 
     public function createClienteUsuario(Request $request){
         $idUsuario = $request['idUsuario'];
-        $idUsuarioLogueado = Session::get('idUsuario');
+        $idUsuarioLogueado = 1;//Session::get('idUsuario');
         $idCliente = $request['idCliente'];
         if($idUsuario == $idUsuarioLogueado){
             //crear solo 1
@@ -28,14 +28,14 @@ class ClienteUsuarioController
             return $clienteUsuario;
         }else{
             //crear para los 2
+            $clienteUsuario = new ClienteUsuario;
             if(!$clienteUsuario->existe($idUsuario, $idCliente)){
-                $clienteUsuario = new ClienteUsuario;
                 $clienteUsuario->idUsuario = $idUsuario;
                 $clienteUsuario->idCliente = $idCliente;
                 $clienteUsuario->save();
             }
+            $clienteUsuario = new ClienteUsuario;
             if(!$clienteUsuario->existe($idUsuarioLogueado, $idCliente)){
-                $clienteUsuario = new ClienteUsuario;
                 $clienteUsuario->idUsuario = $idUsuarioLogueado;
                 $clienteUsuario->idCliente = $idCliente;
                 $clienteUsuario->save();

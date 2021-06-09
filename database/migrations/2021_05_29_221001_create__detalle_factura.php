@@ -22,6 +22,7 @@ class CreateDetalleFactura extends Migration
             $table->string("nroPago");
             $table->decimal("monto",8,2);
             $table->string("detalle");
+            $table->string("estado");
             $table->timestamps();
         });
     }
