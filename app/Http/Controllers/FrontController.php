@@ -25,6 +25,8 @@ class FrontController extends Controller
                 case "tecnico":
                     return view("tecnicoHome");
                 case "jefeTecnico":
+                    return view("jefetecnico");
+                case "rrhh":
                     return view("AdminHome");
             }
         }else{
@@ -61,6 +63,9 @@ class FrontController extends Controller
                     case 'jefeTecnico':
                         Session::put('tipoUsuario', 'jefeTecnico');
                         break;
+                    case 'rrhh':
+                        Session::put('tipoUsuario', 'rrhh');
+                        break;    
                     case 'tecnico':
                         Session::put('tipoUsuario', 'tecnico');
                         break;
