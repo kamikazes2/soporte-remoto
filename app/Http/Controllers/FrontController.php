@@ -28,6 +28,8 @@ class FrontController extends Controller
                     return view("jefetecnicohome");
                 case "rrhh":
                     return view("AdminHome");
+                case "clientecreado":
+                    return view("cambioPass");
             }
         }else{
             return view("index");
@@ -68,6 +70,9 @@ class FrontController extends Controller
                         break;    
                     case 'tecnico':
                         Session::put('tipoUsuario', 'tecnico');
+                        break;
+                    case 'clientecreado':
+                        Session::put('tipoUsuario', 'clientecreado');
                         break;
                 }
                 return response()->json(

@@ -98,4 +98,30 @@ class UsuarioController
 
     }
 
+    public function cambiarusuarioypass(Request $request){
+        $user = new User;
+        $user = $user->existeUsuario($request['usuario']);
+
+        if(count($user)>0){
+            return response()->json(
+                [
+                'error' => true,
+                'message'=> "El nombre de usuario ya existe"
+                ]
+            );
+        }else{
+            $idUsuario = Session::get('idUsuario');
+            $user = new User;
+            $us = $user->find($idUsuario);
+            $us->usuario = $request['usuario'];
+            $us->tipoUsuario = "cliente";
+            $us->password = Hash::make($request['password']);
+            $us->save();
+            Session::put('tipoUsuario', 'cliente');
+            return response()->json(
+                ["error"=>false]
+            );
+        }
+    }
+
 }

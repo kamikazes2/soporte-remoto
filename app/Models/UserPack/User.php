@@ -42,6 +42,10 @@ class User extends Authenticatable
         $user = User::where('usuario',$usuario)->first();
         return $user;
     }
+    public function existeUsuario($usuario){
+        $user = User::where('usuario',$usuario)->get();
+        return $user;
+    }
     public function search($usuario, $email){
         $user = User::where('usuario',$usuario)->orWhere('email', $email)->first();
         return $user;
@@ -58,5 +62,6 @@ class User extends Authenticatable
             return false;
         }
     }
+
 
 }

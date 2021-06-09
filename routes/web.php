@@ -104,6 +104,7 @@ Route::get('/request/get-logged-user', [FrontController::class, 'getLoggedUser']
 Route::post('/request/nuevo-usuario',[UC::class, 'createUsuario']);
 Route::get('/request/get-data-usuario',[UC::class, 'getDataUsuario']);
 Route::get('/request/verificar-usuario/{correo}',[UC::class, 'verificarSiExisteUsuarioCorreo']);
+Route::post('/request/cambiar-pass-y-usuario',[UC::class, 'cambiarusuarioypass']);
 
 
 //para clienteUsuario
