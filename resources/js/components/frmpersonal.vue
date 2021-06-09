@@ -447,8 +447,6 @@
             modificarTabla() {
             // console.log("primera vez q menciona servicio");
 
-            let local = this.arrayEspecialidad;
-
                 if (this.VerificarBaseDatos()) {
                     axios
                         .post("request/update-personal", {
@@ -459,7 +457,8 @@
                             apellido: this.apellido,
                             fechaNacimiento: this.fechaNacimiento
                         })
-                        .then(function(error) {})
+                        .then(function(error) {
+                        })
                         .catch(function(error) {
                             console.log(error);
                         });

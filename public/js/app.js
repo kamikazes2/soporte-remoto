@@ -3255,8 +3255,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     modificarTabla: function modificarTabla() {
       // console.log("primera vez q menciona servicio");
-      var local = this.arrayEspecialidad;
-
       if (this.VerificarBaseDatos()) {
         axios.post("request/update-personal", {
           idPersonal: this.idPersonal,
