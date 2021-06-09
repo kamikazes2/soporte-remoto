@@ -35,6 +35,7 @@
                    
                     <form class="login-register-form" id="solicitudRechazo"> <br />
                     <input type="hidden" v-model="asignacion.idAsignacion" id="id" class="form-control"/> <br />
+                    <label> Motivo:</label>
                     <input type="text" v-model="asignacion.descripcion" placeholder="Descripcion" class="form-control"/> <br />
                     </form>
                 </div>
@@ -134,12 +135,11 @@ export default {
 
             await axios.get('/request/get-tecnico-iduser').then(function(response){
                 if(response.data!=false){
-                    me.idTecnico = response.data.idTecnico;
-                }else{
-                    i = false;
+                    me.idTecnico = response.data.tecnico[0].idTecnico;
+                    
                 }
             }.bind(this));
-
+            console.log(me.idTecnico);
             await axios.post('/request/rechazar-asignacion-servicio',{
                 'idAsignacion' : me.idAsignacion,
                 'idTecnico' : me.idTecnico,

@@ -4,7 +4,7 @@ namespace Src\ModuloPersonal\Tecnico\Infrastructure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
-
+use Session;
 use Src\ModuloPersonal\Tecnico\Infrastructure\Repositories\EloquentTecnicoRepository;
 
 use App\Models\PersonalPack\Tecnico;
@@ -46,7 +46,7 @@ class TecnicoController
         $t = new Tecnico;
         
         $res = $t->getTecnicobyUserId($idUsuario);
-
+        
         if($res != null){
             return response()->json(
                 ['error' => false, 'tecnico' => $res]
