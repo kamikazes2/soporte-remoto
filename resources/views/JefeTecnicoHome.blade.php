@@ -33,7 +33,7 @@
                 <b>Gestion de Sistemas - Soporte Remoto</b>
             </template>
             <template v-if="menu==1">
-                <b>PONER NUEVO COMPONENTE DE RECHAZOS</b>
+                <rechazarasignacion></rechazarasignacion>
             </template>
             
 

@@ -25,7 +25,7 @@ class FrontController extends Controller
                 case "tecnico":
                     return view("tecnicoHome");
                 case "jefeTecnico":
-                    return view("jefetecnico");
+                    return view("jefetecnicohome");
                 case "rrhh":
                     return view("AdminHome");
             }
