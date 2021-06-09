@@ -30,7 +30,20 @@ class SolicitudServicio extends Model
         ORDER BY ss.id DESC";
         $res = DB::select($sql);
         return $res;
+    }
 
+    public function getMontoTotal($idSolicitudServicio){
+        $sql = "SELECT SUM(sr.precioFijado) as montoTotal  FROM serviciorealizar as sr
+        INNER JOIN solicitudservicio as ss ON sr.idSolicitud = ss.id and ss.id = ".$idSolicitudServicio."
+        INNER JOIN servicio as s ON s.id = sr.idServicio";
+        $res = DB::select($sql);
+        return $res[0];
+    }
+
+    public function getCantidadServiciosRealizar($idSolicitudServicio){
+        $sql = "SELECT count(id) as cant FROM serviciorealizar 	WHERE idSolicitud = ".$idSolicitudServicio."";
+        $res = DB::select($sql);
+        return $res[0];
     }
 
 }

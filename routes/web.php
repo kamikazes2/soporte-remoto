@@ -153,6 +153,7 @@ Route::get('/request/get-factura-completa/{idFactura}',[FC::class, 'getFacturaCo
 
 //para el detalle de la factura
 Route::post('/request/nuevo-detalle-factura',[DFC::class, 'createDetalleFactura']);
+Route::post('/request/nuevo-detalle-factura-por-cobrar',[DFC::class, 'createCobro']);
 
 
 //para servicio

@@ -12,7 +12,8 @@ use Src\ModuloPagos\DetalleFactura\Application\CreateDetalleFacturaUseCase;
 use Src\ModuloPagos\DetalleFactura\Application\BuscarDetalleFacturaClienteUseCase;
 
 use App\Models\PagoPack\DetalleFactura;
-
+use App\Models\ServicePack\ServicioRealizar;
+use App\Models\ServicePack\SolicitudServicio;
 
 
 class DetalleFacturaController
@@ -59,6 +60,51 @@ class DetalleFacturaController
 
         $df->save();
         return $df;
+    }
+
+    public function createCobro(Request $request){
+        $idServicioRealizar = $request['idServicioRealizar'];
+
+        $sr = new ServicioRealizar;
+        $idss = $sr->getIdSolicitudServicioByIdServicioRealizar($idServicioRealizar);
+        $idSolicitudServicio = $idss->idSolicitud;
+        //sacar la cantidad de servicios por realizar que tiene
+        $ss = new SolicitudServicio;
+        $cant = $ss->getCantidadServiciosRealizar($idSolicitudServicio);
+        $cantServicios = $cant->cant;
+
+        $montoTotal = $ss->getMontoTotal($idSolicitudServicio);
+        $montoTotal = $montoTotal->montoTotal;
+        //obtener la cantidad de detalles factura
+        $dff = new DetalleFactura;
+        $detalles = $dff->getDetallesFacturaByIdSolicitudServicio($idSolicitudServicio);
+        $cantDetalle = count($detalles);
+
+
+        $df = new DetalleFactura;
+
+        if($cantDetalle == $cantServicios){
+            //si no es el ultimo, pagar el monto total del servicio
+            $df->idFactura = $detalles[0]->idFactura;
+            $df->idSolicitudServicio = $idSolicitudServicio;
+            $df->nroPago = $cantDetalle+1;
+            $df->monto = $idss->precio - $montoTotal*0.1;
+            $df->detalle = "Pago por servicio de ".$idss->nombreServicio;
+            $df->estado = "NOPAGADO";
+            $df->save();
+        }else{
+            //si el el ultimo, pagar el monto total - la cantidad que ya pago
+            $df->idFactura = $detalles[0]->idFactura;
+            $df->idSolicitudServicio = $idSolicitudServicio;
+            $df->nroPago = $cantDetalle+1;
+            $df->monto = $idss->precio;
+            $df->detalle = "Pago por servicio de ".$idss->nombreServicio;
+            $df->estado = "NOPAGADO";
+            $df->save();
+        }
+
+    
+        return response()->json($df);
     }
 
 

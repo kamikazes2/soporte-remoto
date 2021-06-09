@@ -76,4 +76,13 @@ class ServicioRealizar extends Model
         ->update(['disponible' => 1]);
     }
 
+    public function getIdSolicitudServicioByIdServicioRealizar($idServicioRealizar){
+        $sql = "SELECT ss.id as idSolicitud, sr.precioFijado as precio, s.nombre as nombreServicio  FROM serviciorealizar as sr
+        INNER JOIN solicitudservicio as ss ON sr.idSolicitud = ss.id and sr.id = ".$idServicioRealizar."
+        INNER JOIN servicio as s ON s.id = sr.idServicio";
+
+        $res = DB::select($sql);
+        return $res[0];
+    }
+
 }

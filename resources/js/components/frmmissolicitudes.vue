@@ -95,7 +95,16 @@ export default {
                     await me.getSolicitudes(); 
                 }).catch(function(error){
                     console.log(error);
-                });   
+                });
+
+                await axios.post('/request/nuevo-detalle-factura-por-cobrar',{
+                    'idServicioRealizar' : idServicioRealizar,
+                }).then(async function(error){
+                    
+                }).catch(function(error){
+                    console.log(error);
+                });
+
         }
     },
     async mounted(){

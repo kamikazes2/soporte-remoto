@@ -36,7 +36,7 @@ class AsignacionServicio extends Model
         INNER JOIN tecnico as t ON t.id = ads.idTecnico
         INNER JOIN personal as p ON p.id = t.idPersonal
         INNER JOIN servicio as s ON s.id = sr.idServicio
-        INNER JOIN users as u ON u.id = p.idUsuario AND u.id = ".$idUsuarioTecnico.""
+        INNER JOIN users as u ON u.id = p.idUsuario AND u.id = ".$idUsuarioTecnico." GROUP by idServicioRealizar"
         ;
         $res = DB::select($sql);
         return $res;
