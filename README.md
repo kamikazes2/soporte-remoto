@@ -21,6 +21,7 @@ modificar .env con los datos de la base de datos (db_username, db_password)
 		npm install
 		npm run dev
 		npm install vuejs-datatable
+		php artisan migrate
 
 3.- Instalar dependencias
 comando datatables 
