@@ -15,7 +15,7 @@ class ClienteUsuarioController
 
     public function createClienteUsuario(Request $request){
         $idUsuario = $request['idUsuario'];
-        $idUsuarioLogueado = 1;//Session::get('idUsuario');
+        $idUsuarioLogueado = Session::get('idUsuario');
         $idCliente = $request['idCliente'];
         if($idUsuario == $idUsuarioLogueado){
             //crear solo 1
@@ -45,7 +45,7 @@ class ClienteUsuarioController
 
     public function getUltimoClienteDelUsuario(){
         $cu = new ClienteUsuario;
-        $idUsuario = 1;//Session::get('idUsuario');
+        $idUsuario = Session::get('idUsuario');
         $clienteusuario = $cu->buscarUltimoIdClienteDelUsuario($idUsuario);
 
         if(count($clienteusuario)==0){

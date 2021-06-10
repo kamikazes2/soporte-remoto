@@ -61,18 +61,6 @@ class UsuarioController
         );
     }
 
-    public function getUsuarios(){
-        //
-    }
-
-    public function updateUsuario(Request $request)
-    {
-        //
-    }
-
-    public function deleteUsuario(Request $request){
-        //falta
-    }
 
     public function getDataUsuario(){
         $idUsuario = Session::get('idUsuario');

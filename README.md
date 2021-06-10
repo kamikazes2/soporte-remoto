@@ -1,182 +1,30 @@
 # soporte-remoto
- Proyecto Gestion de Sistemas
 
 
-#para iniciar sesion enviar un POST a
-/request/buscar-usuario con usuario y password
+Pasos para instalar proyecto desde github
+En el terminal:
+
+	composer install
+	php artisan key:generate
+	npm run dev
+	npm run watch
+	npm install vuejs-datatable
+	npm install
+
+comando datatables 
+npm install --save jszip
+npm install --save pdfmake
+npm install --save datatables.net-bs4
+npm install --save datatables.net-buttons-bs4
+
+comando multiselect
+npm install vue-multiselect --save
 
 
-#SERVICIO ------------------------------------------------------
+comando jspdf
+npm install jspdf --save
 
-#Para crear un nuevo servicio enviar un POST
-con el nombre, descripcion y el precio a /request/nuevo-servicio
-
-#Para actualizar un servicio enviar un POST
-con el id, nombre y descripcion a /request/actualizar-servicio
-
-#Para actualizar un precio enviar un POST 
-con el idServicio y precio a /request/actualizar-precio
-
-#Para listar los servicios solicitar un GET a /listaServicios
-
-#para eliminar un servicio con su precio enviar un DELETE a
-/request/eliminar/{idServicio}
-
-#FIN SERVICIO ------------------------------------------------------
-
-#ESPECIALIDAD ----------------------------------------------------
-post ->      /request/nuevo-especialidad             nombre, descripcion
-post ->     /request/actualizar-especialidad        id, nombre, descripcion
-get ->      /request/lista-especialidad             
-delete->    /request/eliminar-especialidad/{id}     id
-get->       /request/get-especialidad?idServicio=1  ------> Get Especialidades by IdServicio
-
-#para anhadir especialidad al servicio enviar un POST a 
-/request/nueva-especialidad-servicio con los siguientes datos
-{
-    "idServicio": 0,
-    "idEspecialidades":[
-        {
-            "id" : 0
-        },
-        {
-            "id" : 0
-        }
-    ]
-}
-#para actualizar especialidad al servicio enviar un POST a
-/request/update-especialidad-servicio con los siguientes datos
-{
-    "idServicio": 1,
-    "idEspecialidades":[
-        {
-            "id" : 0
-        },
-        {
-            "id" : 0
-        }
-    ]
-}
-
-#FIN ESPECIALIDAD ---------------------------------------------------
-
-
-
-#PERSONALES-----------------------------------------------
-
-#para crear un nuevo tecnico enviar un POST A
-/request/nuevo-tecnico
-con los siguientes datos
-dni
-nombre
-apellido
-fechaNacimiento
-usuario
-password
-
-#para anhadir especialidad al tecnico enviar un POST a 
-/request/nueva-especialidad-personal con los siguientes datos
-{
-    "idPersonal": 0,
-    "idEspecialidades":[
-        {
-            "id" : 0
-        },
-        {
-            "id" : 0
-        }
-    ]
-}
-#FIN PERSONALES ----------------------------------------------
-
-
-
-
-#SOLICITUD SERVICIO ------------------------------------------------------
-#Para crear una nueva solicitud de servicio enviar un POST a
-/request/nuevo-solicitud-servicio con los siguientes datos
-        idCliente
-        idServicio
-        precioFijado
-#FIN SOLICITUD SERVICIO ------------------------------------------------------
-
-
-#Para crear un nuevo seguimiento enviar un POST A
-/request/nuevo-seguimiento con los siguientes datos
-        idAsignacionServicio
-        idJefeTecnico
-        descripcion
-
-#Para completar un servicio enviar un POST A
-/request/finalizar-servicio con el dato de idServicioRealizar
-
-#para listar mis solicitudes solicitar un get a
-/listarMisSolicitudes
-
-
-
-
-
-#clientes---------------------------------
-
-post -> /request/new-cliente                        dni, nombre, apellido, fechaNacimiento, usuario, password
-post -> /request/update-cliente-datos-personales    idCliente, dni, nombre, apellido
-post -> /request/update-cliente-password            idCliente, oldPassword, newPassword
-
-
-
-#clientes fin ----------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#get array servicio with price and especialidades
-/request/get-servicio-with-especialidades/{idServicio}
-
-
-
-
-
-
-nuevos--------------------------------------------------------
-
-CRUD personales
-post > /request/nuevo-personal      -->     idUsuario, dni, nombre, apellido, fechaNacimiento
-get  > /request/get-all-personales  -->
-post > /request/update-personal     -->     idPersonal, idUsuario, dni, nombre, apellido, fechaNacimiento
-get  > /request/get-all-personales-with-especialidades
-
-CRUD TECNICOS
-POST    >   /request/nuevo-tecnico2                 --> idPersonal
-GET     >   /request/get-all-tecnicos
-DELETE  >   /request/delete-tecnico/{idPersonal}    
-
-
-CRUD ESPECIALIDAD PERSONAL
-post    >   /request/create-or-update-especialidad-personal
-{
-    "idPersonal": 1,
-    "idEspecialidades":[
-        {
-            "id" : 1
-        },
-        {
-            "id" : 2
-        }
-    ]
-}
-
-CRUD JEFE TECNICOS
-POST    >  /request/nuevo-jefe-tecnico2             --> idPersonal
-GET     >  /request/get-all-jefe-tecnicos
-DELETE  >  /request/delete-jefe-tecnico
+Comandos extras:
+	composer dump-autoload
+	composer require laravel/ui
+	php artisan ui vue
