@@ -325,11 +325,10 @@
                     password: this.password,
                     tipoUsuario: this.cargo
                 }).then((response) => {
-                    console.log("Entrando al then");
-                    console.log(response.data);
+                    
                         if(response.data.error == true){
                             console.log("error =true");
-                            alert(response.data.message);
+                            
                         }else{
                             alert("Usuario creado correctamente");
                             this.SavePersonal(response.data.user);
@@ -353,9 +352,9 @@
                 }).then((response) => {
                     console.log(response.data);
                         if(response.data.error == true){
-                            alert(response.data.message);
+                            console.log(response.data.message);
                         }else{
-                            alert("PErsonal creado correctamente");
+                            
                             this.SaveNuevaRelacion(response.data.id);
                             this.SaveEspecialidades(response.data.id);
                         }
@@ -377,10 +376,7 @@
                 }).then((response) => {
                     console.log(response.data);
                         if(response.data.error == true){
-                            alert(response.data.message);
-                        }else{
-                            alert("Relacion creado correctamente");
-
+                            console.log(response.data.message);
                         }
                     }).catch(function(error){
                     console.log(error);
@@ -395,10 +391,7 @@
                 }).then((response) => {
                     console.log(response.data);
                         if(response.data.error == true){
-                            alert(response.data.message);
-                        }else{
-                            alert("Relacion Especialidades creado correctamente");
-
+                            console.log(response.data.message);
                         }
                     }).catch(function(error){
                     console.log(error);
